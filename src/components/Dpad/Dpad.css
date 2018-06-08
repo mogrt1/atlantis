@@ -1,20 +1,24 @@
 .Dpad {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  position: relative;
   width: 20vmin;
   height: 20vmin;
-  text-align: center;
 }
 
 .Dpad > div {
+  position: absolute;
   background: red;
 }
 
 .Dpad-vertical {
-  width: 50%;
+  top: 0;
+  left: calc(50% - 33% / 2);
+  width: 33%;
+  height: 100%;
 }
 
 .Dpad-horizontal {
-  height: 50%;
+  top: calc(50% - 33% / 2);
+  left: 0;
+  width: 100%;
+  height: 33%;
 }
