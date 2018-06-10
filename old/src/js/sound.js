@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy, Spinner, utilities, sendLogs */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -21,10 +25,10 @@
   App.SoundMenu = function(willShow, didHide) {
     this.init(willShow, didHide);
   };
-  
+
   jQuery.extend(
     App.SoundMenu.prototype, {
-      
+
       init: function(willShow, didHide) {
         var self = this;
         self.onReset = undefined;
@@ -43,7 +47,7 @@
           self.hide();
         }});
       },
-      
+
       hide: function() {
         var self = this;
         self.element.addClass('hidden');
@@ -57,7 +61,7 @@
           }
         }, 200);
       },
-      
+
       show: function() {
         var self = this;
         if (self.willShow !== undefined) {
@@ -70,9 +74,9 @@
           self.screen.removeClass('hidden');
           self.element.removeClass('hidden');
         }, 0);
-        
+
       }
-      
+
   });
 
 })(jQuery);

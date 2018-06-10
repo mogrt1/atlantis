@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -26,21 +30,21 @@ KEYCODE_SHIFT_LEFT = 16;
   App.Console = function(device, gameBoy, events, store) {
     this.init(device, gameBoy, events, store);
   };
-  
+
   App.Console.State = {
     VISIBLE: 0,
     HIDDEN:  1,
   };
-  
+
   App.Console.SHAKE_THRESHOLD = 24;
   App.Console.SHAKE_TIMEOUT_MS = 800;
 
   jQuery.extend(
     App.Console.prototype, {
-      
+
       init: function(device, gameBoy, events, store) {
         var self = this;
-        
+
         self.logging = new App.Logging(window.config.logging_level, "console");
         self.device = device;
         self.core = gameBoy;
@@ -94,7 +98,7 @@ KEYCODE_SHIFT_LEFT = 16;
             }, 2000);
           }
         }});
-        
+
         self.navigation_back = new App.Controls.Button($('#button-library'), { touchUpInside: function() {
           self.logging.info("Show library");
           window.tracker.track('games');
@@ -145,7 +149,7 @@ KEYCODE_SHIFT_LEFT = 16;
        * @param keyEvent The key event to inject into the emulator core.
        * @param keyCode The browser key code to bind to.
        *
-       * @return The newly created button. 
+       * @return The newly created button.
        */
       configureButton: function(element, keyEvent, keyCode) {
         var self = this;
@@ -194,14 +198,14 @@ KEYCODE_SHIFT_LEFT = 16;
         var self = this;
         self.core.clear();
       },
-      
+
       event: function(id) {
         var self = this;
         if (id in self.events) {
           self.events[id]();
         }
       },
-      
+
       hide: function() {
         var self = this;
         if (self.state != App.Console.State.HIDDEN) {
@@ -242,7 +246,7 @@ KEYCODE_SHIFT_LEFT = 16;
         var self = this;
         return self.isAnimationEnabled() ? 400 : 10;
       },
-      
+
       show: function() {
         var self = this;
         return new Promise(function(resolve, reject) {
@@ -264,7 +268,7 @@ KEYCODE_SHIFT_LEFT = 16;
 
         });
       },
-      
+
   });
 
 })(jQuery);

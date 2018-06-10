@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy, Spinner, utilities */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *

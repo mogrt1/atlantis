@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy, Spinner, utilities, sendLogs */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -21,7 +25,7 @@
   App.TouchListener = function(element, delegate) {
     this.init(element, delegate);
   };
-  
+
   jQuery.extend(App.TouchListener.prototype, {
 
     init: function (element, delegate) {
@@ -109,7 +113,7 @@
       var self = this;
       self.recognizers.push(recognizer);
     }
-    
+
   });
 
 })(jQuery);

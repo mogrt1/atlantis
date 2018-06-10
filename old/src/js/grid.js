@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -15,13 +19,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
- 
+
 (function($) {
 
   App.Grid = function() {
     this.init();
   };
-  
+
   App.Grid.Cell = {};
   App.Grid.Margin = {};
 
@@ -70,18 +74,18 @@
         didSelectItemForRow: function(index, element) {},
         didLongPressItem: function(index, element) {}
       };
-      
+
       $(window).resize(function() {
         self.reloadData();
       });
-      
+
     },
-    
+
     reloadData: function() {
       var self = this;
 
       updateSizes();
-      
+
       self.items = [];
       self.element.html("");
 
@@ -90,7 +94,7 @@
       }
 
     },
-    
+
     containerWidth: function() {
       var self = this;
       return self.element.width();
@@ -100,10 +104,10 @@
       var self = this;
       return self.element.height();
     },
-    
+
     add: function(index) {
       var self = this;
-      
+
       var columns = Math.floor((self.containerWidth() - App.Grid.Margin.LEFT - App.Grid.Margin.RIGHT + App.Grid.Cell.MARGIN.X) / (App.Grid.Cell.WIDTH + App.Grid.Cell.MARGIN.X));
       var rows = Math.floor((self.containerHeight() - App.Grid.Margin.TOP - App.Grid.Margin.BOTTOM + App.Grid.Cell.MARGIN.Y) / (App.Grid.Cell.HEIGHT + App.Grid.Cell.MARGIN.Y));
 
@@ -145,7 +149,7 @@
 
       self.element.append(element);
       self.element.css('height', y + App.Grid.Cell.HEIGHT + App.Grid.Cell.MARGIN.Y);
-      
+
     },
 
     elementForIndex: function(index) {

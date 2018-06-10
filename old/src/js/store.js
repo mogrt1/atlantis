@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy, Spinner, utilities, sendLogs */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -21,14 +25,14 @@
   App.Store = function(name) {
     this.init(name);
   };
-  
+
   App.Store.Property = {
     STATE: 0,
     GAME:  1,
     COLOR: 2,
     SPEED: 4,
   };
-  
+
   jQuery.extend(App.Store.prototype, {
 
     init: function(name, size) {
@@ -71,7 +75,7 @@
           self.logging.error("Unknown error " + e + ".");
         }
         return false;
-        
+
       }
     },
 
@@ -85,7 +89,7 @@
                            error.message + "' (" + error.code + ")");
       });
     },
-    
+
     createTables: function() {
       var self = this;
       self.transaction(function(transaction) {
@@ -98,7 +102,7 @@
                                 ")");
       }, "Creating database tables");
     },
-    
+
     setProperty: function(domain, key, value) {
       var self = this;
       self.logging.debug("Setting property '" + key + "' for domain '" + domain + "'");
@@ -108,7 +112,7 @@
                                [domain, key, value]);
       }, "Setting property '" + key + "'");
     },
-    
+
     property: function(domain, key, callback) {
       var self = this;
       self.logging.debug("Reading property '" + key + "' for domain '" + domain + "'");

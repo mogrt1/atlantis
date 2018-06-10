@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, drive */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -19,7 +23,7 @@
 Promise.prototype.always = function(onAlways) {
   return this.then(onAlways, onAlways);
 };
- 
+
 (function($) {
 
   jQuery.fn.selectText = function() {
@@ -248,7 +252,7 @@ Promise.prototype.always = function(onAlways) {
                 deferred.resolve({"version": $.trim(version), "details": data});
               }).fail(function() {
                 deferred.reject();
-              });              
+              });
             }).fail(function() {
               deferred.reject();
             });
@@ -301,7 +305,7 @@ Promise.prototype.always = function(onAlways) {
         $("#screen-instructions").show();
 
       }
-      
+
     }
   });
 

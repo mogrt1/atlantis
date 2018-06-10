@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy, Spinner, utilities */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -15,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
- 
+
 (function($) {
 
   App.Library = function(store, callback) {
@@ -46,7 +50,7 @@
       self.fetches = {};
       self.callback = callback;
       self.logging = new App.Logging(window.config.logging_level, "library");
-      
+
       // Load the library.
       var library = localStorage.getItem('library');
       if (library) {
@@ -54,7 +58,7 @@
       }
 
       self.sort();
-      
+
     },
 
     authorize: function() {
@@ -105,12 +109,12 @@
       var self = this;
       localStorage.setItem('library', JSON.stringify(self.items));
     },
-    
+
     count: function() {
       var self = this;
       return self.items.length;
     },
-    
+
     titleForIndex: function(index) {
       var self = this;
       var file = self.items[index];
@@ -274,7 +278,7 @@
         }
       });
     },
-    
+
     update: function() {
       var self = this;
       self.setState(App.Library.State.UPDATING);
@@ -390,7 +394,7 @@
           callback();
           return;
         }
-        
+
         var parent = parents[0].id;
         var title = self.stripExtension(file.title) + "." + App.Library.THUMBNAIL_TYPE;
 

@@ -1,3 +1,7 @@
+/* eslint-disable */
+/* eslint-enable no-undef */
+/* global App, jQuery, $, Gameboy */
+
 /*
  * Copyright (C) 2012-2016 InSeven Limited.
  *
@@ -142,7 +146,7 @@ function startWrapper(identifier, canvas, ROM) {
   };
 
   jQuery.extend(App.GameBoy.prototype, {
-        
+
     init: function(store, library) {
       var self = this;
       self.store = store;
