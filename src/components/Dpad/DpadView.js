@@ -4,7 +4,7 @@ import { pure } from 'recompose';
 
 const DpadView = (props)=> (
   <div
-    className="Dpad"
+    className={`Dpad ${props.className}`}
 
     onPointerDown={props.down}
     onTouchStart={props.down}
@@ -29,7 +29,8 @@ const DpadView = (props)=> (
 DpadView.propTypes = {
   down: PropTypes.func,
   move: PropTypes.func,
-  up: PropTypes.func
+  up: PropTypes.func,
+  className: PropTypes.className
 };
 
 export default pure(DpadView);

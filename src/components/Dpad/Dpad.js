@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import DpadView from './DpadView';
 import './Dpad.css';
+import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
 export default class Dpad extends React.Component {
@@ -21,19 +23,21 @@ export default class Dpad extends React.Component {
       up: (e)=> stop(e) && console.log(`up`, e)
     };
 
-    this.keyEvents = {
-      ';': this.pointerEvents
-    };
+    this.keyEvents = { ';': this.pointerEvents };
   }
 
   render() {
     return (
-      <>
-        <DpadView {...this.pointerEvents} />
+      <React.Fragment>
+        <PointerCommands>
+          <DpadView className={this.props.className} />
+        </PointerCommands>
         <KeyCommands>
           {this.keyEvents}
         </KeyCommands>
-      </>
+      </React.Fragment>
     );
   }
 }
+
+Dpad.propTypes = { className: PropTypes.string };
