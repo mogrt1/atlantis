@@ -10,26 +10,19 @@ export default class Dpad extends React.Component {
   constructor(props) {
     super(props);
 
-    const stop = (e)=> {
-      e.stopPropagation();
-      e.preventDefault();
-
-      return true;
+    this.dpadEvents = {
+      down: (e)=> console.log(`down`, e),
+      move: (e)=> console.log(`move`, e),
+      up: (e)=> console.log(`up`, e)
     };
 
-    this.pointerEvents = {
-      down: (e)=> stop(e) && console.log(`down`, e),
-      move: (e)=> stop(e) && console.log(`move`, e),
-      up: (e)=> stop(e) && console.log(`up`, e)
-    };
-
-    this.keyEvents = { ';': this.pointerEvents };
+    this.keyEvents = { ';': this.dpadEvents };
   }
 
   render() {
     return (
       <React.Fragment>
-        <PointerCommands>
+        <PointerCommands {...this.dpadEvents}>
           <DpadView className={this.props.className} />
         </PointerCommands>
         <KeyCommands>
