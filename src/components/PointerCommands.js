@@ -32,11 +32,11 @@ export default class PointerCommands extends React.Component {
       ]]
     ]);
 
-    this.events = {};
+    this.pointerEvents = {};
 
-    propsToEvents.forEach(([prop, eventNames])=> {
+    propsToEvents.forEach((eventNames, prop)=> {
       for(const name of eventNames) {
-        this.events[name] = (e)=> {
+        this.pointerEvents[name] = (e)=> {
           if(!prop) {
             return false;
           }
@@ -49,7 +49,7 @@ export default class PointerCommands extends React.Component {
   }
 
   render() {
-    return React.cloneElement(this.props.children, { ...this.events });
+    return React.cloneElement(this.props.children, { pointerEvents: this.pointerEvents });
   }
 }
 
