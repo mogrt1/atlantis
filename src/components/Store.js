@@ -9,7 +9,11 @@ export default class Store extends React.Component {
 
     this.state = {};
 
-    this.actions = {};
+    this.actions = {
+      setCanvas: (canvas)=> {
+        this.setState({ canvas });
+      }
+    };
   }
 
   render() {
