@@ -11,9 +11,9 @@ export default class Dpad extends React.Component {
     super(props);
 
     this.dpadEvents = {
-      down: (e)=> console.log(`down`, e),
-      move: (e)=> console.log(`move`, e),
-      up: (e)=> console.log(`up`, e)
+      down: (e)=> e,
+      move: (e)=> e,
+      up: (e)=> e
     };
 
     this.keyEvents = { ';': this.dpadEvents };
@@ -25,6 +25,7 @@ export default class Dpad extends React.Component {
         <PointerCommands {...this.dpadEvents}>
           <DpadView className={this.props.className} />
         </PointerCommands>
+
         <KeyCommands>
           {this.keyEvents}
         </KeyCommands>
