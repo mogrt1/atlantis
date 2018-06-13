@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { start } from '../cores/GameBoy-Online/js/index';
+
 export default class Loader extends React.Component {
   componentDidMount() {
     fetch(this.props.uri).then((response)=> {
@@ -11,8 +13,8 @@ export default class Loader extends React.Component {
     }).then((blob)=> {
       const reader = new FileReader();
 
-      reader.onloadend = function() {
-        return reader.result;
+      reader.onloadend = ()=> {
+        start(this.props.canvas, reader.result);
       };
 
       reader.readAsBinaryString(blob);
@@ -26,4 +28,7 @@ export default class Loader extends React.Component {
   }
 }
 
-Loader.propTypes = { uri: PropTypes.string.isRequired };
+Loader.propTypes = {
+  uri: PropTypes.string.isRequired,
+  canvas: PropTypes.element.isRequired
+};
