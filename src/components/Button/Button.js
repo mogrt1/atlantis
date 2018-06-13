@@ -3,38 +3,29 @@ import PropTypes from 'prop-types';
 
 import ButtonView from './ButtonView';
 import './Button.css';
+import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
 export default class Button extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const stop = (e)=> {
-      e.stopPropagation();
-      e.preventDefault();
-
-      return true;
-    };
-
-    this.pointerEvents = {
-      down: (e)=> stop(e) && console.log(`down`, e),
-      move: (e)=> stop(e) && console.log(`move`, e),
-      up: (e)=> stop(e) && console.log(`up`, e)
-    };
-
-    this.keyEvents = { ';': this.pointerEvents };
-  }
-
   render() {
     return (
       <React.Fragment>
-        <ButtonView {...this.pointerEvents} className={this.props.className} />
+        <PointerCommands {...this.props.pointerCommands}>
+          <ButtonView className={this.props.className}>
+            {this.props.children}
+          </ButtonView>
+        </PointerCommands>
         <KeyCommands>
-          {this.keyEvents}
+          {this.props.keyCommands}
         </KeyCommands>
       </React.Fragment>
     );
   }
 }
 
-Button.propTypes = { className: PropTypes.string };
+Button.propTypes = {
+  children: PropTypes.node,
+  pointerCommands: PropTypes.object.isRequired,
+  keyCommands: PropTypes.object.isRequired,
+  className: PropTypes.string
+};
