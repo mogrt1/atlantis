@@ -12,11 +12,7 @@ export default class Dpad extends React.Component {
   constructor(props) {
     super(props);
 
-    const keyCodes = {
-      START: 7,
-      SELECT: 6,
-      A: 4,
-      B: 5,
+    const buttonCodes = {
       UP: 2,
       DOWN: 3,
       LEFT: 1,
@@ -26,16 +22,16 @@ export default class Dpad extends React.Component {
     const dpadDirection = (direction, pressed)=> {
       switch(direction) {
         case `up`:
-          gameBoyJoyPadEvent(keyCodes.UP, pressed);
+          gameBoyJoyPadEvent(buttonCodes.UP, pressed);
           break;
         case `down`:
-          gameBoyJoyPadEvent(keyCodes.DOWN, pressed);
+          gameBoyJoyPadEvent(buttonCodes.DOWN, pressed);
           break;
         case `left`:
-          gameBoyJoyPadEvent(keyCodes.LEFT, pressed);
+          gameBoyJoyPadEvent(buttonCodes.LEFT, pressed);
           break;
         case `right`:
-          gameBoyJoyPadEvent(keyCodes.RIGHT, pressed);
+          gameBoyJoyPadEvent(buttonCodes.RIGHT, pressed);
           break;
         default:
           break;
@@ -64,18 +60,6 @@ export default class Dpad extends React.Component {
       ArrowRight: {
         down: ()=> dpadDirection(`right`, `pressed`),
         up: ()=> dpadDirection(`right`)
-      },
-      Enter: {
-        down: ()=> gameBoyJoyPadEvent(keyCodes.START, `pressed`),
-        up: ()=> gameBoyJoyPadEvent(keyCodes.START)
-      },
-      z: {
-        down: ()=> gameBoyJoyPadEvent(keyCodes.A, `pressed`),
-        up: ()=> gameBoyJoyPadEvent(keyCodes.A)
-      },
-      x: {
-        down: ()=> gameBoyJoyPadEvent(keyCodes.B, `pressed`),
-        up: ()=> gameBoyJoyPadEvent(keyCodes.B)
       }
     };
   }
