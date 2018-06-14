@@ -30,5 +30,5 @@ export default class Loader extends React.Component {
 
 Loader.propTypes = {
   uri: PropTypes.string.isRequired,
-  canvas: PropTypes.element.isRequired
+  canvas: PropTypes.instanceOf(HTMLCanvasElement).isRequired
 };
