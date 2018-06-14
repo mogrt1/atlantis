@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { start } from '../cores/GameBoy-Online/js/index';
+import { start, gameboy } from '../cores/GameBoy-Online/js/index';
 
 export default class Loader extends React.Component {
   componentDidMount() {
@@ -15,6 +15,10 @@ export default class Loader extends React.Component {
 
       reader.onloadend = ()=> {
         start(this.props.canvas, reader.result);
+        const SPEED = 10;
+        if(gameboy && gameboy.setSpeed) {
+          gameboy.setSpeed(SPEED);
+        }
       };
 
       reader.readAsBinaryString(blob);
