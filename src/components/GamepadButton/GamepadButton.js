@@ -25,7 +25,7 @@ export default class GamepadButton extends React.Component {
       }
     };
 
-    this.keyEvents = { [props.key]: this.events };
+    this.keyEvents = { [props.kb]: this.events };
   }
 
   render() {
@@ -43,7 +43,7 @@ export default class GamepadButton extends React.Component {
 
 GamepadButton.propTypes = {
   type: PropTypes.string.isRequired,
-  key: PropTypes.string.isRequired,
+  kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node
 };

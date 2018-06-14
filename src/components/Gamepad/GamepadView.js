@@ -11,16 +11,16 @@ const GamepadView = ()=> (
     {()=> (
       <div className="Gamepad">
         <Dpad />
-        <GamepadButton type="B" key="z">
+        <GamepadButton type="B" kb="z">
           {`B`}
         </GamepadButton>
-        <GamepadButton type="A" key="x">
+        <GamepadButton type="A" kb="x">
           {`A`}
         </GamepadButton>
-        <GamepadButton type="START" key="Enter">
+        <GamepadButton type="START" kb="Enter">
           {`Start`}
         </GamepadButton>
-        <GamepadButton type="SELECT" key="Shift">
+        <GamepadButton type="SELECT" kb="Shift">
           {`Select`}
         </GamepadButton>
       </div>
