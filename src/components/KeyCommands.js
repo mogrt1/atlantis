@@ -5,21 +5,28 @@ export default class KeyCommands extends React.Component {
   constructor(props) {
     super(props);
 
-    this.eventDelegate = (e)=> {
+    const eventDelegate = (eventType)=> (e)=> {
       if(!(e.key in props.children)) {
         return false;
       }
 
-      props.children[e.key].down(e);
+      e.preventDefault();
+
+      props.children[e.key][eventType](e);
     };
+
+    this.eventDelegateDown = eventDelegate(`down`);
+    this.eventDelegateUp = eventDelegate(`up`);
   }
 
   componentDidMount() {
-    document.addEventListener(`keydown`, this.eventDelegate);
+    document.addEventListener(`keydown`, this.eventDelegateDown);
+    document.addEventListener(`keyup`, this.eventDelegateUp);
   }
 
   componentWillUnmount() {
-    document.removeEventListener(`keydown`, this.eventDelegate);
+    document.removeEventListener(`keydown`, this.eventDelegateDown);
+    document.removeEventListener(`keyup`, this.eventDelegateUp);
   }
 
   render() {
