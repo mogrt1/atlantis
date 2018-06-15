@@ -4,6 +4,8 @@
   left: 0;
   width: 100vw;
   height: 90vw;
+  background: #fff;
+  z-index: 0;
 }
 
 @media (orientation: landscape) {
