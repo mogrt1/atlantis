@@ -7,7 +7,7 @@ import { settings } from '../../cores/GameBoy-Online/js/index';
 const RESIZE = 12;
 const SMOOTHING = 13;
 
-settings[RESIZE] = false;
+settings[RESIZE] = true;
 settings[SMOOTHING] = false;
 
 const EmulatorView = (props)=> <canvas
