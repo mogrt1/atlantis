@@ -2,6 +2,8 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
+import FastForwardIcon from '@material-ui/icons/FastForward';
+
 import Dpad from '../Dpad/Dpad';
 import GamepadButton from '../GamepadButton/GamepadButton';
 import FastForwardButton from '../FastForwardButton';
@@ -21,8 +23,8 @@ const GamepadView = ()=> (
     <GamepadButton className="Gamepad-select" type="SELECT" kb="Shift">
       {`Select`}
     </GamepadButton>
-    <FastForwardButton className="Gamepad-fast-forward">
-      {`FF`}
+    <FastForwardButton className="Gamepad-fast-forward" kb="`">
+      <FastForwardIcon />
     </FastForwardButton>
   </div>
 );
