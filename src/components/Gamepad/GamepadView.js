@@ -5,7 +5,7 @@ import { pure } from 'recompose';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 
 import Dpad from '../Dpad/Dpad';
-import GamepadButton from '../GamepadButton/GamepadButton';
+import GamepadButton from '../GamepadButton';
 import FastForwardButton from '../FastForwardButton';
 
 const GamepadView = ()=> (

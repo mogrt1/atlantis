@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '../Button/Button';
+import Button from './Button/Button';
 
-import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/js/index';
+import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../cores/GameBoy-Online/js/index';
 
 export default class GamepadButton extends React.Component {
   constructor(props) {
