@@ -1,1 +1,47 @@
-.Gamepad {}
+.Gamepad {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 90vw - 44px);
+  z-index: 1;
+}
+
+.Gamepad > * {
+  position: absolute;
+}
+
+.Gamepad-b {
+  right: 20vw;
+  bottom: 10vh;
+  width: 20vmin;
+  height: 20vmin;
+}
+
+.Gamepad-a {
+  right: 10vw;
+  bottom: 15vh;
+  width: 20vmin;
+  height: 20vmin;
+}
+
+.Gamepad-start {
+  right: 15vw;
+  bottom: 5vh;
+  width: 20vmin;
+  height: 5vmin;
+}
+
+.Gamepad-select {
+  right: 40vw;
+  bottom: 5vh;
+  width: 20vmin;
+  height: 5vmin;
+}
+
+.Gamepad-fast-forward {
+  top: 2vh;
+  right: 10vw;
+  width: 10vmin;
+  height: 10vmin;
+}

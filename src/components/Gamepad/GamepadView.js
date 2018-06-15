@@ -4,13 +4,14 @@ import { pure } from 'recompose';
 
 import FastForwardIcon from '@material-ui/icons/FastForward';
 
+import './Gamepad.css';
 import Dpad from '../Dpad/Dpad';
 import GamepadButton from '../GamepadButton';
 import FastForwardButton from '../FastForwardButton';
 
 const GamepadView = ()=> (
   <div className="Gamepad">
-    <Dpad />
+    <Dpad className="Gamepad-dpad" />
     <GamepadButton className="Gamepad-b" type="B" kb="z">
       {`B`}
     </GamepadButton>
