@@ -1,4 +1,16 @@
 .Emulator-canvas {
-  width: 100vmin;
-  height: 90vmin;
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100vw;
+  height: 90vw;
+}
+
+@media (orientation: landscape) {
+  .Emulator-canvas {
+    top: 0;
+    left: calc(50% - 111.111111vh / 2);
+    width: 111.111111vh;
+    height: 100vh;
+  }
 }
