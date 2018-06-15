@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 export const theme = createMuiTheme();
 
-export const drawer = { width: 300 };
+export const drawer = { width: 250 };
 
 export const open = {
   position: `absolute`,
