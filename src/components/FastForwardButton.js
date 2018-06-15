@@ -24,7 +24,7 @@ export default class FastForwardButton extends React.Component {
       }
     };
 
-    this.keyEvents = { '`': this.events };
+    this.keyEvents = { [props.kb]: this.events };
   }
 
   render() {
@@ -41,7 +41,6 @@ export default class FastForwardButton extends React.Component {
 }
 
 FastForwardButton.propTypes = {
-  type: PropTypes.string.isRequired,
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node
