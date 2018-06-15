@@ -5,6 +5,7 @@ import { pure } from 'recompose';
 import { Consumer } from '../Store';
 import Dpad from '../Dpad/Dpad';
 import GamepadButton from '../GamepadButton/GamepadButton';
+import FastForwardButton from '../FastForwardButton';
 
 const GamepadView = ()=> (
   <Consumer>
@@ -23,6 +24,9 @@ const GamepadView = ()=> (
         <GamepadButton className="Gamepad-select" type="SELECT" kb="Shift">
           {`Select`}
         </GamepadButton>
+        <FastForwardButton className="Gamepad-fast-forward">
+          {`FF`}
+        </FastForwardButton>
       </div>
     )}
   </Consumer>
