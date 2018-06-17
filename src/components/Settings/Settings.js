@@ -49,7 +49,9 @@ class Settings extends React.Component {
           >
             <div className={classes.drawer}>
               <List subheader={
-                <ListSubheader className={classes.heading}>Settings</ListSubheader>
+                <ListSubheader className={classes.heading}>
+                  Settings
+                </ListSubheader>
               }>
                 <div>
                   <SettingsFFRate />
