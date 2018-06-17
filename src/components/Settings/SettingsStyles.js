@@ -1,13 +1,12 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-
-export const theme = createMuiTheme();
+import theme from '../../theme';
 
 export const drawer = { width: 250 };
 
 export const open = {
   position: `absolute`,
   top: 0,
-  left: 0
+  left: 0,
+  color: theme.palette.getContrastText(theme.palette.grey[`800`])
 };
 
 export const heading = { background: theme.palette.background.paper };
