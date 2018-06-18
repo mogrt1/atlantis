@@ -7,10 +7,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import MenuIcon from '@material-ui/icons/Menu';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import SettingsFFRate from './SettingsFFRate';
 import SettingsKeyBindings from './SettingsKeyBindings';
+
+import { Consumer } from '../Store';
 
 class Settings extends React.Component {
   constructor(props) {
@@ -27,36 +29,40 @@ class Settings extends React.Component {
     const { classes } = this.props;
 
     return (
-      <React.Fragment>
-        <IconButton
-          color="inherit"
-          aria-label="open settings"
-          onClick={this.toggleSettings}
-          className={classes.open}
-        >
-          <MenuIcon />
-        </IconButton>
+      <Consumer>
+        {({ state, actions })=> (
+          <React.Fragment>
+            <IconButton
+              color="inherit"
+              aria-label="open settings"
+              onClick={actions.toggleSettings}
+              className={classes.open}
+            >
+              <SettingsIcon />
+            </IconButton>
 
-        <Drawer open={this.state.open} onClose={this.toggleSettings}>
-          <div
-            tabIndex={0}
-            role="button"
-          >
-            <div className={classes.drawer}>
-              <List subheader={
-                <ListSubheader className={classes.heading}>
-                  Settings
-                </ListSubheader>
-              }>
-                <div>
-                  <SettingsFFRate />
-                  <SettingsKeyBindings />
+            <Drawer open={state.settingsOpen} onClose={actions.toggleSettings}>
+              <div
+                tabIndex={0}
+                role="button"
+              >
+                <div className={classes.drawer}>
+                  <List subheader={
+                    <ListSubheader className={classes.heading}>
+                    Settings
+                    </ListSubheader>
+                  }>
+                    <div>
+                      <SettingsFFRate />
+                      <SettingsKeyBindings />
+                    </div>
+                  </List>
                 </div>
-              </List>
-            </div>
-          </div>
-        </Drawer>
-      </React.Fragment>
+              </div>
+            </Drawer>
+          </React.Fragment>
+        )}
+      </Consumer>
     );
   }
 }
