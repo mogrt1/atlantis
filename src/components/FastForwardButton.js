@@ -9,20 +9,37 @@ export default class FastForwardButton extends React.Component {
   constructor(props) {
     super(props);
 
-    this.events = {
+    const FAST = 3,
+          NORMAL = 1;
+
+    const speed = NORMAL;
+
+    this.toggleEvents = {
       down: ()=> {
         if(gameboy && gameboy.setSpeed) {
-          const FAST = 3;
+          gameboy.setSpeed(
+            speed === NORMAL
+              ? FAST
+              : NORMAL
+          );
+        }
+      }
+    };
+
+    this.noToggleEvents = {
+      down: ()=> {
+        if(gameboy && gameboy.setSpeed) {
           gameboy.setSpeed(FAST);
         }
       },
       up: ()=> {
         if(gameboy && gameboy.setSpeed) {
-          const NORMAL = 1;
           gameboy.setSpeed(NORMAL);
         }
       }
     };
+
+    this.events = props.toggle ? this.toggleEvents : this.noToggleEvents;
 
     this.keyEvents = { [props.kb]: this.events };
   }
@@ -41,6 +58,7 @@ export default class FastForwardButton extends React.Component {
 }
 
 FastForwardButton.propTypes = {
+  toggle: PropTypes.bool.isRequired,
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node
