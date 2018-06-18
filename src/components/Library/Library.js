@@ -39,7 +39,7 @@ class Library extends React.Component {
 
         <Drawer open={this.state.open} onClose={this.toggleSettings} anchor="right">
           <div
-            tabIndex={1}
+            tabIndex={0}
             role="button"
           >
             <div className={classes.drawer}>
