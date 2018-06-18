@@ -12,22 +12,18 @@ export default class PointerCommands extends React.Component {
 
     const propsToEvents = new Map([
       [props.down, [
-        `onPointerDown`,
         `onTouchStart`,
         `onMouseDown`
       ]],
 
       [props.move, [
-        `onPointerMove`,
         `onTouchMove`,
         `onMouseMove`
       ]],
 
       [props.up, [
-        `onPointerUp`,
         `onTouchEnd`,
         `onMouseUp`,
-        `onPointerCancel`,
         `onTouchCancel`
       ]]
     ]);
