@@ -18,7 +18,7 @@ export default class Store extends React.Component {
         this.setState({ canvas });
       },
 
-      addGame: (e)=> {
+      uploadGame: (e)=> {
         const getMd5 = (file)=> new Promise((resolve, reject)=> {
           const reader = new FileReader();
 

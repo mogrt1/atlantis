@@ -45,7 +45,7 @@ class AddGame extends React.Component {
                 type="file"
                 multiple
                 style={{ display: `none` }}
-                onChange={store.actions.addGame}
+                onChange={store.actions.uploadGame}
               />
             </ListItemText>
           </ListItem>
