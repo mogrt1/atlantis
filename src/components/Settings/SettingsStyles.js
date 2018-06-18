@@ -1,6 +1,6 @@
 import theme from '../../theme';
 
-export const drawer = { width: 250 };
+export const drawer = { width: 270 };
 
 export const open = {
   position: `absolute`,
