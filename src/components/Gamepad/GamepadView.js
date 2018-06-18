@@ -24,7 +24,7 @@ const GamepadView = ()=> (
     <GamepadButton className="Gamepad-select" type="SELECT" kb="Shift">
       {`Select`}
     </GamepadButton>
-    <FastForwardButton className="Gamepad-fast-forward" kb="`">
+    <FastForwardButton className="Gamepad-fast-forward" kb="`" toggle={true}>
       <FastForwardIcon />
     </FastForwardButton>
   </div>
