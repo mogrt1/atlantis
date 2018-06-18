@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-import {
-  game as styleGame,
-  gameImage as styleGameImage,
-  gameImageError as styleGameImageError,
-  gameTitleOverlay as styleGameTitleOverlay,
-  gameTitleWrap as styleGameTitleWrap,
-  gameTitleText as styleGameTitleText
-} from './LibraryStyles';
+import { styleGame } from './LibraryStyles';
 
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -62,11 +54,4 @@ Game.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles({
-  game: styleGame,
-  gameImage: styleGameImage,
-  gameImageError: styleGameImageError,
-  gameTitleOverlay: styleGameTitleOverlay,
-  gameTitleWrap: styleGameTitleWrap,
-  gameTitleText: styleGameTitleText
-})(Game);
+export default styleGame(Game);

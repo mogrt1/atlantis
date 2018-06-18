@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-import {
-  open as styleOpen,
-  drawer as styleDrawer,
-  heading as styleHeading
-} from './LibraryStyles';
+import { styleLibrary } from './LibraryStyles';
 
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,7 +12,7 @@ import LibraryIcon from '@material-ui/icons/VideoLibrary';
 import AddGame from './AddGame';
 import GameList from './GameList';
 
-class Settings extends React.Component {
+class Library extends React.Component {
   constructor(props) {
     super(props);
 
@@ -66,10 +61,6 @@ class Settings extends React.Component {
   }
 }
 
-Settings.propTypes = { classes: PropTypes.object.isRequired };
+Library.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withStyles({
-  open: styleOpen,
-  drawer: styleDrawer,
-  heading: styleHeading
-})(Settings);
+export default styleLibrary(Library);

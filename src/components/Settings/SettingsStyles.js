@@ -1,20 +1,23 @@
+import { withStyles } from '@material-ui/core/styles';
+
 import theme from '../../theme';
 
-export const drawer = { width: 270 };
-
-export const open = {
-  position: `absolute`,
-  top: 0,
-  left: 0,
-  color: theme.palette.getContrastText(theme.palette.grey[`800`])
-};
-
-export const heading = { background: theme.palette.background.paper };
-
-export const sectionHeading = { paddingLeft: 0 };
-
-export const select = { width: `100%` };
-
 const INDENT = 4;
-export const nested = { paddingLeft: theme.spacing.unit * INDENT };
 
+export const styleSettings = withStyles({
+  open: {
+    position: `absolute`,
+    top: 0,
+    left: 0,
+    color: theme.palette.getContrastText(theme.palette.grey[`800`])
+  },
+  drawer: { width: 270 },
+  heading: { background: theme.palette.background.paper }
+});
+
+export const styleSettingsFFRate = withStyles({ select: { width: `100%` } });
+
+export const styleSettingsKeyBindings = withStyles({
+  sectionHeading: { paddingLeft: 0 },
+  nested: { paddingLeft: theme.spacing.unit * INDENT }
+});

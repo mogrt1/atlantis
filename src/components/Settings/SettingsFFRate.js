@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-import {
-  select as styleSelect
-} from './SettingsStyles';
+import { styleSettingsFFRate } from './SettingsStyles';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -61,4 +58,4 @@ class SettingsFFRate extends React.Component {
 
 SettingsFFRate.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withStyles({ select: styleSelect })(SettingsFFRate);
+export default styleSettingsFFRate(SettingsFFRate);

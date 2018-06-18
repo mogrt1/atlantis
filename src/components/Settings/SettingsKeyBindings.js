@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-import {
-  nested as styleNested,
-  sectionHeading as styleSectionHeading
-} from './SettingsStyles';
+import { styleSettingsKeyBindings } from './SettingsStyles';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -169,7 +165,4 @@ class SettingsKeyBindings extends React.Component {
 
 SettingsKeyBindings.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withStyles({
-  nested: styleNested,
-  sectionHeading: styleSectionHeading
-})(SettingsKeyBindings);
+export default styleSettingsKeyBindings(SettingsKeyBindings);

@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-import {
-  addGameLabel as styleAddGameLabel
-} from './LibraryStyles';
+import { styleAddGame } from './LibraryStyles';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -57,4 +54,4 @@ class AddGame extends React.Component {
 
 AddGame.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withStyles({ addGameLabel: styleAddGameLabel })(AddGame);
+export default styleAddGame(AddGame);

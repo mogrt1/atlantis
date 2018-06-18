@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core/styles';
-import {
-  open as styleOpen,
-  drawer as styleDrawer,
-  heading as styleHeading
-} from './SettingsStyles';
+import { styleSettings } from './SettingsStyles';
 
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
@@ -68,8 +63,4 @@ class Settings extends React.Component {
 
 Settings.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withStyles({
-  open: styleOpen,
-  drawer: styleDrawer,
-  heading: styleHeading
-})(Settings);
+export default styleSettings(Settings);
