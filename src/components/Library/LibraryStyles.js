@@ -15,7 +15,14 @@ export const open = {
 
 export const heading = { background: theme.palette.background.paper };
 
-export const sectionHeading = { paddingLeft: 0 };
+export const addGameLabel = {
+  position: `absolute`,
+  top: 0,
+  left: 0,
+  width: `100%`,
+  height: `100%`,
+  cursor: `pointer`
+};
 
 export const game = {
   width: `${libraryWidth / libraryCols}px`,
@@ -29,4 +36,14 @@ export const gameImageError = {
   backgroundSize: `50%`
 };
 
-export const gameTitle = { fontSize: `0.75rem` };
+export const gameTitle = {
+  root: { pointerEvents: `none` },
+  title: { fontSize: `0.75rem` }
+};
+
+export const gameTitleOverlay = { pointerEvents: `none` };
+export const gameTitleWrap = {
+  marginRight: `8px`,
+  marginLeft: `8px`
+};
+export const gameTitleText = { fontSize: `0.75rem` };
