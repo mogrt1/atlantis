@@ -9,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
@@ -75,14 +76,19 @@ class SettingsKeyBindings extends React.Component {
     };
 
     this.assignKey = (e)=> {
+      e.stopPropagation();
       e.preventDefault();
 
-      this.setState({ [e.target.id]: e.key });
+      const value = e.key === ` ` ? `Spacebar` : e.key;
+
+      this.setState({ [e.target.id]: value });
     };
   }
 
   render() {
     const { classes } = this.props;
+
+    const Expand = this.state.open ? ExpandLess : ExpandMore;
 
     return (
       <React.Fragment>
@@ -90,19 +96,21 @@ class SettingsKeyBindings extends React.Component {
           <ListItemIcon>
             <KeyboardIcon />
           </ListItemIcon>
-          <ListItemText primary="Keyboard Bindings" className={classes.sectionHeading} />
-          {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          <ListItemText primary="Keyboard Bindings" className={classes.itemText} />
+          <Expand className={classes.expand} />
         </ListItem>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {Object.entries(this.bindings).map(([id, data])=> (
-              <ListItem key={id} className={classes.nested} dense divider>
+              <ListItem key={id} className={classes.nested} dense>
                 <TextField
                   id={`settings-kb-${id}`}
+                  className={classes.input}
                   label={data.label}
                   value={this.state[`settings-kb-${id}`]}
                   onKeyDown={this.assignKey}
                   margin="normal"
+                  InputProps={{ startAdornment: <InputAdornment position="start">key:</InputAdornment> }}
                 />
               </ListItem>
             ))}
