@@ -12,7 +12,7 @@ export const styleLibrary = withStyles({
     position: `absolute`,
     top: 0,
     right: 0,
-    color: theme.palette.getContrastText(theme.palette.grey[`800`])
+    color: theme.palette.getContrastText(theme.palette.primary[`800`])
   },
   drawer: { width: libraryWidth },
   heading: { background: theme.palette.background.paper }
