@@ -11,11 +11,18 @@ export default class Store extends React.Component {
   constructor() {
     super();
 
-    this.state = { library: [] };
+    this.state = {
+      settingsOpen: false,
+      library: []
+    };
 
     this.actions = {
       setCanvas: (canvas)=> {
         this.setState({ canvas });
+      },
+
+      toggleSettings: ()=> {
+        this.setState({ settingsOpen: !this.state.settingsOpen });
       },
 
       uploadGame: (e)=> {
