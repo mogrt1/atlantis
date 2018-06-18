@@ -1,12 +1,17 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
+import {
+  addGameLabel as styleAddGameLabel
+} from './LibraryStyles';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+
+import { Consumer } from '../Store';
 
 class AddGame extends React.Component {
   constructor(props) {
@@ -20,27 +25,36 @@ class AddGame extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <ListItem button>
-        <ListItemIcon>
-          <LibraryAddIcon />
-        </ListItemIcon>
-        <ListItemText>
-          <label htmlFor="library-add-game" style={{ cursor: `pointer` }}>
-            Add a Game
-          </label>
-          <input
-            id="library-add-game"
-            type="file"
-            multiple
-            style={{ display: `none` }}
-          />
-        </ListItemText>
-      </ListItem>
+      <Consumer>
+        {(store)=> (
+          <ListItem button>
+            <ListItemIcon>
+              <LibraryAddIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <span>
+                {`Add a Game`}
+              </span>
+
+              <label htmlFor="library-add-game" className={classes.addGameLabel}></label>
+              <input
+                id="library-add-game"
+                type="file"
+                multiple
+                style={{ display: `none` }}
+                onChange={store.actions.addGame}
+              />
+            </ListItemText>
+          </ListItem>
+        )}
+      </Consumer>
     );
   }
 }
 
-AddGame.propTypes = {};
+AddGame.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withStyles({})(AddGame);
+export default withStyles({ addGameLabel: styleAddGameLabel })(AddGame);
