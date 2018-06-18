@@ -6,6 +6,8 @@ import './Dpad.css';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
+import { Consumer } from '../Store';
+
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/js/index';
 
 export default class Dpad extends React.Component {
@@ -66,15 +68,22 @@ export default class Dpad extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <PointerCommands {...this.dpadEvents}>
-          <DpadView className={this.props.className} />
-        </PointerCommands>
+      <Consumer>
+        {({ state })=> (
+          <React.Fragment>
+            <PointerCommands {...this.dpadEvents}>
+              <DpadView className={this.props.className} />
+            </PointerCommands>
 
-        <KeyCommands>
-          {this.keyEvents}
-        </KeyCommands>
-      </React.Fragment>
+            {
+              !state.settingsOpen
+              && <KeyCommands>
+                {this.keyEvents}
+              </KeyCommands>
+            }
+          </React.Fragment>
+        )}
+      </Consumer>
     );
   }
 }

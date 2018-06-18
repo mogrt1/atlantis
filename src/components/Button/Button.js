@@ -6,19 +6,29 @@ import './Button.css';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
+import { Consumer } from '../Store';
+
 export default class Button extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <PointerCommands {...this.props.pointerCommands}>
-          <ButtonView className={this.props.className}>
-            {this.props.children}
-          </ButtonView>
-        </PointerCommands>
-        <KeyCommands>
-          {this.props.keyCommands}
-        </KeyCommands>
-      </React.Fragment>
+      <Consumer>
+        {({ state })=> (
+          <React.Fragment>
+            <PointerCommands {...this.props.pointerCommands}>
+              <ButtonView className={this.props.className}>
+                {this.props.children}
+              </ButtonView>
+            </PointerCommands>
+
+            {
+              !state.settingsOpen
+              && <KeyCommands>
+                {this.props.keyCommands}
+              </KeyCommands>
+            }
+          </React.Fragment>
+        )}
+      </Consumer>
     );
   }
 }
