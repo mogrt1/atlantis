@@ -1,6 +1,10 @@
 import theme from '../../theme';
+import gameboyCart from './images/gameboy.svg';
 
-export const drawer = { width: 250 };
+export const libraryWidth = 270;
+export const libraryCols = 2;
+export const drawer = { width: libraryWidth };
+export const libraryList = { width: libraryWidth + libraryCols };
 
 export const open = {
   position: `absolute`,
@@ -13,8 +17,16 @@ export const heading = { background: theme.palette.background.paper };
 
 export const sectionHeading = { paddingLeft: 0 };
 
-export const select = { width: `100%` };
+export const game = {
+  width: `${libraryWidth / libraryCols}px`,
+  height: `${libraryWidth / libraryCols}px`
+};
+export const gameImage = { width: `${libraryWidth / libraryCols}px` };
+export const gameImageError = {
+  width: `${libraryWidth / libraryCols}px`,
+  height: `${libraryWidth / libraryCols}px`,
+  background: `url(${gameboyCart}) 50% 50% no-repeat ${theme.palette.primary.light}`,
+  backgroundSize: `50%`
+};
 
-const INDENT = 4;
-export const nested = { paddingLeft: theme.spacing.unit * INDENT };
-
+export const gameTitle = { fontSize: `0.75rem` };

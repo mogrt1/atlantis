@@ -15,6 +15,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import LibraryIcon from '@material-ui/icons/VideoLibrary';
 
 import AddGame from './AddGame';
+import GameList from './GameList';
 
 class Settings extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class Settings extends React.Component {
               }>
                 <div>
                   <AddGame />
+                  <GameList />
                 </div>
               </List>
             </div>
