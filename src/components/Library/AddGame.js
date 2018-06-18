@@ -25,7 +25,17 @@ class AddGame extends React.Component {
         <ListItemIcon>
           <LibraryAddIcon />
         </ListItemIcon>
-        <ListItemText primary="Add a Game" />
+        <ListItemText>
+          <label htmlFor="library-add-game" style={{ cursor: `pointer` }}>
+            Add a Game
+          </label>
+          <input
+            id="library-add-game"
+            type="file"
+            multiple
+            style={{ display: `none` }}
+          />
+        </ListItemText>
       </ListItem>
     );
   }
