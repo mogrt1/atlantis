@@ -6,7 +6,9 @@ import {
   game as styleGame,
   gameImage as styleGameImage,
   gameImageError as styleGameImageError,
-  gameTitle as styleGameTitle
+  gameTitleOverlay as styleGameTitleOverlay,
+  gameTitleWrap as styleGameTitleWrap,
+  gameTitleText as styleGameTitleText
 } from './LibraryStyles';
 
 import GridListTile from '@material-ui/core/GridListTile';
@@ -43,7 +45,11 @@ class Game extends React.Component {
         </ButtonBase>
         <GridListTileBar
           title={title}
-          classes={{ title: classes.gameTitle }}
+          classes={{
+            root: classes.gameTitleOverlay,
+            titleWrap: classes.gameTitleWrap,
+            title: classes.gameTitleText
+          }}
         />
       </GridListTile>
     );
@@ -60,5 +66,7 @@ export default withStyles({
   game: styleGame,
   gameImage: styleGameImage,
   gameImageError: styleGameImageError,
-  gameTitle: styleGameTitle
+  gameTitleOverlay: styleGameTitleOverlay,
+  gameTitleWrap: styleGameTitleWrap,
+  gameTitleText: styleGameTitleText
 })(Game);
