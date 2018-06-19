@@ -1,3 +1,6 @@
+// This component tracks and modifies application data.
+// It uses the React Context API.
+
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 

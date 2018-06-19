@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Loader from './Loader';
-import { Consumer } from './Store';
+import { Consumer } from './Context';
 
 import demo from '../demo.gb';
 

@@ -12,7 +12,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SettingsFFRate from './SettingsFFRate';
 import SettingsKeyBindings from './SettingsKeyBindings';
 
-import { Consumer } from '../Store';
+import { Consumer } from '../Context';
 
 class Settings extends React.Component {
   constructor(props) {

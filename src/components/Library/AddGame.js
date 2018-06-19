@@ -8,7 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
-import { Consumer } from '../Store';
+import { Consumer } from '../Context';
 
 class AddGame extends React.Component {
   constructor(props) {

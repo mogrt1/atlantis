@@ -6,7 +6,7 @@ import './Button.css';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
-import { Consumer } from '../Store';
+import { Consumer } from '../Context';
 
 export default class Button extends React.Component {
   render() {

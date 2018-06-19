@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Consumer } from '../Store';
+import { Consumer } from '../Context';
 import { thumbs } from '../../db/gameboy';
 
 import { styleGameList, libraryWidth, libraryCols } from './LibraryStyles';

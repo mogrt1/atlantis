@@ -4,7 +4,7 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 
-import Store, { Consumer } from './components/Store';
+import Context, { Consumer } from './components/Context';
 // import Demo from './components/Demo';
 import Gamepad from './components/Gamepad/GamepadView';
 import Emulator from './components/Emulator/Emulator';
@@ -14,7 +14,7 @@ import Library from './components/Library/Library';
 class App extends React.Component {
   render() {
     return (
-      <Store>
+      <Context>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
 
@@ -26,7 +26,7 @@ class App extends React.Component {
             {(context)=> <Emulator setCanvas={context.actions.setCanvas} />}
           </Consumer>
         </MuiThemeProvider>
-      </Store>
+      </Context>
     );
   }
 }

@@ -6,7 +6,7 @@ import './Dpad.css';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
-import { Consumer } from '../Store';
+import { Consumer } from '../Context';
 
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/js/index';
 
