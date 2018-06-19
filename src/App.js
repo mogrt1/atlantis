@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 
 import Context, { Consumer } from './components/Context';
-// import Demo from './components/Demo';
+import Demo from './components/Demo';
 import Gamepad from './components/Gamepad/GamepadView';
 import Emulator from './components/Emulator/Emulator';
 import Settings from './components/Settings/Settings';
@@ -18,7 +18,7 @@ class App extends React.Component {
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
 
-          {/* <Demo /> */}
+          <Demo />
           <Settings />
           <Library />
           <Gamepad />
