@@ -16,13 +16,14 @@ class GameList extends React.Component {
 
     return (
       <Consumer>
-        {({ state })=> (
+        {({ state, actions })=> (
           <GridList cellHeight={libraryWidth / libraryCols} cols={libraryCols} className={classes.libraryList}>
-            {state.library.map(({ md5, title })=> (
+            {state.library.map((data)=> (
               <Game
-                key={md5}
-                thumb={thumbs.replace(`%s`, encodeURIComponent(title))}
-                title={title}
+                key={data.md5}
+                thumb={thumbs.replace(`%s`, encodeURIComponent(data.title))}
+                data={data}
+                runGame={actions.runGame}
               />
             ))}
           </GridList>

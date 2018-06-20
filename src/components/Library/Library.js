@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { get } from 'idb-keyval';
+
 import { styleLibrary } from './LibraryStyles';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -21,6 +23,18 @@ class Library extends React.Component {
     this.toggleSettings = ()=> {
       this.setState({ open: !this.state.open });
     };
+  }
+
+  componentDidMount() {
+    get(`games`).then((games)=> {
+      if(!games) {
+        return;
+      }
+
+      this.props.addToLibrary(
+        JSON.parse(games)
+      );
+    });
   }
 
   render() {
@@ -61,6 +75,9 @@ class Library extends React.Component {
   }
 }
 
-Library.propTypes = { classes: PropTypes.object.isRequired };
+Library.propTypes = {
+  classes: PropTypes.object.isRequired,
+  addToLibrary: PropTypes.func.isRequired
+};
 
 export default styleLibrary(Library);

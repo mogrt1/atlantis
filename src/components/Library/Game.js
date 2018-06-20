@@ -16,14 +16,19 @@ class Game extends React.Component {
     this.handleImageError = ()=> {
       this.setState({ imageError: true });
     };
+
+    this.runGame = ()=> {
+      props.runGame(props.data.rom);
+    };
   }
 
   render() {
-    const { classes, thumb, title } = this.props;
+    const { classes, thumb, data } = this.props,
+          { title } = data;
 
     return (
       <GridListTile className={classes.game}>
-        <ButtonBase>
+        <ButtonBase onClick={this.runGame}>
           {
             this.state.imageError
               ? <div className={classes.gameImageError} aria-label={title}></div>
@@ -44,13 +49,15 @@ class Game extends React.Component {
           }}
         />
       </GridListTile>
+
     );
   }
 }
 
 Game.propTypes = {
-  thumb: PropTypes.string,
-  title: PropTypes.string.isRequired,
+  runGame: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  thumb: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
 

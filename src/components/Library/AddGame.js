@@ -11,22 +11,12 @@ import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import { Consumer } from '../Context';
 
 class AddGame extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { rate: 2 };
-
-    this.handleChange = (e)=> {
-      this.setState({ [e.target.name]: e.target.value });
-    };
-  }
-
   render() {
     const { classes } = this.props;
 
     return (
       <Consumer>
-        {(store)=> (
+        {(context)=> (
           <ListItem button>
             <ListItemIcon>
               <LibraryAddIcon />
@@ -42,7 +32,7 @@ class AddGame extends React.Component {
                 type="file"
                 multiple
                 style={{ display: `none` }}
-                onChange={store.actions.uploadGame}
+                onChange={context.actions.uploadGame}
               />
             </ListItemText>
           </ListItem>
