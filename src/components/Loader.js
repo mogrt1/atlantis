@@ -15,6 +15,7 @@ export default class Loader extends React.Component {
 
       reader.onloadend = ()=> {
         start(this.props.canvas, reader.result);
+        this.props.setCurrentROM(reader.result);
       };
 
       reader.readAsBinaryString(blob);
@@ -30,5 +31,6 @@ export default class Loader extends React.Component {
 
 Loader.propTypes = {
   uri: PropTypes.string.isRequired,
-  canvas: PropTypes.instanceOf(HTMLCanvasElement).isRequired
+  canvas: PropTypes.instanceOf(HTMLCanvasElement).isRequired,
+  setCurrentROM: PropTypes.func.isRequired
 };

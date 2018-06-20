@@ -24,6 +24,10 @@ export default class Store extends React.Component {
         this.setState({ canvas });
       },
 
+      setCurrentROM: (currentROM)=> {
+        this.setState({ currentROM });
+      },
+
       toggleSettings: ()=> {
         this.setState({ settingsOpen: !this.state.settingsOpen });
       },

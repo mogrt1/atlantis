@@ -9,11 +9,15 @@ export default class Demo extends React.Component {
   render() {
     return (
       <Consumer>
-        {({ state })=> (
+        {({ state, actions })=> (
           <React.Fragment>
             {
               state.canvas && state.canvas.current
-                && <Loader uri={demo} canvas={state.canvas.current} />
+                && <Loader
+                  uri={demo}
+                  canvas={state.canvas.current}
+                  setCurrentROM={actions.setCurrentROM}
+                />
             }
           </React.Fragment>
         )}
