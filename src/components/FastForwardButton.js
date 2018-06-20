@@ -12,13 +12,15 @@ export default class FastForwardButton extends React.Component {
     const FAST = 3,
           NORMAL = 1;
 
-    const speed = NORMAL;
+    let fastforward = false;
 
     this.toggleEvents = {
       down: ()=> {
         if(gameboy && gameboy.setSpeed) {
+          fastforward = !fastforward;
+
           gameboy.setSpeed(
-            speed === NORMAL
+            fastforward
               ? FAST
               : NORMAL
           );
