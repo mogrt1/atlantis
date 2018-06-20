@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { get, keys } from 'idb-keyval';
+import { get, set, del, keys } from 'idb-keyval';
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,10 +12,11 @@ import Gamepad from './components/Gamepad/GamepadView';
 import Emulator from './components/Emulator/Emulator';
 import Settings from './components/Settings/Settings';
 import Library from './components/Library/Library';
+import Loader from './components/Loader';
 
-import { persistValues } from './cores/GameBoy-Online/js/index';
+import { persistValues, saveValue } from './cores/GameBoy-Online/js/index';
 
-const restoreData = async function() {
+const restoreCoreData = async function() {
   const data = await keys();
 
   const valuesTx = [];
@@ -26,30 +27,48 @@ const restoreData = async function() {
 
   const values = await Promise.all(valuesTx);
 
-  for(const [index, value] of values.entries()) {
-    persistValues[data[index]] = value;
+  for(const [index, datum] of data.entries()) {
+    if(datum === `games`) {
+      continue;
+    }
+
+    persistValues[datum] = values[index];
   }
 };
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+restoreCoreData();
 
-    restoreData();
+saveValue.subscribe((key, value)=> {
+  if(value === null) {
+    del(key);
+  } else {
+    set(key, value);
   }
+});
 
+class App extends React.Component {
   render() {
     return (
       <Context>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
 
-          <Demo />
           <Settings />
-          <Library />
           <Gamepad />
+
           <Consumer>
-            {(context)=> <Emulator setCanvas={context.actions.setCanvas} />}
+            {({ state, actions })=> (
+              <React.Fragment>
+                {!state.playingROM && <Demo />}
+                <Library addToLibrary={actions.addToLibrary} />
+                <Emulator setCanvas={actions.setCanvas} />
+                {state.playingROM && <Loader
+                  rom={state.playingROM}
+                  canvas={state.canvas.current}
+                  setCurrentROM={actions.setCurrentROM}
+                />}
+              </React.Fragment>
+            )}
           </Consumer>
         </MuiThemeProvider>
       </Context>

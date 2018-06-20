@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { set } from 'idb-keyval';
-
 import MenuItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SaveIcon from './images/SaveStateIcon';
 
-import { saveState, saveValue } from '../../cores/GameBoy-Online/js/index';
+import { saveState } from '../../cores/GameBoy-Online/js/index';
 
 class SaveState extends React.Component {
   constructor(props) {
@@ -20,10 +18,6 @@ class SaveState extends React.Component {
       saveState(`main`);
       props.close();
     };
-
-    saveValue.subscribe((key, value)=> {
-      set(key, value);
-    });
   }
 
   render() {
