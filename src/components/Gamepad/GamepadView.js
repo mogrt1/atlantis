@@ -8,6 +8,7 @@ import './Gamepad.css';
 import Dpad from '../Dpad/Dpad';
 import GamepadButton from '../GamepadButton';
 import FastForwardButton from '../FastForwardButton';
+import QuickMenu from '../QuickMenu/QuickMenu';
 
 const GamepadView = ()=> (
   <div className="Gamepad">
@@ -27,6 +28,7 @@ const GamepadView = ()=> (
     <FastForwardButton className="Gamepad-fast-forward" kb="`" toggle={true}>
       <FastForwardIcon />
     </FastForwardButton>
+    <QuickMenu className="Gamepad-quick-menu" kb="q" />
   </div>
 );
 

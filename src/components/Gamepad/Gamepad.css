@@ -62,3 +62,12 @@
   line-height: 18vmin;
   border-radius: 25%;
 }
+
+.Gamepad-quick-menu {
+  top: 2vh;
+  right: 45vw;
+  width: 10vmin;
+  height: 10vmin;
+  /* line-height: 18vmin; */
+  border-radius: 25%;
+}
