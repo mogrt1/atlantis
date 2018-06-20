@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SaveIcon from './images/SaveStateIcon';
-import theme from '../../theme';
 
 import { saveState, saveValue } from '../../cores/GameBoy-Online/js/index';
 
@@ -31,7 +30,7 @@ class SaveState extends React.Component {
     return (
       <MenuItem onClick={this.save}>
         <ListItemIcon>
-          <SaveIcon nativeColor={theme.palette.primary} />
+          <SaveIcon />
         </ListItemIcon>
         <ListItemText>
           {`Save State`}
