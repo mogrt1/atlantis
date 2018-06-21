@@ -10,11 +10,16 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 import SettingsFFRate from './SettingsFFRate';
+import SettingsFFToggle from './SettingsFFToggle';
 import SettingsKeyBindings from './SettingsKeyBindings';
 
 import { Consumer } from '../Context';
 
 class Settings extends React.Component {
+  componentDidMount() {
+    this.props.hydrate();
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -44,6 +49,7 @@ class Settings extends React.Component {
                   }>
                     <div>
                       <SettingsFFRate />
+                      <SettingsFFToggle />
                       <SettingsKeyBindings />
                     </div>
                   </List>
@@ -57,6 +63,9 @@ class Settings extends React.Component {
   }
 }
 
-Settings.propTypes = { classes: PropTypes.object.isRequired };
+Settings.propTypes = {
+  classes: PropTypes.object.isRequired,
+  hydrate: PropTypes.func.isRequired
+};
 
 export default styleSettings(Settings);
