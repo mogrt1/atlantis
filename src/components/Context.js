@@ -13,7 +13,25 @@ import { pause, run } from '../cores/GameBoy-Online/js/index';
 
 const { Provider, Consumer } = createContext();
 
-export default class Store extends React.Component {
+export const defaultSettings = {
+  ffRate: 3,
+  ffToggle: true,
+  keyBindings: {
+    'settings-kb-b': `z`,
+    'settings-kb-a': `x`,
+    'settings-kb-b-turbo': `a`,
+    'settings-kb-a-turbo': `s`,
+    'settings-kb-start': `Enter`,
+    'settings-kb-select': `Shift`,
+    'settings-kb-up': `ArrowUp`,
+    'settings-kb-down': `ArrowDown`,
+    'settings-kb-left': `ArrowLeft`,
+    'settings-kb-right': `ArrowRight`,
+    'settings-kb-ff': `\``
+  }
+};
+
+export default class Context extends React.Component {
   constructor() {
     super();
 
@@ -22,7 +40,7 @@ export default class Store extends React.Component {
       libraryOpen: false,
       library: [],
       playingROM: ``,
-      settings: {}
+      settings: { ...defaultSettings }
     };
 
     this.actions = {
@@ -150,7 +168,13 @@ export default class Store extends React.Component {
       hydrateSettings: ()=> {
         get(`settings`).then((settingsJSON = `{}`)=> {
           const settings = JSON.parse(settingsJSON);
-          this.setState({ settings });
+
+          this.setState({
+            settings: {
+              ...this.state.settings,
+              ...settings
+            }
+          });
         });
       }
     };
@@ -168,6 +192,6 @@ export default class Store extends React.Component {
   }
 }
 
-Store.propTypes = { children: PropTypes.element };
+Context.propTypes = { children: PropTypes.element };
 
 export { Consumer };
