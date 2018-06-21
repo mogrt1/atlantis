@@ -42,19 +42,9 @@ export default class Store extends React.Component {
         this.setState({ currentROM });
       },
 
-      toggleSettings: ()=> {
-        this.setState({ settingsOpen: !this.state.settingsOpen }, ()=> {
-          if(this.state.settingsOpen) {
-            pause();
-          } else {
-            run();
-          }
-        });
-      },
-
-      toggleLibrary: ()=> {
-        this.setState({ libraryOpen: !this.state.libraryOpen }, ()=> {
-          if(this.state.libraryOpen) {
+      toggleDrawer: (drawerName)=> ()=> {
+        this.setState({ [`${drawerName}Open`]: !this.state[`${drawerName}Open`] }, ()=> {
+          if(this.state[`${drawerName}Open`]) {
             pause();
           } else {
             run();

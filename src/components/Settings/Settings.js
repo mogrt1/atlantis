@@ -25,13 +25,13 @@ class Settings extends React.Component {
             <IconButton
               color="inherit"
               aria-label="open settings"
-              onClick={actions.toggleSettings}
+              onClick={actions.toggleDrawer(`settings`)}
               className={classes.open}
             >
               <SettingsIcon />
             </IconButton>
 
-            <Drawer open={state.settingsOpen} onClose={actions.toggleSettings}>
+            <Drawer open={state.settingsOpen} onClose={actions.toggleDrawer(`settings`)}>
               <div
                 tabIndex={0}
                 role="button"

@@ -39,13 +39,13 @@ class Library extends React.Component {
             <IconButton
               color="inherit"
               aria-label="open settings"
-              onClick={actions.toggleLibrary}
+              onClick={actions.toggleDrawer(`library`)}
               className={classes.open}
             >
               <LibraryIcon />
             </IconButton>
 
-            <Drawer open={state.libraryOpen} onClose={actions.toggleLibrary} anchor="right">
+            <Drawer open={state.libraryOpen} onClose={actions.toggleDrawer(`library`)} anchor="right">
               <div
                 tabIndex={0}
                 role="button"
