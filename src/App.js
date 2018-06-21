@@ -16,6 +16,8 @@ import Loader from './components/Loader';
 
 import { persistValues, saveValue } from './cores/GameBoy-Online/js/index';
 
+const notCoreKeys = new Set([`games`, `settings`]);
+
 const restoreCoreData = async function() {
   const data = await keys();
 
@@ -28,7 +30,7 @@ const restoreCoreData = async function() {
   const values = await Promise.all(valuesTx);
 
   for(const [index, datum] of data.entries()) {
-    if(datum === `games`) {
+    if(notCoreKeys.has(datum)) {
       continue;
     }
 
@@ -53,13 +55,13 @@ class App extends React.Component {
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
 
-          <Settings />
           <Gamepad />
 
           <Consumer>
             {({ state, actions })=> (
               <React.Fragment>
                 {!state.playingROM && <Demo />}
+                <Settings hydrate={actions.hydrateSettings} />
                 <Library addToLibrary={actions.addToLibrary} />
                 <Emulator setCanvas={actions.setCanvas} />
                 {state.playingROM && <Loader
