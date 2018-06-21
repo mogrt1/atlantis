@@ -15,16 +15,6 @@ import SettingsKeyBindings from './SettingsKeyBindings';
 import { Consumer } from '../Context';
 
 class Settings extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { open: false };
-
-    this.toggleSettings = ()=> {
-      this.setState({ open: !this.state.open });
-    };
-  }
-
   render() {
     const { classes } = this.props;
 
