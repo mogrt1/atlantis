@@ -37,7 +37,8 @@ const GamepadView = ()=> (
           </GamepadButton>
 
           <FastForwardButton
-            className="Gamepad-fast-forward" kb={keyBindings[`settings-kb-ff`]}
+            className="Gamepad-fast-forward"
+            kb={keyBindings[`settings-kb-ff`]}
             toggle={ffToggle === false ? ffToggle : true}
             rate={ffRate || BOILERPLATE_FF}
           >

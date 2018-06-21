@@ -21,7 +21,7 @@ export default class Dpad extends React.Component {
       RIGHT: 0
     };
 
-    const dpadDirection = (direction, pressed)=> {
+    this.dpadDirection = (direction, pressed)=> {
       switch(direction) {
         case `up`:
           gameBoyJoyPadEvent(buttonCodes.UP, pressed);
@@ -45,30 +45,30 @@ export default class Dpad extends React.Component {
       move: (e)=> e,
       up: (e)=> e
     };
-
-    const { keyBindings } = props;
-
-    this.keyEvents = {
-      [`${keyBindings[`settings-kb-up`] || `ArrowUp`}`]: {
-        down: ()=> dpadDirection(`up`, `pressed`),
-        up: ()=> dpadDirection(`up`)
-      },
-      [`${keyBindings[`settings-kb-down`] || `ArrowDown`}`]: {
-        down: ()=> dpadDirection(`down`, `pressed`),
-        up: ()=> dpadDirection(`down`)
-      },
-      [`${keyBindings[`settings-kb-left`] || `ArrowLeft`}`]: {
-        down: ()=> dpadDirection(`left`, `pressed`),
-        up: ()=> dpadDirection(`left`)
-      },
-      [`${keyBindings[`settings-kb-right`] || `ArrowRight`}`]: {
-        down: ()=> dpadDirection(`right`, `pressed`),
-        up: ()=> dpadDirection(`right`)
-      }
-    };
   }
 
   render() {
+    const { kb } = this.props;
+
+    this.keyEvents = {
+      [kb[`settings-kb-up`]]: {
+        down: ()=> this.dpadDirection(`up`, `pressed`),
+        up: ()=> this.dpadDirection(`up`)
+      },
+      [kb[`settings-kb-down`]]: {
+        down: ()=> this.dpadDirection(`down`, `pressed`),
+        up: ()=> this.dpadDirection(`down`)
+      },
+      [kb[`settings-kb-left`]]: {
+        down: ()=> this.dpadDirection(`left`, `pressed`),
+        up: ()=> this.dpadDirection(`left`)
+      },
+      [kb[`settings-kb-right`]]: {
+        down: ()=> this.dpadDirection(`right`, `pressed`),
+        up: ()=> this.dpadDirection(`right`)
+      }
+    };
+
     return (
       <Consumer>
         {({ state })=> (
@@ -92,5 +92,5 @@ export default class Dpad extends React.Component {
 
 Dpad.propTypes = {
   className: PropTypes.string,
-  keyBindings: PropTypes.object
+  kb: PropTypes.object
 };

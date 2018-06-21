@@ -16,10 +16,6 @@ import SettingsKeyBindings from './SettingsKeyBindings';
 import { Consumer } from '../Context';
 
 class Settings extends React.Component {
-  componentDidMount() {
-    this.props.hydrate();
-  }
-
   render() {
     const { classes } = this.props;
 
@@ -72,9 +68,6 @@ class Settings extends React.Component {
   }
 }
 
-Settings.propTypes = {
-  classes: PropTypes.object.isRequired,
-  hydrate: PropTypes.func.isRequired
-};
+Settings.propTypes = { classes: PropTypes.object.isRequired };
 
 export default styleSettings(Settings);

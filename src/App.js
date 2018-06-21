@@ -55,20 +55,19 @@ class App extends React.Component {
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
 
-          <Gamepad />
-
           <Consumer>
             {({ state, actions })=> (
               <React.Fragment>
                 {!state.playingROM && <Demo />}
-                <Settings hydrate={actions.hydrateSettings} />
-                <Library addToLibrary={actions.addToLibrary} />
                 <Emulator setCanvas={actions.setCanvas} />
                 {state.playingROM && <Loader
                   rom={state.playingROM}
                   canvas={state.canvas.current}
                   setCurrentROM={actions.setCurrentROM}
                 />}
+                <Gamepad />
+                <Settings />
+                <Library addToLibrary={actions.addToLibrary} />
               </React.Fragment>
             )}
           </Consumer>

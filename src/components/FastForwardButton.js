@@ -9,10 +9,7 @@ export default class FastForwardButton extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      rate: props.rate,
-      toggle: props.toggle
-    };
+    this.state = {};
 
     const NORMAL = 1;
 
@@ -25,7 +22,7 @@ export default class FastForwardButton extends React.Component {
 
           gameboy.setSpeed(
             fastforward
-              ? this.state.rate
+              ? this.props.rate
               : NORMAL
           );
         }
@@ -35,7 +32,7 @@ export default class FastForwardButton extends React.Component {
     this.noToggleEvents = {
       down: ()=> {
         if(gameboy && gameboy.setSpeed) {
-          gameboy.setSpeed(this.state.rate);
+          gameboy.setSpeed(this.props.rate);
         }
       },
       up: ()=> {
@@ -46,19 +43,12 @@ export default class FastForwardButton extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(props) {
-    return {
-      rate: props.rate,
-      toggle: props.toggle
-    };
-  }
-
   render() {
     return (
       <Button
         className={this.props.className}
-        pointerCommands={this.state.toggle ? this.toggleEvents : this.noToggleEvents}
-        keyCommands={{ [this.props.kb]: this.state.toggle ? this.toggleEvents : this.noToggleEvents }}
+        pointerCommands={this.props.toggle ? this.toggleEvents : this.noToggleEvents}
+        keyCommands={{ [this.props.kb]: this.props.toggle ? this.toggleEvents : this.noToggleEvents }}
       >
         {this.props.children}
       </Button>

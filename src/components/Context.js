@@ -32,15 +32,15 @@ export const defaultSettings = {
 };
 
 export default class Context extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       settingsOpen: false,
       libraryOpen: false,
       library: [],
       playingROM: ``,
-      settings: { ...defaultSettings }
+      settings: JSON.parse(JSON.stringify(defaultSettings))
     };
 
     this.actions = {
@@ -163,21 +163,22 @@ export default class Context extends React.Component {
             set(`settings`, JSON.stringify(this.state.settings));
           }
         );
-      },
-
-      hydrateSettings: ()=> {
-        get(`settings`).then((settingsJSON = `{}`)=> {
-          const settings = JSON.parse(settingsJSON);
-
-          this.setState({
-            settings: {
-              ...this.state.settings,
-              ...settings
-            }
-          });
-        });
       }
     };
+  }
+
+  componentDidMount() {
+    // Hydrate settings.
+    get(`settings`).then((settingsJSON = JSON.stringify(defaultSettings))=> {
+      const settings = JSON.parse(settingsJSON);
+
+      this.setState({
+        settings: {
+          ...this.state.settings,
+          ...settings
+        }
+      });
+    });
   }
 
   render() {

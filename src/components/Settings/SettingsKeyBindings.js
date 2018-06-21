@@ -26,57 +26,18 @@ class SettingsKeyBindings extends React.Component {
     };
 
     this.bindings = {
-      'b': {
-        default: `z`,
-        label: `B`
-      },
-      'a': {
-        default: `x`,
-        label: `A`
-      },
-      'b-turbo': {
-        default: `a`,
-        label: `B Turbo`
-      },
-      'a-turbo': {
-        default: `s`,
-        label: `A Turbo`
-      },
-      'start': {
-        default: `Enter`,
-        label: `Start`
-      },
-      'select': {
-        default: `Shift`,
-        label: `Select`
-      },
-      'up': {
-        default: `ArrowUp`,
-        label: `Up`
-      },
-      'down': {
-        default: `ArrowDown`,
-        label: `Down`
-      },
-      'left': {
-        default: `ArrowLeft`,
-        label: `Left`
-      },
-      'right': {
-        default: `ArrowRight`,
-        label: `Right`
-      },
-      'ff': {
-        default: `\``,
-        label: `Fast-Forward`
-      }
+      'b': `B`,
+      'a': `A`,
+      'b-turbo': `B Turbo`,
+      'a-turbo': `A Turbo`,
+      'start': `Start`,
+      'select': `Select`,
+      'up': `Up`,
+      'down': `Down`,
+      'left': `Left`,
+      'right': `Right`,
+      'ff': `Fast-Forward`
     };
-
-    for(const [id, data] of Object.entries(this.bindings)) {
-      if(!(`settings-kb-${id}` in this.state)) {
-        this.state[`settings-kb-${id}`] = data.default;
-      }
-    }
 
     this.toggleBindings = ()=> {
       this.setState({ open: !this.state.open });
@@ -95,7 +56,7 @@ class SettingsKeyBindings extends React.Component {
           const bindings = { ...this.state };
           delete bindings.open;
 
-          props.updateSetting(JSON.stringify(bindings));
+          props.updateSetting(bindings);
         }
       );
     };
@@ -117,12 +78,12 @@ class SettingsKeyBindings extends React.Component {
         </ListItem>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {Object.entries(this.bindings).map(([id, data])=> (
+            {Object.entries(this.bindings).map(([id, label])=> (
               <ListItem key={id} className={classes.nested} dense>
                 <TextField
                   id={`settings-kb-${id}`}
                   className={classes.input}
-                  label={data.label}
+                  label={label}
                   value={this.state[`settings-kb-${id}`]}
                   onKeyDown={this.assignKey}
                   margin="normal"

@@ -6,13 +6,13 @@ export default class KeyCommands extends React.Component {
     super(props);
 
     const eventDelegate = (eventType)=> (e)=> {
-      if(!(e.key in props.children) || !(eventType in props.children[e.key])) {
+      if(!(e.key in this.props.children) || !(eventType in this.props.children[e.key])) {
         return false;
       }
 
       e.preventDefault();
 
-      props.children[e.key][eventType](e);
+      this.props.children[e.key][eventType](e);
     };
 
     this.eventDelegateDown = eventDelegate(`down`);
@@ -27,6 +27,13 @@ export default class KeyCommands extends React.Component {
   componentWillUnmount() {
     document.removeEventListener(`keydown`, this.eventDelegateDown);
     document.removeEventListener(`keyup`, this.eventDelegateUp);
+  }
+
+  componentDidUpdate() {
+    document.removeEventListener(`keydown`, this.eventDelegateDown);
+    document.removeEventListener(`keyup`, this.eventDelegateUp);
+    document.addEventListener(`keydown`, this.eventDelegateDown);
+    document.addEventListener(`keyup`, this.eventDelegateUp);
   }
 
   render() {
