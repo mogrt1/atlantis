@@ -19,6 +19,7 @@ export default class Store extends React.Component {
 
     this.state = {
       settingsOpen: false,
+      libraryOpen: false,
       library: [],
       playingROM: ``
     };
@@ -29,7 +30,12 @@ export default class Store extends React.Component {
       },
 
       runGame: (playingROM)=> {
-        this.setState({ playingROM });
+        this.setState({
+          playingROM,
+          libraryOpen: false
+        });
+
+        run();
       },
 
       setCurrentROM: (currentROM)=> {
@@ -39,6 +45,16 @@ export default class Store extends React.Component {
       toggleSettings: ()=> {
         this.setState({ settingsOpen: !this.state.settingsOpen }, ()=> {
           if(this.state.settingsOpen) {
+            pause();
+          } else {
+            run();
+          }
+        });
+      },
+
+      toggleLibrary: ()=> {
+        this.setState({ libraryOpen: !this.state.libraryOpen }, ()=> {
+          if(this.state.libraryOpen) {
             pause();
           } else {
             run();

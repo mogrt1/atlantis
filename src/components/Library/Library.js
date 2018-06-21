@@ -14,17 +14,9 @@ import LibraryIcon from '@material-ui/icons/VideoLibrary';
 import AddGame from './AddGame';
 import GameList from './GameList';
 
+import { Consumer } from '../Context';
+
 class Library extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { open: false };
-
-    this.toggleSettings = ()=> {
-      this.setState({ open: !this.state.open });
-    };
-  }
-
   componentDidMount() {
     get(`games`).then((games)=> {
       if(!games) {
@@ -41,36 +33,40 @@ class Library extends React.Component {
     const { classes } = this.props;
 
     return (
-      <React.Fragment>
-        <IconButton
-          color="inherit"
-          aria-label="open settings"
-          onClick={this.toggleSettings}
-          className={classes.open}
-        >
-          <LibraryIcon />
-        </IconButton>
+      <Consumer>
+        {({ state, actions })=> (
+          <React.Fragment>
+            <IconButton
+              color="inherit"
+              aria-label="open settings"
+              onClick={actions.toggleLibrary}
+              className={classes.open}
+            >
+              <LibraryIcon />
+            </IconButton>
 
-        <Drawer open={this.state.open} onClose={this.toggleSettings} anchor="right">
-          <div
-            tabIndex={0}
-            role="button"
-          >
-            <div className={classes.drawer}>
-              <List subheader={
-                <ListSubheader className={classes.heading}>
-                  Library
-                </ListSubheader>
-              }>
-                <div>
-                  <AddGame />
-                  <GameList />
+            <Drawer open={state.libraryOpen} onClose={actions.toggleLibrary} anchor="right">
+              <div
+                tabIndex={0}
+                role="button"
+              >
+                <div className={classes.drawer}>
+                  <List subheader={
+                    <ListSubheader className={classes.heading}>
+                      Library
+                    </ListSubheader>
+                  }>
+                    <div>
+                      <AddGame />
+                      <GameList />
+                    </div>
+                  </List>
                 </div>
-              </List>
-            </div>
-          </div>
-        </Drawer>
-      </React.Fragment>
+              </div>
+            </Drawer>
+          </React.Fragment>
+        )}
+      </Consumer>
     );
   }
 }
