@@ -18,7 +18,12 @@ class SettingsKeyBindings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { open: false };
+    const keyBindings = props.keyBindings || {};
+
+    this.state = {
+      open: false,
+      ...keyBindings
+    };
 
     this.bindings = {
       'b': {
@@ -68,7 +73,9 @@ class SettingsKeyBindings extends React.Component {
     };
 
     for(const [id, data] of Object.entries(this.bindings)) {
-      this.state[`settings-kb-${id}`] = data.default;
+      if(!(`settings-kb-${id}` in this.state)) {
+        this.state[`settings-kb-${id}`] = data.default;
+      }
     }
 
     this.toggleBindings = ()=> {
@@ -81,7 +88,16 @@ class SettingsKeyBindings extends React.Component {
 
       const value = e.key === ` ` ? `Spacebar` : e.key;
 
-      this.setState({ [e.target.id]: value });
+      this.setState(
+        { [e.target.id]: value },
+
+        ()=> {
+          const bindings = { ...this.state };
+          delete bindings.open;
+
+          props.updateSetting(JSON.stringify(bindings));
+        }
+      );
     };
   }
 
@@ -121,6 +137,10 @@ class SettingsKeyBindings extends React.Component {
   }
 }
 
-SettingsKeyBindings.propTypes = { classes: PropTypes.object.isRequired };
+SettingsKeyBindings.propTypes = {
+  classes: PropTypes.object.isRequired,
+  keyBindings: PropTypes.object,
+  updateSetting: PropTypes.func.isRequired
+};
 
 export default styleSettingsKeyBindings(SettingsKeyBindings);

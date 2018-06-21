@@ -46,20 +46,22 @@ export default class Dpad extends React.Component {
       up: (e)=> e
     };
 
+    const { keyBindings } = props;
+
     this.keyEvents = {
-      ArrowUp: {
+      [`${keyBindings[`settings-kb-up`] || `ArrowUp`}`]: {
         down: ()=> dpadDirection(`up`, `pressed`),
         up: ()=> dpadDirection(`up`)
       },
-      ArrowDown: {
+      [`${keyBindings[`settings-kb-down`] || `ArrowDown`}`]: {
         down: ()=> dpadDirection(`down`, `pressed`),
         up: ()=> dpadDirection(`down`)
       },
-      ArrowLeft: {
+      [`${keyBindings[`settings-kb-left`] || `ArrowLeft`}`]: {
         down: ()=> dpadDirection(`left`, `pressed`),
         up: ()=> dpadDirection(`left`)
       },
-      ArrowRight: {
+      [`${keyBindings[`settings-kb-right`] || `ArrowRight`}`]: {
         down: ()=> dpadDirection(`right`, `pressed`),
         up: ()=> dpadDirection(`right`)
       }
@@ -88,4 +90,7 @@ export default class Dpad extends React.Component {
   }
 }
 
-Dpad.propTypes = { className: PropTypes.string };
+Dpad.propTypes = {
+  className: PropTypes.string,
+  keyBindings: PropTypes.object
+};

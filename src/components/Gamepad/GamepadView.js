@@ -12,36 +12,42 @@ import QuickMenu from '../QuickMenu/QuickMenu';
 
 import { Consumer } from '../Context';
 
+const BOILERPLATE_FF = 3;
+
 const GamepadView = ()=> (
   <Consumer>
-    {({ state })=> (
-      <div className="Gamepad">
-        <Dpad className="Gamepad-dpad" />
+    {({ state })=> {
+      const { ffToggle, ffRate, keyBindings } = state.settings;
 
-        <GamepadButton className="Gamepad-b" type="B" kb="z">
-          {`B`}
-        </GamepadButton>
-        <GamepadButton className="Gamepad-a" type="A" kb="x">
-          {`A`}
-        </GamepadButton>
-        <GamepadButton className="Gamepad-start" type="START" kb="Enter">
-          {`Start`}
-        </GamepadButton>
-        <GamepadButton className="Gamepad-select" type="SELECT" kb="Shift">
-          {`Select`}
-        </GamepadButton>
+      return (
+        <div className="Gamepad">
+          <Dpad className="Gamepad-dpad" kb={keyBindings} />
 
-        <FastForwardButton
-          className="Gamepad-fast-forward" kb="`"
-          toggle={state.settings.ffToggle === false ? state.settings.ffToggle : true}
-          rate={state.settings.ffRate || 3}
-        >
-          <FastForwardIcon />
-        </FastForwardButton>
+          <GamepadButton className="Gamepad-b" type="B" kb={keyBindings[`settings-kb-b`]}>
+            {`B`}
+          </GamepadButton>
+          <GamepadButton className="Gamepad-a" type="A" kb={keyBindings[`settings-kb-a`]}>
+            {`A`}
+          </GamepadButton>
+          <GamepadButton className="Gamepad-start" type="START" kb={keyBindings[`settings-kb-start`]}>
+            {`Start`}
+          </GamepadButton>
+          <GamepadButton className="Gamepad-select" type="SELECT" kb={keyBindings[`settings-kb-select`]}>
+            {`Select`}
+          </GamepadButton>
 
-        <QuickMenu className="Gamepad-quick-menu" kb="q" />
-      </div>
-    )}
+          <FastForwardButton
+            className="Gamepad-fast-forward" kb={keyBindings[`settings-kb-ff`]}
+            toggle={ffToggle === false ? ffToggle : true}
+            rate={ffRate || BOILERPLATE_FF}
+          >
+            <FastForwardIcon />
+          </FastForwardButton>
+
+          <QuickMenu className="Gamepad-quick-menu" kb="q" />
+        </div>
+      );
+    }}
   </Consumer>
 );
 
