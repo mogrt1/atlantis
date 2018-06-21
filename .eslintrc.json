@@ -68,7 +68,8 @@
     }],
 
     "no-extra-parens": ["error", "all", {
-      "ignoreJSX": "multi-line"
+      "ignoreJSX": "multi-line",
+      "nestedBinaryExpressions": false
     }],
     "no-prototype-builtins": "off",
     "valid-jsdoc": "off",
@@ -101,7 +102,6 @@
     "no-bitwise": "off",
     "no-continue": "off",
     "no-inline-comments": "off",
-    "no-mixed-operators": "off",
     "no-nested-ternary": "off",
     "no-plusplus": "off",
     "no-ternary": "off",
