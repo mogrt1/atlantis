@@ -43,8 +43,8 @@ export default class Loader extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     if(
-      nextProps.rom && nextProps.rom === this.props.rom
-      || nextProps.uri && nextProps.uri === this.props.uri
+      (nextProps.rom && nextProps.rom === this.props.rom)
+      || (nextProps.uri && nextProps.uri === this.props.uri)
     ) {
       return false;
     }
