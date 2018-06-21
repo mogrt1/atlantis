@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import EmulatorView from './EmulatorView';
 import './Emulator.css';
 
+import { initNewCanvasSize } from '../../cores/GameBoy-Online/js/index';
+
 export default class Emulator extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +15,10 @@ export default class Emulator extends React.Component {
 
   componentDidMount() {
     this.props.setCanvas(this.canvasRef);
+
+    window.addEventListener(`resize`, ()=> {
+      initNewCanvasSize();
+    });
   }
 
   render() {
