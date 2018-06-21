@@ -5,47 +5,47 @@ export default class PointerCommands extends React.Component {
   constructor(props) {
     super(props);
 
-    const stop = (e)=> {
+    this.stop = (e)=> {
       e.stopPropagation();
       e.preventDefault();
     };
+  }
 
+  render() {
     const propsToEvents = new Map([
-      [props.down, [
+      [this.props.down, [
         `onTouchStart`,
         `onMouseDown`
       ]],
 
-      [props.move, [
+      [this.props.move, [
         `onTouchMove`,
         `onMouseMove`
       ]],
 
-      [props.up, [
+      [this.props.up, [
         `onTouchEnd`,
         `onMouseUp`,
         `onTouchCancel`
       ]]
     ]);
 
-    this.pointerEvents = {};
+    const pointerEvents = {};
 
     propsToEvents.forEach((eventNames, prop)=> {
-      for(const name of eventNames) {
-        this.pointerEvents[name] = (e)=> {
-          if(!prop) {
-            return false;
-          }
+      if(!prop) {
+        return;
+      }
 
-          stop(e);
+      for(const name of eventNames) {
+        pointerEvents[name] = (e)=> {
+          this.stop(e);
           prop(e);
         };
       }
     });
-  }
 
-  render() {
-    return React.cloneElement(this.props.children, { pointerEvents: this.pointerEvents });
+    return React.cloneElement(this.props.children, { pointerEvents });
   }
 }
 
