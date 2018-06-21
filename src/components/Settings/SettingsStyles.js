@@ -17,6 +17,9 @@ export const styleSettings = withStyles({
 
 export const styleSettingsFFRate = withStyles({
   select: { width: `100%` },
+  itemText: { paddingLeft: 0 }
+});
+export const styleSettingsFFToggle = withStyles({
   itemText: { paddingLeft: 0 },
   toggleSwitch: { right: `-12px` },
   toggleSwitchChecked: { color: `${theme.palette.secondary[`800`]} !important` }
