@@ -132,7 +132,7 @@ export default class Store extends React.Component {
         });
       },
 
-      updateSetting: (key, value)=> {
+      updateSetting: (key)=> (value)=> {
         this.setState(
           {
             settings: {
@@ -148,7 +148,8 @@ export default class Store extends React.Component {
       },
 
       hydrateSettings: ()=> {
-        get(`settings`).then((settings = {})=> {
+        get(`settings`).then((settingsJSON = `{}`)=> {
+          const settings = JSON.parse(settingsJSON);
           this.setState({ settings });
         });
       }

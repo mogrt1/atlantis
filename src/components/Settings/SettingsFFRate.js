@@ -15,13 +15,15 @@ class SettingsFFRate extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { rate: 2 };
-
     this.rateLevels = 9;
-    this.startRate = 2;
+    this.firstRate = 2;
+
+    this.state = { rate: props.rate || this.firstRate };
 
     this.changeRate = (e)=> {
       this.setState({ rate: e.target.value });
+
+      props.updateSetting(e.target.value);
     };
   }
 
@@ -46,9 +48,9 @@ class SettingsFFRate extends React.Component {
             {Array(this.rateLevels).fill(`0`).map((el, index)=> (
               <MenuItem
                 key={el + index}
-                value={index + this.startRate}
+                value={index + this.firstRate}
               >
-                {`${index + this.startRate}x`}
+                {`${index + this.firstRate}x`}
               </MenuItem>
             ))}
           </Select>
@@ -58,6 +60,10 @@ class SettingsFFRate extends React.Component {
   }
 }
 
-SettingsFFRate.propTypes = { classes: PropTypes.object.isRequired };
+SettingsFFRate.propTypes = {
+  classes: PropTypes.object.isRequired,
+  updateSetting: PropTypes.func.isRequired,
+  rate: PropTypes.number
+};
 
 export default styleSettingsFFRate(SettingsFFRate);

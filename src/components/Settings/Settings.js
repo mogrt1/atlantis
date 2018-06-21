@@ -44,13 +44,22 @@ class Settings extends React.Component {
                 <div className={classes.drawer}>
                   <List subheader={
                     <ListSubheader className={classes.heading}>
-                    Settings
+                      {`Settings`}
                     </ListSubheader>
                   }>
                     <div>
-                      <SettingsFFRate />
-                      <SettingsFFToggle />
-                      <SettingsKeyBindings />
+                      <SettingsFFRate
+                        rate={state.settings.ffRate}
+                        updateSetting={actions.updateSetting(`ffRate`)}
+                      />
+                      <SettingsFFToggle
+                        toggle={state.settings.ffToggle}
+                        updateSetting={actions.updateSetting(`ffToggle`)}
+                      />
+                      <SettingsKeyBindings
+                        keyBindings={state.settings.keyBindings}
+                        updateSetting={actions.updateSetting(`keyBindings`)}
+                      />
                     </div>
                   </List>
                 </div>

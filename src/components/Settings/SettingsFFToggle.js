@@ -13,10 +13,16 @@ class SettingsFFToggle extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { toggle: true };
+    this.state = { toggle: props.toggle === false ? props.toggle : true };
 
     this.toggleToggle = ()=> {
-      this.setState({ toggle: !this.state.toggle });
+      this.setState(
+        { toggle: !this.state.toggle },
+
+        ()=> {
+          props.updateSetting(this.state.toggle);
+        }
+      );
     };
   }
 
@@ -40,6 +46,10 @@ class SettingsFFToggle extends React.Component {
   }
 }
 
-SettingsFFToggle.propTypes = { classes: PropTypes.object.isRequired };
+SettingsFFToggle.propTypes = {
+  classes: PropTypes.object.isRequired,
+  updateSetting: PropTypes.func.isRequired,
+  toggle: PropTypes.bool
+};
 
 export default styleSettingsFFToggle(SettingsFFToggle);
