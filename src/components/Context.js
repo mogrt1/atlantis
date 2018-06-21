@@ -9,6 +9,8 @@ import { set } from 'idb-keyval';
 
 import { games } from '../db/gameboy.js';
 
+import { pause, run } from '../cores/GameBoy-Online/js/index';
+
 const { Provider, Consumer } = createContext();
 
 export default class Store extends React.Component {
@@ -35,7 +37,13 @@ export default class Store extends React.Component {
       },
 
       toggleSettings: ()=> {
-        this.setState({ settingsOpen: !this.state.settingsOpen });
+        this.setState({ settingsOpen: !this.state.settingsOpen }, ()=> {
+          if(this.state.settingsOpen) {
+            pause();
+          } else {
+            run();
+          }
+        });
       },
 
       addToLibrary: (ROM, callback)=> {
