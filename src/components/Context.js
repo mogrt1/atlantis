@@ -5,7 +5,7 @@ import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 
 import Spark from 'spark-md5';
-import { set } from 'idb-keyval';
+import { set, get } from 'idb-keyval';
 
 import { games } from '../db/gameboy.js';
 
@@ -21,7 +21,8 @@ export default class Store extends React.Component {
       settingsOpen: false,
       libraryOpen: false,
       library: [],
-      playingROM: ``
+      playingROM: ``,
+      settings: {}
     };
 
     this.actions = {
@@ -43,13 +44,17 @@ export default class Store extends React.Component {
       },
 
       toggleDrawer: (drawerName)=> ()=> {
-        this.setState({ [`${drawerName}Open`]: !this.state[`${drawerName}Open`] }, ()=> {
-          if(this.state[`${drawerName}Open`]) {
-            pause();
-          } else {
-            run();
+        this.setState(
+          { [`${drawerName}Open`]: !this.state[`${drawerName}Open`] },
+
+          ()=> {
+            if(this.state[`${drawerName}Open`]) {
+              pause();
+            } else {
+              run();
+            }
           }
-        });
+        );
       },
 
       addToLibrary: (ROM, callback)=> {
@@ -124,6 +129,27 @@ export default class Store extends React.Component {
               set(`games`, JSON.stringify(this.state.library));
             }
           );
+        });
+      },
+
+      updateSetting: (key, value)=> {
+        this.setState(
+          {
+            settings: {
+              ...this.state.settings,
+              [key]: value
+            }
+          },
+
+          ()=> {
+            set(`settings`, JSON.stringify(this.state.settings));
+          }
+        );
+      },
+
+      hydrateSettings: ()=> {
+        get(`settings`).then((settings = {})=> {
+          this.setState({ settings });
         });
       }
     };
