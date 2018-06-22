@@ -119,7 +119,11 @@
     }],
     "sort-keys": "off",
     "sort-vars": "off",
-    "space-before-function-paren": ["error", "never"],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
     "arrow-spacing": ["error", {
       "before": false,
       "after": true
