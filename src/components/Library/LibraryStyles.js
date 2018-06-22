@@ -48,5 +48,9 @@ export const styleGame = withStyles({
     marginRight: `8px`,
     marginLeft: `8px`
   },
-  gameTitleText: { fontSize: `0.75rem` }
+  gameTitleText: {
+    whiteSpace: `normal`,
+    lineHeight: `1`,
+    fontSize: `0.75rem`
+  }
 });

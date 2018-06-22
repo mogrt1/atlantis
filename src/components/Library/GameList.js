@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Consumer } from '../Context';
-import { thumbs } from '../../db/gameboy';
 
 import { styleGameList, libraryWidth, libraryCols } from './LibraryStyles';
 
@@ -21,8 +20,9 @@ class GameList extends React.Component {
             {state.library.map((data)=> (
               <Game
                 key={data.md5}
-                thumb={thumbs.replace(`%s`, encodeURIComponent(data.title))}
-                data={data}
+                thumb={data.thumb}
+                title={data.title}
+                rom={data.rom}
                 runGame={actions.runGame}
               />
             ))}

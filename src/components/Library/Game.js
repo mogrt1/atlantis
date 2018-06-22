@@ -18,19 +18,39 @@ class Game extends React.Component {
     };
 
     this.runGame = ()=> {
-      props.runGame(props.data.rom);
+      props.runGame(props.rom);
+    };
+
+    this.formattedTitle = ()=> {
+      const { title } = this.props;
+
+      const START = 0,
+            TITLE_LENGTH = 50,
+            HALF = 2,
+            overflow = title.length - TITLE_LENGTH,
+            OVERFLOW_THRESHOLD = 0,
+            sliceLength = Math.trunc(TITLE_LENGTH / HALF);
+
+      if(overflow > OVERFLOW_THRESHOLD) {
+        return `${
+          title.substr(START, sliceLength)
+        }…${
+          title.substr(title.length - sliceLength, title.length)
+        }`;
+      }
+
+      return title;
     };
   }
 
   render() {
-    const { classes, thumb, data } = this.props,
-          { title } = data;
+    const { classes, thumb, title } = this.props;
 
     return (
       <GridListTile className={classes.game}>
         <ButtonBase onClick={this.runGame}>
           {
-            this.state.imageError
+            !thumb || thumb === `reattempt` || this.state.imageError
               ? <div className={classes.gameImageError} aria-label={title}></div>
               : <img
                 src={thumb}
@@ -41,7 +61,7 @@ class Game extends React.Component {
           }
         </ButtonBase>
         <GridListTileBar
-          title={title}
+          title={this.formattedTitle()}
           classes={{
             root: classes.gameTitleOverlay,
             titleWrap: classes.gameTitleWrap,
@@ -56,8 +76,9 @@ class Game extends React.Component {
 
 Game.propTypes = {
   runGame: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
-  thumb: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+  rom: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
 

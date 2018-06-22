@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Spark from 'spark-md5';
 import { set, get } from 'idb-keyval';
 
-import { games } from '../db/gameboy.js';
+import { thumbs, games } from '../db/gameboy.js';
 
 import { pause, run } from '../cores/GameBoy-Online/js/index';
 
@@ -30,6 +30,51 @@ export const defaultSettings = {
     'settings-kb-ff': `\``
   }
 };
+
+const getDataUri = (url)=> new Promise((resolve)=> {
+  fetch(url).then((response)=> {
+    if(response.ok) {
+      return response.blob();
+    }
+    throw new Error(JSON.stringify(response));
+  }).then((blob)=> {
+    const reader = new FileReader();
+
+    reader.onloadend = ()=> {
+      resolve(reader.result);
+    };
+
+    reader.readAsDataURL(blob);
+  }).catch((error)=> {
+    console.warn(`Error getting data URI for ${url}:`, error);
+
+    resolve(false);
+  });
+});
+
+const getThumbUri = async (title)=> {
+  const processUri = (uri)=> {
+    if(!uri && !navigator.onLine) {
+      return `reattempt`;
+    } else if(!uri) {
+      return false;
+    }
+
+    return uri;
+  };
+
+  const thumbUri = processUri(
+    await getDataUri(thumbs.dmg.replace(`%s`, encodeURIComponent(title)))
+  );
+
+  if(typeof thumbUri === `string`) {
+    return thumbUri;
+  }
+
+  return getDataUri(thumbs.cgb.replace(`%s`, encodeURIComponent(title)));
+};
+
+const thumbIsUri = (thumb)=> thumb !== false && thumb !== `reattempt`;
 
 export default class Context extends React.Component {
   constructor(props) {
@@ -119,10 +164,16 @@ export default class Context extends React.Component {
             if(buffer._length && rom.length) {
               const md5 = buffer.end().toUpperCase();
 
-              resolve({
+              const romData = {
                 title: games[md5] || file.name,
                 md5,
                 rom
+              };
+
+              getThumbUri(romData.title).then((uri)=> {
+                romData.thumb = uri;
+
+                resolve(romData);
               });
             }
           };
@@ -163,6 +214,54 @@ export default class Context extends React.Component {
             set(`settings`, JSON.stringify(this.state.settings));
           }
         );
+      },
+
+      retryThumbs: (library, force)=> {
+        // If we aren't forcing an update and don't need to do one, then don't.
+        if(!force && !library.some((game)=> game.thumb === `reattempt`)) {
+          return false;
+        }
+
+        // Create retries from given library.
+        const retries = library.map((game)=> new Promise((resolve)=> {
+          // If we're forcing an update or game is marked for it.
+          if(force || game.thumb === `reattempt`) {
+            getThumbUri(game.title).then((thumb)=> {
+              // If game's thumb is valid, but the network's isn't, don't update.
+              if(
+                thumbIsUri(game.thumb)
+                && !thumbIsUri(thumb)
+              ) {
+                resolve(game);
+                return;
+              }
+
+              // If the game's thumb isn't valid or the network has a valid
+              // replacement, update the thumb.
+              if(
+                !thumbIsUri(game.thumb)
+                || (thumbIsUri(game.thumb) && thumbIsUri(thumb))
+              ) {
+                game.thumb = thumb;
+              }
+
+              resolve(game);
+            });
+          } else {
+            resolve(game);
+          }
+        }));
+
+        // Fetch all applicable thumbs, then replace library in context and IDB.
+        Promise.all(retries).then((updatedLibrary)=> {
+          this.setState(
+            { library: updatedLibrary },
+
+            ()=> {
+              set(`games`, JSON.stringify(this.state.library));
+            }
+          );
+        });
       }
     };
   }
@@ -178,6 +277,13 @@ export default class Context extends React.Component {
           ...settings
         }
       });
+    });
+
+    // Reattempt thumb downloads that could not be completed while offline.
+    get(`games`).then((gamesJSON = `[]`)=> {
+      const library = JSON.parse(gamesJSON);
+
+      this.actions.retryThumbs(library);
     });
   }
 
