@@ -13,24 +13,6 @@ import { pause, run } from '../cores/GameBoy-Online/js/index';
 
 const { Provider, Consumer } = createContext();
 
-export const defaultSettings = {
-  ffRate: 3,
-  ffToggle: true,
-  keyBindings: {
-    'settings-kb-b': `z`,
-    'settings-kb-a': `x`,
-    'settings-kb-b-turbo': `a`,
-    'settings-kb-a-turbo': `s`,
-    'settings-kb-start': `Enter`,
-    'settings-kb-select': `Shift`,
-    'settings-kb-up': `ArrowUp`,
-    'settings-kb-down': `ArrowDown`,
-    'settings-kb-left': `ArrowLeft`,
-    'settings-kb-right': `ArrowRight`,
-    'settings-kb-ff': `\``
-  }
-};
-
 const getDataUri = (url)=> new Promise((resolve)=> {
   fetch(url).then((response)=> {
     if(response.ok) {
@@ -75,6 +57,25 @@ const getThumbUri = async (title)=> {
 };
 
 const thumbIsUri = (thumb)=> thumb !== false && thumb !== `reattempt`;
+
+export const defaultSettings = {
+  ffRate: 3,
+  ffToggle: true,
+  keyBindings: {
+    'settings-kb-b': `z`,
+    'settings-kb-a': `x`,
+    'settings-kb-b-turbo': `a`,
+    'settings-kb-a-turbo': `s`,
+    'settings-kb-start': `Enter`,
+    'settings-kb-select': `Shift`,
+    'settings-kb-up': `ArrowUp`,
+    'settings-kb-down': `ArrowDown`,
+    'settings-kb-left': `ArrowLeft`,
+    'settings-kb-right': `ArrowRight`,
+    'settings-kb-rw': `Backspace`,
+    'settings-kb-ff': `\``
+  }
+};
 
 export default class Context extends React.Component {
   constructor(props) {
