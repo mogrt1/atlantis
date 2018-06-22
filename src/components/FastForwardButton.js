@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from './Button/Button';
 
-import { gameboy } from '../cores/GameBoy-Online/js/index';
+import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying } from '../cores/GameBoy-Online/js/index';
 
 export default class FastForwardButton extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class FastForwardButton extends React.Component {
 
     this.toggleEvents = {
       down: ()=> {
-        if(gameboy && gameboy.setSpeed) {
+        if(gameBoyEmulatorPlaying()) {
           fastforward = !fastforward;
 
           gameboy.setSpeed(
@@ -31,12 +31,12 @@ export default class FastForwardButton extends React.Component {
 
     this.noToggleEvents = {
       down: ()=> {
-        if(gameboy && gameboy.setSpeed) {
+        if(gameBoyEmulatorPlaying()) {
           gameboy.setSpeed(this.props.rate);
         }
       },
       up: ()=> {
-        if(gameboy && gameboy.setSpeed) {
+        if(gameBoyEmulatorPlaying()) {
           gameboy.setSpeed(NORMAL);
         }
       }
