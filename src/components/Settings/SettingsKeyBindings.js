@@ -36,6 +36,7 @@ class SettingsKeyBindings extends React.Component {
       'down': `Down`,
       'left': `Left`,
       'right': `Right`,
+      'rw': `Rewind`,
       'ff': `Fast-Forward`
     };
 

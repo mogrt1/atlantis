@@ -54,6 +54,14 @@
   overflow: visible;
 }
 
+.Gamepad-rewind {
+  top: 2vh;
+  right: 25vw;
+  width: 10vmin;
+  height: 10vmin;
+  line-height: 18vmin;
+  border-radius: 25%;
+}
 .Gamepad-fast-forward {
   top: 2vh;
   right: 10vw;

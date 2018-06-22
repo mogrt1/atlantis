@@ -2,17 +2,17 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 
+import RewindIcon from '@material-ui/icons/FastRewind';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 
 import './Gamepad.css';
 import Dpad from '../Dpad/Dpad';
 import GamepadButton from '../GamepadButton';
+import RewindButton from '../RewindButton';
 import FastForwardButton from '../FastForwardButton';
 import QuickMenu from '../QuickMenu/QuickMenu';
 
 import { Consumer } from '../Context';
-
-const BOILERPLATE_FF = 3;
 
 const GamepadView = ()=> (
   <Consumer>
@@ -36,11 +36,18 @@ const GamepadView = ()=> (
             {`Select`}
           </GamepadButton>
 
+          <RewindButton
+            className="Gamepad-rewind"
+            kb={keyBindings[`settings-kb-rw`]}
+          >
+            <RewindIcon />
+          </RewindButton>
+
           <FastForwardButton
             className="Gamepad-fast-forward"
             kb={keyBindings[`settings-kb-ff`]}
             toggle={ffToggle === false ? ffToggle : true}
-            rate={ffRate || BOILERPLATE_FF}
+            rate={ffRate}
           >
             <FastForwardIcon />
           </FastForwardButton>

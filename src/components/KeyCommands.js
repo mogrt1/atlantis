@@ -6,7 +6,11 @@ export default class KeyCommands extends React.Component {
     super(props);
 
     const eventDelegate = (eventType)=> (e)=> {
-      if(!(e.key in this.props.children) || !(eventType in this.props.children[e.key])) {
+      if(
+        e.repeat
+        || !(e.key in this.props.children)
+        || !(eventType in this.props.children[e.key])
+      ) {
         return false;
       }
 
