@@ -4,7 +4,15 @@ import PropTypes from 'prop-types';
 import EmulatorView from './EmulatorView';
 import './Emulator.css';
 
-import { initNewCanvasSize } from '../../cores/GameBoy-Online/js/index';
+import { settings, initNewCanvasSize } from '../../cores/GameBoy-Online/js/index';
+
+const SOUND = true;
+const RESIZE = 12;
+const SMOOTHING = 13;
+
+settings[SOUND] = false;
+settings[RESIZE] = true;
+settings[SMOOTHING] = false;
 
 export default class Emulator extends React.Component {
   constructor(props) {
