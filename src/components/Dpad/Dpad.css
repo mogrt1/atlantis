@@ -1,9 +1,9 @@
 .Dpad {
   position: absolute;
-  bottom: 15vh;
-  left: 10vw;
-  width: 20vmin;
-  height: 20vmin;
+  bottom: 12vh;
+  left: 5vw;
+  width: 36vmin;
+  height: 36vmin;
 }
 
 .Dpad > div {

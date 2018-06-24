@@ -14,36 +14,84 @@ export default class Dpad extends React.Component {
   constructor(props) {
     super(props);
 
-    const buttonCodes = {
+    this.buttonCodes = {
       UP: 2,
       DOWN: 3,
       LEFT: 1,
       RIGHT: 0
     };
 
-    this.dpadDirection = (direction, pressed)=> {
-      switch(direction) {
-        case `up`:
-          gameBoyJoyPadEvent(buttonCodes.UP, pressed);
-          break;
-        case `down`:
-          gameBoyJoyPadEvent(buttonCodes.DOWN, pressed);
-          break;
-        case `left`:
-          gameBoyJoyPadEvent(buttonCodes.LEFT, pressed);
-          break;
-        case `right`:
-          gameBoyJoyPadEvent(buttonCodes.RIGHT, pressed);
-          break;
-        default:
-          break;
+    const TOTAL = 100,
+          HALF = 2;
+
+    const wid = window.innerWidth,
+          hgt = window.innerHeight,
+          vw = wid / TOTAL,
+          vh = hgt / TOTAL,
+          vmin = vw < vh ? vw : vh;
+
+    const dpadDim = {
+      bottom: 12,
+      left: 5,
+      width: 36,
+      height: 36,
+      breadth: 0.33
+    };
+
+    const origin = {
+      x: (dpadDim.left * vw) + (dpadDim.width * vw / HALF),
+      y: hgt - (dpadDim.bottom * vh) - (dpadDim.height * vmin / HALF)
+    };
+
+    const offset = {
+      x: dpadDim.width * vmin * dpadDim.breadth / HALF,
+      y: dpadDim.height * vmin * dpadDim.breadth / HALF
+    };
+
+    const detectDirection = (e)=> {
+      const x = e.clientX || e.targetTouches[0].clientX,
+            y = e.clientY || e.targetTouches[0].clientY;
+
+      const pressed = [];
+
+      if(x > origin.x + offset.x) {
+        pressed.push(this.buttonCodes.RIGHT);
+      } else if(x < origin.x - offset.x) {
+        pressed.push(this.buttonCodes.LEFT);
+      }
+
+      if(y > origin.y + offset.y) {
+        pressed.push(this.buttonCodes.DOWN);
+      } else if(y < origin.y - offset.y) {
+        pressed.push(this.buttonCodes.UP);
+      }
+
+      for(const [, value] of Object.entries(this.buttonCodes)) {
+        gameBoyJoyPadEvent(value, pressed.includes(value));
       }
     };
 
+    let dpadPressed = false;
+
     this.dpadEvents = {
-      down: (e)=> e,
-      move: (e)=> e,
-      up: (e)=> e
+      down: (e)=> {
+        dpadPressed = true;
+        detectDirection(e);
+      },
+
+      move: (e)=> {
+        if(dpadPressed) {
+          detectDirection(e);
+        }
+      },
+
+      up: ()=> {
+        dpadPressed = false;
+
+        for(const [, value] of Object.entries(this.buttonCodes)) {
+          gameBoyJoyPadEvent(value);
+        }
+      }
     };
   }
 
@@ -52,20 +100,20 @@ export default class Dpad extends React.Component {
 
     this.keyEvents = {
       [kb[`settings-kb-up`]]: {
-        down: ()=> this.dpadDirection(`up`, `pressed`),
-        up: ()=> this.dpadDirection(`up`)
+        down: ()=> gameBoyJoyPadEvent(this.buttonCodes.UP, `pressed`),
+        up: ()=> gameBoyJoyPadEvent(this.buttonCodes.UP)
       },
       [kb[`settings-kb-down`]]: {
-        down: ()=> this.dpadDirection(`down`, `pressed`),
-        up: ()=> this.dpadDirection(`down`)
+        down: ()=> gameBoyJoyPadEvent(this.buttonCodes.DOWN, `pressed`),
+        up: ()=> gameBoyJoyPadEvent(this.buttonCodes.DOWN)
       },
       [kb[`settings-kb-left`]]: {
-        down: ()=> this.dpadDirection(`left`, `pressed`),
-        up: ()=> this.dpadDirection(`left`)
+        down: ()=> gameBoyJoyPadEvent(this.buttonCodes.LEFT, `pressed`),
+        up: ()=> gameBoyJoyPadEvent(this.buttonCodes.LEFT)
       },
       [kb[`settings-kb-right`]]: {
-        down: ()=> this.dpadDirection(`right`, `pressed`),
-        up: ()=> this.dpadDirection(`right`)
+        down: ()=> gameBoyJoyPadEvent(this.buttonCodes.RIGHT, `pressed`),
+        up: ()=> gameBoyJoyPadEvent(this.buttonCodes.RIGHT)
       }
     };
 
