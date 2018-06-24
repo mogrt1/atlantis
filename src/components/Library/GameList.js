@@ -23,7 +23,7 @@ class GameList extends React.Component {
                 thumb={data.thumb}
                 title={data.title}
                 rom={data.rom}
-                runGame={actions.runGame}
+                setCurrentROM={actions.setCurrentROM}
               />
             ))}
           </GridList>

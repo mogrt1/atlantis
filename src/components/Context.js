@@ -85,7 +85,7 @@ export default class Context extends React.Component {
       settingsOpen: false,
       libraryOpen: false,
       library: [],
-      playingROM: ``,
+      currentROM: ``,
       settings: JSON.parse(JSON.stringify(defaultSettings))
     };
 
@@ -94,17 +94,18 @@ export default class Context extends React.Component {
         this.setState({ canvas });
       },
 
-      runGame: (playingROM)=> {
-        this.setState({
-          playingROM,
-          libraryOpen: false
-        });
-
-        run();
-      },
-
       setCurrentROM: (currentROM)=> {
-        this.setState({ currentROM });
+        this.setState(
+          {
+            currentROM,
+            libraryOpen: false
+          },
+
+          ()=> {
+            set(`currentROM`, this.state.currentROM);
+            run();
+          }
+        );
       },
 
       toggleDrawer: (drawerName)=> ()=> {
@@ -285,6 +286,12 @@ export default class Context extends React.Component {
       const library = JSON.parse(gamesJSON);
 
       this.actions.retryThumbs(library);
+    });
+
+    get(`currentROM`).then((currentROM)=> {
+      if(currentROM) {
+        this.actions.setCurrentROM(currentROM);
+      }
     });
   }
 

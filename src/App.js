@@ -58,10 +58,10 @@ class App extends React.Component {
           <Consumer>
             {({ state, actions })=> (
               <React.Fragment>
-                {!state.playingROM && <Demo />}
+                {!state.currentROM && <Demo />}
                 <Emulator setCanvas={actions.setCanvas} />
-                {state.playingROM && <Loader
-                  rom={state.playingROM}
+                {state.currentROM && <Loader
+                  rom={state.currentROM}
                   canvas={state.canvas.current}
                   setCurrentROM={actions.setCurrentROM}
                 />}

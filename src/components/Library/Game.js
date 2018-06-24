@@ -7,6 +7,10 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
+// import { gameboy, settings } from '../../cores/GameBoy-Online/js/index';
+
+// const SOUND = 0;
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -17,8 +21,10 @@ class Game extends React.Component {
       this.setState({ imageError: true });
     };
 
-    this.runGame = ()=> {
-      props.runGame(props.rom);
+    this.setCurrentROM = ()=> {
+      // settings[SOUND] = true;
+      props.setCurrentROM(props.rom);
+      // gameboy.initSound();
     };
 
     this.formattedTitle = ()=> {
@@ -48,7 +54,7 @@ class Game extends React.Component {
 
     return (
       <GridListTile className={classes.game}>
-        <ButtonBase onClick={this.runGame}>
+        <ButtonBase onClick={this.setCurrentROM}>
           {
             !thumb || thumb === `reattempt` || this.state.imageError
               ? <div className={classes.gameImageError} aria-label={title}></div>
@@ -75,7 +81,7 @@ class Game extends React.Component {
 }
 
 Game.propTypes = {
-  runGame: PropTypes.func.isRequired,
+  setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   rom: PropTypes.string.isRequired,
