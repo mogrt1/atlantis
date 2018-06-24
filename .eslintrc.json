@@ -80,6 +80,9 @@
     "no-implicit-coercion": ["error", {
       "allow": ["~"]
     }],
+    "no-magic-numbers": ["error", {
+      "ignoreArrayIndexes": true
+    }],
 
     "array-bracket-newline": "off",
     "array-element-newline": "off",
