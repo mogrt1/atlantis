@@ -1,6 +1,6 @@
 export const thumbs = {
-  dmg: `https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy/395661835ddf684fd60d6e5cfcd4cb50bf6848f8/Named_Boxarts/%s.png`,
-  cgb: `https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Color/79b9d5b7fe2491bbdd731cf5c6a1e3c38c4b3e6c/Named_Boxarts/%s.png`
+  dmg: `https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy/master/Named_Boxarts/%s.png`,
+  cgb: `https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Color/imgbot/Named_Boxarts/%s.png`
 };
 
 export const games = {
