@@ -76,6 +76,18 @@
   right: 45vw;
   width: 10vmin;
   height: 10vmin;
-  /* line-height: 18vmin; */
+  line-height: 18vmin;
+  border-radius: 25%;
+}
+
+.Gamepad sup {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.Gamepad-turbo {
+  right: -0.75vmin;
+  bottom: -0.75vmin;
+  width: 5vmin;
+  height: 5vmin;
   border-radius: 25%;
 }

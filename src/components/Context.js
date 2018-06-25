@@ -86,7 +86,8 @@ export default class Context extends React.Component {
       libraryOpen: false,
       library: [],
       currentROM: ``,
-      settings: JSON.parse(JSON.stringify(defaultSettings))
+      settings: JSON.parse(JSON.stringify(defaultSettings)),
+      turbo: false
     };
 
     this.actions = {
@@ -270,6 +271,10 @@ export default class Context extends React.Component {
             }
           );
         });
+      },
+
+      toggleTurbo: ()=> {
+        this.setState({ turbo: !this.state.turbo });
       }
     };
   }

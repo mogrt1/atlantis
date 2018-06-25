@@ -21,7 +21,7 @@ export default class Button extends React.Component {
             </PointerCommands>
 
             {
-              !state.settingsOpen
+              !state.settingsOpen && this.props.keyCommands
               && <KeyCommands>
                 {this.props.keyCommands}
               </KeyCommands>
@@ -36,6 +36,6 @@ export default class Button extends React.Component {
 Button.propTypes = {
   children: PropTypes.node,
   pointerCommands: PropTypes.object.isRequired,
-  keyCommands: PropTypes.object.isRequired,
+  keyCommands: PropTypes.object,
   className: PropTypes.string
 };

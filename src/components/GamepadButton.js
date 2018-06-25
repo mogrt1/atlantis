@@ -25,17 +25,41 @@ export default class GamepadButton extends React.Component {
       }
     };
 
-    this.keyEvents = { [props.kb]: this.events };
+    const TURBO_INTERVAL = 33;
+    let turboPressed = false;
+    let turboTimeout = null;
+
+    const turbo = ()=> {
+      turboPressed = !turboPressed;
+      gameBoyJoyPadEvent(buttonCodes[props.type], turboPressed);
+
+      turboTimeout = setTimeout(turbo, TURBO_INTERVAL);
+    };
+
+    this.turboEvents = {
+      down: ()=> {
+        turboTimeout = setTimeout(turbo, TURBO_INTERVAL);
+      },
+      up: ()=> {
+        clearTimeout(turboTimeout);
+        gameBoyJoyPadEvent(buttonCodes[props.type]);
+      }
+    };
+
+    this.keyEvents = {
+      [props.kb]: this.events,
+      [props.turboKb]: this.turboEvents
+    };
   }
 
   render() {
     return (
       <Button
         className={this.props.className}
-        pointerCommands={this.events}
+        pointerCommands={this.props.turbo ? this.turboEvents : this.events}
         keyCommands={this.keyEvents}
       >
-        {this.props.children}
+        {this.props.children}{this.props.turbo && <sup>{`τ`}</sup>}
       </Button>
     );
   }
@@ -44,6 +68,8 @@ export default class GamepadButton extends React.Component {
 GamepadButton.propTypes = {
   type: PropTypes.string.isRequired,
   kb: PropTypes.string.isRequired,
+  turbo: PropTypes.bool,
+  turboKb: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node
 };

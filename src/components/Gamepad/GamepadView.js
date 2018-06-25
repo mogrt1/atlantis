@@ -11,22 +11,35 @@ import GamepadButton from '../GamepadButton';
 import RewindButton from '../RewindButton';
 import FastForwardButton from '../FastForwardButton';
 import QuickMenu from '../QuickMenu/QuickMenu';
+import TurboToggleButton from '../TurboToggleButton';
 
 import { Consumer } from '../Context';
 
 const GamepadView = ()=> (
   <Consumer>
-    {({ state })=> {
+    {({ state, actions })=> {
       const { ffToggle, ffRate, keyBindings } = state.settings;
 
       return (
         <div className="Gamepad">
           <Dpad className="Gamepad-dpad" kb={keyBindings} />
 
-          <GamepadButton className="Gamepad-b" type="B" kb={keyBindings[`settings-kb-b`]}>
+          <GamepadButton
+            className="Gamepad-b"
+            type="B"
+            kb={keyBindings[`settings-kb-b`]}
+            turbo={state.turbo}
+            turboKb={keyBindings[`settings-kb-b-turbo`]}
+          >
             {`B`}
           </GamepadButton>
-          <GamepadButton className="Gamepad-a" type="A" kb={keyBindings[`settings-kb-a`]}>
+          <GamepadButton
+            className="Gamepad-a"
+            type="A"
+            kb={keyBindings[`settings-kb-a`]}
+            turbo={state.turbo}
+            turboKb={keyBindings[`settings-kb-a-turbo`]}
+          >
             {`A`}
           </GamepadButton>
           <GamepadButton className="Gamepad-start" type="START" kb={keyBindings[`settings-kb-start`]}>
@@ -53,6 +66,10 @@ const GamepadView = ()=> (
           </FastForwardButton>
 
           <QuickMenu className="Gamepad-quick-menu" kb="q" />
+
+          <TurboToggleButton className="Gamepad-turbo" toggleTurbo={actions.toggleTurbo}>
+            <sup>{`τ`}</sup>
+          </TurboToggleButton>
         </div>
       );
     }}
