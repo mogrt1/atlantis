@@ -69,7 +69,7 @@ class Game extends React.Component {
         <GridListTileBar
           title={this.formattedTitle()}
           classes={{
-            root: classes.gameTitleOverlay,
+            root: classes.gameTitleRoot,
             titleWrap: classes.gameTitleWrap,
             title: classes.gameTitleText
           }}
