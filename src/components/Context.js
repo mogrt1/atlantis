@@ -9,7 +9,7 @@ import { set, get } from 'idb-keyval';
 
 import { thumbs, games } from '../db/gameboy.js';
 
-import { pause, run } from '../cores/GameBoy-Online/js/index';
+import { start, pause, run, openState } from '../cores/GameBoy-Online/js/index';
 
 const { Provider, Consumer } = createContext();
 
@@ -94,7 +94,7 @@ export default class Context extends React.Component {
         this.setState({ canvas });
       },
 
-      setCurrentROM: (currentROM)=> {
+      setCurrentROM: (currentROM, autoLoad)=> {
         this.setState(
           {
             currentROM,
@@ -102,8 +102,14 @@ export default class Context extends React.Component {
           },
 
           ()=> {
-            set(`currentROM`, this.state.currentROM);
-            run();
+            start(this.state.canvas.current, this.state.currentROM);
+
+            if(autoLoad) {
+              // Load autosave.
+              openState(`auto`, this.state.canvas.current);
+            } else {
+              set(`currentROM`, this.state.currentROM);
+            }
           }
         );
       },
@@ -269,29 +275,32 @@ export default class Context extends React.Component {
   }
 
   componentDidMount() {
-    // Hydrate settings.
-    get(`settings`).then((settingsJSON = JSON.stringify(defaultSettings))=> {
-      const settings = JSON.parse(settingsJSON);
+    this.props.restoreCoreData().then(()=> {
+      // Hydrate settings.
+      get(`settings`).then((settingsJSON = JSON.stringify(defaultSettings))=> {
+        const settings = JSON.parse(settingsJSON);
 
-      this.setState({
-        settings: {
-          ...this.state.settings,
-          ...settings
+        this.setState({
+          settings: {
+            ...this.state.settings,
+            ...settings
+          }
+        });
+      });
+
+      // Reattempt thumb downloads that could not be completed while offline.
+      get(`games`).then((gamesJSON = `[]`)=> {
+        const library = JSON.parse(gamesJSON);
+
+        this.actions.retryThumbs(library);
+      });
+
+      // Load last-played game.
+      get(`currentROM`).then((currentROM)=> {
+        if(currentROM) {
+          this.actions.setCurrentROM(currentROM, `autoLoad`);
         }
       });
-    });
-
-    // Reattempt thumb downloads that could not be completed while offline.
-    get(`games`).then((gamesJSON = `[]`)=> {
-      const library = JSON.parse(gamesJSON);
-
-      this.actions.retryThumbs(library);
-    });
-
-    get(`currentROM`).then((currentROM)=> {
-      if(currentROM) {
-        this.actions.setCurrentROM(currentROM);
-      }
     });
   }
 
@@ -307,6 +316,9 @@ export default class Context extends React.Component {
   }
 }
 
-Context.propTypes = { children: PropTypes.element };
+Context.propTypes = {
+  children: PropTypes.element.isRequired,
+  restoreCoreData: PropTypes.func.isRequired
+};
 
 export { Consumer };
