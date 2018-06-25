@@ -22,9 +22,9 @@ export default class RewindButton extends React.Component {
         return;
       }
 
-      snapshots.push(gameboy.saveState());
-
-      saveState(`auto`);
+      snapshots.push(
+        saveState(`auto`)
+      );
 
       while(snapshots.length > BACKUPS) {
         snapshots.shift();
