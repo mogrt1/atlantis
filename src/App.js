@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 
 import Context, { Consumer } from './components/Context';
-import Demo from './components/Demo';
+// import Demo from './components/Demo';
 import Gamepad from './components/Gamepad/GamepadView';
 import Emulator from './components/Emulator/Emulator';
 import Settings from './components/Settings/Settings';
@@ -55,13 +55,14 @@ class App extends React.Component {
           <CssBaseline />
 
           <Consumer>
-            {({ state, actions })=> (
+            {/* {({ state, actions })=> ( */}
+            {(context)=> (
               <React.Fragment>
                 {/* {!state.currentROM && <Demo />} */}
-                <Emulator setCanvas={actions.setCanvas} />
+                <Emulator setCanvas={context.actions.setCanvas} />
                 <Gamepad />
                 <Settings />
-                <Library addToLibrary={actions.addToLibrary} />
+                <Library addToLibrary={context.actions.addToLibrary} />
               </React.Fragment>
             )}
           </Consumer>
