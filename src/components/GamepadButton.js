@@ -45,14 +45,14 @@ export default class GamepadButton extends React.Component {
         gameBoyJoyPadEvent(buttonCodes[props.type]);
       }
     };
-
-    this.keyEvents = {
-      [props.kb]: this.events,
-      [props.turboKb]: this.turboEvents
-    };
   }
 
   render() {
+    this.keyEvents = {
+      [this.props.kb]: this.events,
+      [this.props.turboKb]: this.turboEvents
+    };
+
     return (
       <Button
         className={this.props.className}
