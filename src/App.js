@@ -12,11 +12,10 @@ import Gamepad from './components/Gamepad/GamepadView';
 import Emulator from './components/Emulator/Emulator';
 import Settings from './components/Settings/Settings';
 import Library from './components/Library/Library';
-import Loader from './components/Loader';
 
 import { persistValues, saveValue } from './cores/GameBoy-Online/js/index';
 
-const notCoreKeys = new Set([`games`, `settings`]);
+const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 
 const restoreCoreData = async function() {
   const data = await keys();
@@ -36,9 +35,9 @@ const restoreCoreData = async function() {
 
     persistValues[datum] = values[index];
   }
-};
 
-restoreCoreData();
+  return true;
+};
 
 saveValue.subscribe((key, value)=> {
   if(value === null) {
@@ -51,20 +50,15 @@ saveValue.subscribe((key, value)=> {
 class App extends React.Component {
   render() {
     return (
-      <Context>
+      <Context restoreCoreData={restoreCoreData}>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
 
           <Consumer>
             {({ state, actions })=> (
               <React.Fragment>
-                {!state.currentROM && <Demo />}
+                {/* {!state.currentROM && <Demo />} */}
                 <Emulator setCanvas={actions.setCanvas} />
-                {state.currentROM && <Loader
-                  rom={state.currentROM}
-                  canvas={state.canvas.current}
-                  setCurrentROM={actions.setCurrentROM}
-                />}
                 <Gamepad />
                 <Settings />
                 <Library addToLibrary={actions.addToLibrary} />
