@@ -41,7 +41,7 @@ class QuickMenu extends React.Component {
     return (
       <Consumer>
         {({ state, actions })=> {
-          const keyBindings = state.settings;
+          const { keyBindings } = state.settings;
 
           return (
             <React.Fragment>
