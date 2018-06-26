@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from './Button/Button';
 
-import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying, saveState, pause, run } from '../cores/GameBoy-Online/js/index';
+import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying, autoSave, pause, run } from '../cores/GameBoy-Online/js/index';
 
 export default class RewindButton extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class RewindButton extends React.Component {
       }
 
       snapshots.push(
-        saveState(`auto`)
+        autoSave().state
       );
 
       while(snapshots.length > BACKUPS) {
