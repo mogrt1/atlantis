@@ -49,12 +49,12 @@ const GamepadView = ()=> (
             {`Select`}
           </GamepadButton>
 
-          <RewindButton
+          {state.currentROM && <RewindButton
             className="Gamepad-rewind"
             kb={keyBindings[`settings-kb-rw`]}
           >
             <RewindIcon />
-          </RewindButton>
+          </RewindButton>}
 
           <FastForwardButton
             className="Gamepad-fast-forward"
@@ -65,7 +65,7 @@ const GamepadView = ()=> (
             <FastForwardIcon />
           </FastForwardButton>
 
-          <QuickMenu className="Gamepad-quick-menu" kb="q" />
+          {state.currentROM && <QuickMenu className="Gamepad-quick-menu" kb="q" />}
 
           <TurboToggleButton className="Gamepad-turbo" toggleTurbo={actions.toggleTurbo}>
             <sup>{`τ`}</sup>

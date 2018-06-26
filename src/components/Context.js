@@ -9,7 +9,15 @@ import { set, get } from 'idb-keyval';
 
 import { thumbs, games } from '../db/gameboy.js';
 
-import { start, pause, run, openState } from '../cores/GameBoy-Online/js/index';
+import {
+  start,
+  pause,
+  run,
+  saveState,
+  openState,
+  GameBoyJoyPadEvent as gameBoyJoyPadEvent,
+  GameBoyEmulatorInitialized as gameBoyEmulatorInitialized
+} from '../cores/GameBoy-Online/js/index';
 
 const { Provider, Consumer } = createContext();
 
@@ -125,6 +133,10 @@ export default class Context extends React.Component {
           { [`${drawerName}Open`]: !this.state[`${drawerName}Open`] },
 
           ()=> {
+            if(!gameBoyEmulatorInitialized()) {
+              return;
+            }
+
             if(this.state[`${drawerName}Open`]) {
               pause();
             } else {
@@ -280,6 +292,38 @@ export default class Context extends React.Component {
 
       toggleTurbo: ()=> {
         this.setState({ turbo: !this.state.turbo });
+      },
+
+      saveState: ()=> {
+        saveState(`main`);
+      },
+
+      loadState: ()=> {
+        openState(`main`, this.state.canvas.current);
+      },
+
+      abss: ()=> {
+        const buttonCodes = {
+          START: 7,
+          SELECT: 6,
+          A: 4,
+          B: 5
+        };
+
+        for(const [, code] of Object.entries(buttonCodes)) {
+          gameBoyJoyPadEvent(code, `pressed`);
+        }
+
+        const PRESSTIME = 500;
+        setTimeout(()=> {
+          for(const [, code] of Object.entries(buttonCodes)) {
+            gameBoyJoyPadEvent(code);
+          }
+        }, PRESSTIME);
+      },
+
+      reset: ()=> {
+        start(this.state.canvas.current, this.state.currentROM);
       }
     };
   }

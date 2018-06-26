@@ -2,13 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
+import SaveIcon from './images/SaveStateIcon';
+import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
+import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 import Button from '../Button/Button';
-import SaveState from './SaveState';
-import LoadState from './LoadState';
-import ABStartSelect from './ABStartSelect';
-import Reset from './Reset';
+import KeyCommands from '../KeyCommands';
 
 import { Consumer } from '../Context';
 
@@ -36,8 +40,8 @@ class QuickMenu extends React.Component {
 
     return (
       <Consumer>
-        {({ state })=> {
-          const { keyBindings } = state.settings;
+        {({ state, actions })=> {
+          const keyBindings = state.settings;
 
           return (
             <React.Fragment>
@@ -58,11 +62,51 @@ class QuickMenu extends React.Component {
                 open={Boolean(anchor)}
                 onClose={this.handleClose}
               >
-                <SaveState close={this.handleClose} kb={keyBindings[`settings-kb-save-state`]} />
-                <LoadState close={this.handleClose} kb={keyBindings[`settings-kb-load-state`]} />
-                <ABStartSelect close={this.handleClose} kb={keyBindings[`settings-kb-abss`]} />
-                <Reset close={this.handleClose} kb={keyBindings[`settings-kb-reset`]} />
+                <MenuItem onClick={actions.saveState}>
+                  <ListItemIcon>
+                    <SaveIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {`Save State`}
+                  </ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={actions.loadState}>
+                  <ListItemIcon>
+                    <OpenInBrowserIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {`Load State`}
+                  </ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={actions.abss}>
+                  <ListItemIcon>
+                    <VideogameAssetIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {`A+B+Start+Select`}
+                  </ListItemText>
+                </MenuItem>
+
+                <MenuItem onClick={actions.reset}>
+                  <ListItemIcon>
+                    <AutorenewIcon />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {`Reset`}
+                  </ListItemText>
+                </MenuItem>
               </Menu>
+
+              <KeyCommands>
+                {{
+                  [keyBindings[`settings-kb-save-state`]]: { up: actions.saveState },
+                  [keyBindings[`settings-kb-load-state`]]: { up: actions.loadState },
+                  [keyBindings[`settings-kb-abss`]]: { up: actions.abss },
+                  [keyBindings[`settings-kb-reset`]]: { up: actions.reset }
+                }}
+              </KeyCommands>
             </React.Fragment>
           );
         }}
