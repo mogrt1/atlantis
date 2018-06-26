@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { styleQuickMenu } from './QuickMenuStyles';
+
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Snackbar from '@material-ui/core/Snackbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import SaveIcon from './images/SaveStateIcon';
 import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
@@ -37,6 +40,7 @@ class QuickMenu extends React.Component {
 
   render() {
     const { anchor } = this.state;
+    const { classes } = this.props;
 
     return (
       <Consumer>
@@ -99,6 +103,21 @@ class QuickMenu extends React.Component {
                 </MenuItem>
               </Menu>
 
+              <Snackbar
+                anchorOrigin={{
+                  vertical: `top`,
+                  horizontal: `center`
+                }}
+                open={state.message}
+                onClose={actions.hideMessage}
+                autoHideDuration={750}
+                ContentProps={{
+                  className: classes.snackbar,
+                  'aria-describedby': `message`
+                }}
+                message={<span id="message">{state.message}</span>}
+              />
+
               <KeyCommands>
                 {{
                   [keyBindings[`settings-kb-save-state`]]: { up: actions.saveState },
@@ -117,7 +136,8 @@ class QuickMenu extends React.Component {
 
 QuickMenu.propTypes = {
   className: PropTypes.string,
+  classes: PropTypes.object.isRequired,
   kb: PropTypes.string.isRequired
 };
 
-export default QuickMenu;
+export default styleQuickMenu(QuickMenu);

@@ -100,7 +100,8 @@ export default class Context extends React.Component {
       library: [],
       currentROM: ``,
       settings: JSON.parse(JSON.stringify(defaultSettings)),
-      turbo: false
+      turbo: false,
+      message: ``
     };
 
     this.actions = {
@@ -296,10 +297,12 @@ export default class Context extends React.Component {
 
       saveState: ()=> {
         saveState(`main`);
+        this.actions.showMessage(`Saved state.`);
       },
 
       loadState: ()=> {
         openState(`main`, this.state.canvas.current);
+        this.actions.showMessage(`Loaded state.`);
       },
 
       abss: ()=> {
@@ -324,6 +327,14 @@ export default class Context extends React.Component {
 
       reset: ()=> {
         start(this.state.canvas.current, this.state.currentROM);
+      },
+
+      showMessage: (message)=> {
+        this.setState({ message });
+      },
+
+      hideMessage: ()=> {
+        this.setState({ message: `` });
       }
     };
   }

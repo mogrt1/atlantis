@@ -7,7 +7,7 @@
   z-index: 1;
 }
 
-.Gamepad > * {
+.Gamepad > *:not([class*="Snackbar"]) {
   position: absolute;
   text-align: center;
   text-indent: -25%;
