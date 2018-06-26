@@ -1,8 +1,13 @@
+// Basic global setup. The app proper begins in App.
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
 import App from './App';
+
 import registerServiceWorker from './registerServiceWorker';
+
+import './index.css';
 
 const root = document.getElementById(`root`);
 
