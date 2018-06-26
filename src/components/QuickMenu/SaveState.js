@@ -6,6 +6,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SaveIcon from './images/SaveStateIcon';
 
+import KeyCommands from '../KeyCommands';
+
 import { saveState } from '../../cores/GameBoy-Online/js/index';
 
 class SaveState extends React.Component {
@@ -22,18 +24,27 @@ class SaveState extends React.Component {
 
   render() {
     return (
-      <MenuItem onClick={this.save}>
-        <ListItemIcon>
-          <SaveIcon />
-        </ListItemIcon>
-        <ListItemText>
-          {`Save State`}
-        </ListItemText>
-      </MenuItem>
+      <React.Fragment>
+        <MenuItem onClick={this.save}>
+          <ListItemIcon>
+            <SaveIcon />
+          </ListItemIcon>
+          <ListItemText>
+            {`Save State`}
+          </ListItemText>
+        </MenuItem>
+
+        <KeyCommands>
+          {{ [this.props.kb]: { up: this.save } }}
+        </KeyCommands>
+      </React.Fragment>
     );
   }
 }
 
-SaveState.propTypes = { close: PropTypes.func.isRequired };
+SaveState.propTypes = {
+  close: PropTypes.func.isRequired,
+  kb: PropTypes.string.isRequired
+};
 
 export default SaveState;

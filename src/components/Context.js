@@ -73,7 +73,12 @@ export const defaultSettings = {
     'settings-kb-left': `ArrowLeft`,
     'settings-kb-right': `ArrowRight`,
     'settings-kb-rw': `Backspace`,
-    'settings-kb-ff': `\``
+    'settings-kb-ff': `\``,
+    'settings-kb-save-state': `1`,
+    'settings-kb-load-state': `3`,
+    'settings-kb-fullscreen': `f`,
+    'settings-kb-abss': `0`,
+    'settings-kb-reset': `r`
   }
 };
 

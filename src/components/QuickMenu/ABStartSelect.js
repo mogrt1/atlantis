@@ -6,6 +6,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 
+import KeyCommands from '../KeyCommands';
+
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/js/index';
 
 class ABStartSelect extends React.Component {
@@ -37,18 +39,27 @@ class ABStartSelect extends React.Component {
 
   render() {
     return (
-      <MenuItem onClick={this.press}>
-        <ListItemIcon>
-          <VideogameAssetIcon />
-        </ListItemIcon>
-        <ListItemText>
-          {`A+B+Start+Select`}
-        </ListItemText>
-      </MenuItem>
+      <React.Fragment>
+        <MenuItem onClick={this.press}>
+          <ListItemIcon>
+            <VideogameAssetIcon />
+          </ListItemIcon>
+          <ListItemText>
+            {`A+B+Start+Select`}
+          </ListItemText>
+        </MenuItem>
+
+        <KeyCommands>
+          {{ [this.props.kb]: { up: this.press } }}
+        </KeyCommands>
+      </React.Fragment>
     );
   }
 }
 
-ABStartSelect.propTypes = { close: PropTypes.func.isRequired };
+ABStartSelect.propTypes = {
+  close: PropTypes.func.isRequired,
+  kb: PropTypes.string.isRequired
+};
 
 export default ABStartSelect;

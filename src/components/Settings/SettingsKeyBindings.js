@@ -37,7 +37,12 @@ class SettingsKeyBindings extends React.Component {
       'left': `Left`,
       'right': `Right`,
       'rw': `Rewind`,
-      'ff': `Fast-Forward`
+      'ff': `Fast-Forward`,
+      'save-state': `Save State`,
+      'load-state': `Load State`,
+      'fullscreen': `Fullscreen`,
+      'abss': `A+B+Start+Select`,
+      'reset': `Reset`
     };
 
     this.toggleBindings = ()=> {

@@ -10,6 +10,8 @@ import LoadState from './LoadState';
 import ABStartSelect from './ABStartSelect';
 import Reset from './Reset';
 
+import { Consumer } from '../Context';
+
 class QuickMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -33,30 +35,38 @@ class QuickMenu extends React.Component {
     const { anchor } = this.state;
 
     return (
-      <React.Fragment>
-        <Button
-          onClick={this.handleClick}
-          aria-owns={anchor ? `quick-menu` : null}
-          aria-haspopup="true"
-          className={this.props.className}
-          pointerCommands={this.events}
-          keyCommands={this.keyEvents}
-        >
-          <MenuIcon />
-        </Button>
+      <Consumer>
+        {({ state })=> {
+          const { keyBindings } = state.settings;
 
-        <Menu
-          id="quick-menu"
-          anchorEl={anchor}
-          open={Boolean(anchor)}
-          onClose={this.handleClose}
-        >
-          <SaveState close={this.handleClose} />
-          <LoadState close={this.handleClose} />
-          <ABStartSelect close={this.handleClose} />
-          <Reset close={this.handleClose} />
-        </Menu>
-      </React.Fragment>
+          return (
+            <React.Fragment>
+              <Button
+                onClick={this.handleClick}
+                aria-owns={anchor ? `quick-menu` : null}
+                aria-haspopup="true"
+                className={this.props.className}
+                pointerCommands={this.events}
+                keyCommands={this.keyEvents}
+              >
+                <MenuIcon />
+              </Button>
+
+              <Menu
+                id="quick-menu"
+                anchorEl={anchor}
+                open={Boolean(anchor)}
+                onClose={this.handleClose}
+              >
+                <SaveState close={this.handleClose} kb={keyBindings[`settings-kb-save-state`]} />
+                <LoadState close={this.handleClose} kb={keyBindings[`settings-kb-load-state`]} />
+                <ABStartSelect close={this.handleClose} kb={keyBindings[`settings-kb-abss`]} />
+                <Reset close={this.handleClose} kb={keyBindings[`settings-kb-reset`]} />
+              </Menu>
+            </React.Fragment>
+          );
+        }}
+      </Consumer>
     );
   }
 }
