@@ -7,6 +7,11 @@
   z-index: 1;
 }
 
+.Gamepad-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .Gamepad > *:not([class*="Snackbar"]) {
   position: absolute;
   text-align: center;

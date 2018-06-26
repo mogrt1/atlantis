@@ -19,11 +19,16 @@ export const styleSettingsFFRate = withStyles({
   select: { width: `100%` },
   itemText: { paddingLeft: 0 }
 });
-export const styleSettingsFFToggle = withStyles({
+
+const toggle = {
   itemText: { paddingLeft: 0 },
   toggleSwitch: { right: `-12px` },
   toggleSwitchChecked: { color: `${theme.palette.secondary[`800`]} !important` }
-});
+};
+
+export const styleSettingsFFToggle = withStyles(toggle);
+
+export const styleSettingsShowOverlay = withStyles(toggle);
 
 export const styleSettingsKeyBindings = withStyles({
   itemText: { paddingLeft: 0 },
