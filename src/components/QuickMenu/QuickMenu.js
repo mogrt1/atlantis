@@ -108,7 +108,7 @@ class QuickMenu extends React.Component {
                   vertical: `top`,
                   horizontal: `center`
                 }}
-                open={state.message}
+                open={Boolean(state.message)}
                 onClose={actions.hideMessage}
                 autoHideDuration={750}
                 ContentProps={{
