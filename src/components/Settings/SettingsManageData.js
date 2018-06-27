@@ -31,16 +31,21 @@ class SettingsKeyBindings extends React.Component {
 
     return (
       <React.Fragment>
-        <ListItem button onClick={this.toggleManager}>
+        <ListItem className={classes.settingsItem} button onClick={this.toggleManager}>
           <ListItemIcon>
             <StorageIcon />
           </ListItemIcon>
           <ListItemText primary="Data Management" className={classes.itemText} />
           <Expand className={classes.expand} />
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        <Collapse
+          className={classes.collapsibleList}
+          in={this.state.open}
+          timeout="auto"
+          unmountOnExit
+        >
           <List component="div" disablePadding>
-            {this.props.library.map(({ title, md5, rom })=> (
+            {this.props.library.map(({ title, md5 })=> (
               <ListItem key={md5} className={classes.nested} button dense>
                 <ListItemIcon>
                   <DeleteIcon />

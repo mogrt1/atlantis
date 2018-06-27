@@ -30,7 +30,7 @@ class SettingsFFToggle extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem button onClick={this.toggleToggle}>
+      <ListItem className={classes.settingsItem} button onClick={this.toggleToggle}>
         <ListItemIcon>
           <FastForwardIcon />
         </ListItemIcon>

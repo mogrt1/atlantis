@@ -4,7 +4,10 @@ import theme from '../../theme';
 
 import gameboyCart from './images/gameboy.svg';
 
-export const libraryWidth = 270;
+const THUMB_WIDTH = 48;
+const maxWidth = window.innerWidth - THUMB_WIDTH;
+const nominalWidth = 320;
+export const libraryWidth = Math.min(nominalWidth, maxWidth);
 export const libraryCols = 2;
 
 export const styleLibrary = withStyles({
@@ -18,7 +21,7 @@ export const styleLibrary = withStyles({
   heading: { background: theme.palette.background.paper }
 });
 
-export const styleGameList = withStyles({ libraryList: { width: libraryWidth + libraryCols } });
+export const styleGameList = withStyles({ libraryList: { width: libraryWidth } });
 
 export const styleAddGame = withStyles({
   addGameLabel: {

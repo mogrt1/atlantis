@@ -74,14 +74,19 @@ class SettingsKeyBindings extends React.Component {
 
     return (
       <React.Fragment>
-        <ListItem button onClick={this.toggleBindings}>
+        <ListItem className={classes.settingsItem} button onClick={this.toggleBindings}>
           <ListItemIcon>
             <KeyboardIcon />
           </ListItemIcon>
           <ListItemText primary="Keyboard Bindings" className={classes.itemText} />
           <Expand className={classes.expand} />
         </ListItem>
-        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        <Collapse
+          className={classes.collapsibleList}
+          in={this.state.open}
+          timeout="auto"
+          unmountOnExit
+        >
           <List component="div" disablePadding>
             {Object.entries(this.bindings).map(([id, label])=> (
               <ListItem key={id} className={classes.nested} dense>

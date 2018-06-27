@@ -30,7 +30,7 @@ class SettingsShowOverlay extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem button onClick={this.overlayToggle}>
+      <ListItem className={classes.settingsItem} button onClick={this.overlayToggle}>
         <ListItemIcon>
           <VideogameAssetIcon />
         </ListItemIcon>

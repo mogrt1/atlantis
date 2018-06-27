@@ -31,7 +31,7 @@ class SettingsFFRate extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem>
+      <ListItem className={classes.settingsItem}>
         <ListItemIcon>
           <FastForwardIcon />
         </ListItemIcon>

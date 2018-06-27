@@ -16,7 +16,12 @@ class GameList extends React.Component {
     return (
       <Consumer>
         {({ state, actions })=> (
-          <GridList cellHeight={libraryWidth / libraryCols} cols={libraryCols} className={classes.libraryList}>
+          <GridList
+            className={classes.libraryList}
+            cellHeight={libraryWidth / libraryCols}
+            cols={libraryCols}
+            spacing={0}
+          >
             {state.library.map((data)=> (
               <Game
                 key={data.md5}
