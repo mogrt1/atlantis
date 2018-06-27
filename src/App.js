@@ -18,22 +18,22 @@ import { persistValues, saveValue } from './cores/GameBoy-Online/js/index';
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 
 const restoreCoreData = async function() {
-  const data = await keys();
+  const dataKeys = await keys();
 
   const valuesTx = [];
 
-  for(const datum of data) {
-    valuesTx.push(get(datum));
+  for(const key of dataKeys) {
+    valuesTx.push(get(key));
   }
 
   const values = await Promise.all(valuesTx);
 
-  for(const [index, datum] of data.entries()) {
-    if(notCoreKeys.has(datum)) {
+  for(const [index, key] of dataKeys.entries()) {
+    if(notCoreKeys.has(key)) {
       continue;
     }
 
-    persistValues[datum] = values[index];
+    persistValues[key] = values[index];
   }
 
   return true;
