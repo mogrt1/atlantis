@@ -52,6 +52,7 @@ const GamepadView = ()=> (
           {state.currentROM && <RewindButton
             className="Gamepad-rewind"
             kb={keyBindings[`settings-kb-rw`]}
+            rewindQueue={state.rewindQueue}
           >
             <RewindIcon />
           </RewindButton>}

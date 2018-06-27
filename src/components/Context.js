@@ -101,7 +101,8 @@ export default class Context extends React.Component {
       currentROM: ``,
       settings: JSON.parse(JSON.stringify(defaultSettings)),
       turbo: false,
-      message: ``
+      message: ``,
+      rewindQueue: []
     };
 
     this.actions = {
@@ -113,7 +114,8 @@ export default class Context extends React.Component {
         this.setState(
           {
             currentROM,
-            libraryOpen: false
+            libraryOpen: false,
+            rewindQueue: []
           },
 
           ()=> {

@@ -11,8 +11,6 @@ export default class RewindButton extends React.Component {
 
     this.state = {};
 
-    const snapshots = [];
-
     const BACKUPS = 60,
           BACKUP_INTERVAL = 1000;
 
@@ -22,12 +20,12 @@ export default class RewindButton extends React.Component {
         return;
       }
 
-      snapshots.push(
+      this.props.rewindQueue.push(
         autoSave().state
       );
 
-      while(snapshots.length > BACKUPS) {
-        snapshots.shift();
+      while(this.props.rewindQueue.length > BACKUPS) {
+        this.props.rewindQueue.shift();
       }
 
       setTimeout(record, BACKUP_INTERVAL);
@@ -39,8 +37,8 @@ export default class RewindButton extends React.Component {
     const REWIND_INTERVAL = 333;
 
     this.rewind = ()=> {
-      if(snapshots.length) {
-        gameboy.returnFromState(snapshots.pop());
+      if(this.props.rewindQueue.length) {
+        gameboy.returnFromState(this.props.rewindQueue.pop());
         gameboy.run(`force`);
         gameboy.stopEmulator = 3;
 
@@ -82,5 +80,6 @@ export default class RewindButton extends React.Component {
 RewindButton.propTypes = {
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  rewindQueue: PropTypes.array.isRequired
 };
