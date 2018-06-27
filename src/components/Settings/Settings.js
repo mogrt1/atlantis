@@ -11,6 +11,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 import SettingsFFRate from './SettingsFFRate';
 import SettingsFFToggle from './SettingsFFToggle';
+import SettingsManageData from './SettingsManageData';
 import SettingsShowOverlay from './SettingsShowOverlay';
 import SettingsKeyBindings from './SettingsKeyBindings';
 
@@ -52,6 +53,9 @@ class Settings extends React.Component {
                       <SettingsFFToggle
                         toggle={state.settings.ffToggle}
                         updateSetting={actions.updateSetting(`ffToggle`)}
+                      />
+                      <SettingsManageData
+                        library={state.library}
                       />
                       <SettingsShowOverlay
                         toggle={state.settings.showOverlay}

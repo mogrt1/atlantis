@@ -230,6 +230,10 @@ export default class Context extends React.Component {
         });
       },
 
+      deleteGame: (rom)=> {
+
+      },
+
       updateSetting: (key)=> (value)=> {
         this.setState(
           {

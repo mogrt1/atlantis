@@ -30,9 +30,21 @@ export const styleSettingsFFToggle = withStyles(toggle);
 
 export const styleSettingsShowOverlay = withStyles(toggle);
 
-export const styleSettingsKeyBindings = withStyles({
+const collapsibleList = {
   itemText: { paddingLeft: 0 },
   nested: { padding: `0 ${theme.spacing.unit * INDENT}px` },
   input: { width: `100%` },
   expand: { color: theme.palette.getContrastText(theme.palette.primary[`800`]) }
+};
+
+export const styleSettingsKeyBindings = withStyles(collapsibleList);
+
+export const styleSettingsManageData = withStyles({
+  ...collapsibleList,
+  itemRoot: { padding: 0 },
+  itemPrimary: {
+    whiteSpace: `nowrap`,
+    overflow: `hidden`,
+    textOverflow: `ellipsis`
+  }
 });
