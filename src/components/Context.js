@@ -10,6 +10,7 @@ import { set, get } from 'idb-keyval';
 import { thumbs, games } from '../db/gameboy.js';
 
 import {
+  gameboy,
   start,
   pause,
   run,
@@ -121,6 +122,18 @@ export default class Context extends React.Component {
           ()=> {
             start(this.state.canvas.current, this.state.currentROM);
 
+            for(const game of this.state.library) {
+              if(game.rom === currentROM) {
+                if(!(`name` in game)) {
+                  game.name = gameboy.name;
+
+                  set(`games`, JSON.stringify(this.state.library));
+                }
+
+                break;
+              }
+            }
+
             if(autoLoad) {
               // Load autosave.
               openState(`auto`, this.state.canvas.current);
@@ -230,9 +243,9 @@ export default class Context extends React.Component {
         });
       },
 
-      deleteGame: (rom)=> {
+      // deleteGame: (rom)=> {
 
-      },
+      // },
 
       updateSetting: (key)=> (value)=> {
         this.setState(
