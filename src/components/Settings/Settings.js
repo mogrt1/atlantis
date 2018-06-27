@@ -56,6 +56,9 @@ class Settings extends React.Component {
                       />
                       <SettingsManageData
                         library={state.library}
+                        deleteGame={actions.deleteGame}
+                        deleteSRAM={actions.deleteSRAM}
+                        deleteSaveState={actions.deleteSaveState}
                       />
                       <SettingsShowOverlay
                         toggle={state.settings.showOverlay}

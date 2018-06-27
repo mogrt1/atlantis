@@ -8,7 +8,8 @@ const maxWidth = window.innerWidth - THUMB_WIDTH;
 const nominalWidth = 320;
 const settingsWidth = Math.min(nominalWidth, maxWidth);
 
-const INDENT = 4;
+const INDENT = 4,
+      DEEP_INDENT = 6;
 
 export const styleSettings = withStyles({
   open: {
@@ -75,5 +76,6 @@ export const styleSettingsManageData = withStyles({
     whiteSpace: `nowrap`,
     overflow: `hidden`,
     textOverflow: `ellipsis`
-  }
+  },
+  save: { paddingLeft: theme.spacing.unit * DEEP_INDENT }
 });

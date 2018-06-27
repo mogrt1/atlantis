@@ -5,7 +5,7 @@ import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 
 import Spark from 'spark-md5';
-import { set, get } from 'idb-keyval';
+import { set, get, del, keys } from 'idb-keyval';
 
 import { thumbs, games } from '../db/gameboy.js';
 
@@ -14,6 +14,7 @@ import {
   start,
   pause,
   run,
+  stop,
   saveState,
   openState,
   GameBoyJoyPadEvent as gameBoyJoyPadEvent,
@@ -122,12 +123,16 @@ export default class Context extends React.Component {
           ()=> {
             start(this.state.canvas.current, this.state.currentROM);
 
-            for(const game of this.state.library) {
+            const library = [...this.state.library];
+
+            for(const game of library) {
               if(game.rom === currentROM) {
                 if(!(`name` in game)) {
                   game.name = gameboy.name;
 
-                  set(`games`, JSON.stringify(this.state.library));
+                  set(`games`, JSON.stringify(library));
+
+                  this.setState({ library });
                 }
 
                 break;
@@ -243,9 +248,68 @@ export default class Context extends React.Component {
         });
       },
 
-      // deleteGame: (rom)=> {
+      deleteGame: (rom)=> {
+        let deletedGame = null;
 
-      // },
+        const library = this.state.library.filter((game)=> {
+          if(game.rom === rom) {
+            deletedGame = game;
+            return false;
+          }
+
+          return true;
+        });
+
+        let { currentROM } = this.state;
+
+        if(currentROM === rom) {
+          currentROM = ``;
+          stop();
+        }
+
+        this.setState(
+          {
+            library,
+            currentROM
+          },
+
+          ()=> {
+            if(this.state.library.length) {
+              set(`games`, JSON.stringify(this.state.library));
+            } else {
+              del(`games`);
+            }
+
+            if(!currentROM) {
+              del(`currentROM`);
+            }
+          }
+        );
+
+        this.actions.deleteSRAM(deletedGame.name);
+        this.actions.deleteSaveState(deletedGame.name, `main`);
+        this.actions.deleteSaveState(deletedGame.name, `auto`);
+      },
+
+      deleteSRAM: async (name)=> {
+        const dataKeys = await keys();
+
+        for(const key of dataKeys) {
+          if(key === `B64_SRAM_${name}`) {
+            del(key);
+          }
+        }
+      },
+
+      deleteSaveState: async (name, slot)=> {
+        const dataKeys = await keys();
+
+        for(const key of dataKeys) {
+          if(key === `FREEZE_${name}_${slot}`) {
+            del(key);
+          }
+        }
+      },
 
       updateSetting: (key)=> (value)=> {
         this.setState(
