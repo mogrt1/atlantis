@@ -40,7 +40,6 @@ class SettingsKeyBindings extends React.Component {
       'ff': `Fast-Forward`,
       'save-state': `Save State`,
       'load-state': `Load State`,
-      'fullscreen': `Fullscreen`,
       'abss': `A+B+Start+Select`,
       'reset': `Reset`
     };
