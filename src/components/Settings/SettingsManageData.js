@@ -10,6 +10,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StorageIcon from '@material-ui/icons/Storage';
@@ -21,7 +26,8 @@ class SettingsKeyBindings extends React.Component {
 
     this.state = {
       open: false,
-      games: []
+      games: [],
+      currentlyDeleting: {}
     };
 
     this.toggleManager = ()=> {
@@ -30,15 +36,59 @@ class SettingsKeyBindings extends React.Component {
 
     this.deleteGame = (rom)=> ()=> {
       props.deleteGame(rom);
+      this.dismissDelete();
+    };
+
+    const cleanUpRemoveSave = (name, type)=> {
+      const games = this.state.games.map((game)=> {
+        const rGame = { ...game };
+
+        if(rGame.name === name) {
+          const saves = { ...rGame.saves };
+          delete saves[type];
+
+          rGame.saves = saves;
+        }
+
+        return rGame;
+      });
+
+      this.setState({ games });
     };
 
     this.deleteSRAM = (name)=> ()=> {
+      cleanUpRemoveSave(name, `sram`);
+
       props.deleteSRAM(name);
+      this.dismissDelete();
     };
 
     this.deleteSaveState = (name, slot)=> ()=> {
+      cleanUpRemoveSave(name, slot);
+
       props.deleteSaveState(name, slot);
+      this.dismissDelete();
     };
+
+    this.requestPermission = ({ action, type, name })=> ()=> {
+      this.setState({
+        currentlyDeleting: {
+          action,
+          type,
+          name
+        }
+      });
+    };
+
+    this.dismissDelete = ()=> {
+      this.setState({ currentlyDeleting: {} });
+    };
+
+    this.confirmationMessages = new Map([
+      [`sram`, `in-game save data for`],
+      [`main`, `save state data for`],
+      [`auto`, `autosave data for`]
+    ]);
   }
 
   componentDidMount() {
@@ -58,7 +108,7 @@ class SettingsKeyBindings extends React.Component {
           if(key === `B64_SRAM_${game.name}`) {
             game.saves.sram = key;
           } else if(key === `FREEZE_${game.name}_main`) {
-            game.saves.state = key;
+            game.saves.main = key;
           } else if(key === `FREEZE_${game.name}_auto`) {
             game.saves.auto = key;
           }
@@ -75,6 +125,8 @@ class SettingsKeyBindings extends React.Component {
     const isOpen = this.state.open && Boolean(this.props.library.length);
 
     const Expand = isOpen ? ExpandLess : ExpandMore;
+
+    const { currentlyDeleting } = this.state;
 
     return (
       <React.Fragment>
@@ -94,7 +146,11 @@ class SettingsKeyBindings extends React.Component {
           <List component="div" disablePadding>
             {this.state.games.map(({ title, md5, rom, name, saves })=> (
               <React.Fragment key={md5}>
-                <ListItem className={classes.nested} dense button onClick={this.deleteGame(rom)}>
+                <ListItem className={classes.nested} dense button onClick={this.requestPermission({
+                  action: this.deleteGame(rom),
+                  type: `game`,
+                  name: title
+                })}>
                   <ListItemIcon>
                     <DeleteIcon />
                   </ListItemIcon>
@@ -113,7 +169,7 @@ class SettingsKeyBindings extends React.Component {
                   if(key === `sram`) {
                     label = `SRAM`;
                     action = this.deleteSRAM(name);
-                  } else if(key === `state`) {
+                  } else if(key === `main`) {
                     label = `Save State`;
                     action = this.deleteSaveState(name, `main`);
                   } else if(key === `auto`) {
@@ -127,7 +183,11 @@ class SettingsKeyBindings extends React.Component {
                       className={`${classes.nested} ${classes.save}`}
                       dense
                       button
-                      onClick={action}
+                      onClick={this.requestPermission({
+                        action,
+                        type: key,
+                        name: title
+                      })}
                     >
                       <ListItemIcon>
                         <DeleteIcon />
@@ -146,6 +206,35 @@ class SettingsKeyBindings extends React.Component {
             ))}
           </List>
         </Collapse>
+
+        <Dialog
+          maxWidth="xs"
+          aria-labelledby="settings-manage-data-confirm-title"
+          open={Boolean(currentlyDeleting.name)}
+        >
+          <DialogTitle id="settings-manage-data-confirm-title">
+            {`Really delete?`}
+          </DialogTitle>
+          <DialogContent className={classes.confirmBody}>
+            {
+              `You are about to delete ${
+                this.confirmationMessages.get(currentlyDeleting.type) || ``
+              } "${currentlyDeleting.name}"`
+            }
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.dismissDelete} color="primary">
+              {`Cancel`}
+            </Button>
+            <Button
+              onClick={currentlyDeleting.action}
+              variant="contained"
+              className={classes.confirmButton}
+            >
+              {`Delete`}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </React.Fragment>
     );
   }

@@ -77,5 +77,10 @@ export const styleSettingsManageData = withStyles({
     overflow: `hidden`,
     textOverflow: `ellipsis`
   },
-  save: { paddingLeft: theme.spacing.unit * DEEP_INDENT }
+  save: { paddingLeft: theme.spacing.unit * DEEP_INDENT },
+  confirmBody: {
+    lineHeight: 1.2,
+    color: theme.palette.getContrastText(theme.palette.primary[`800`])
+  },
+  confirmButton: { background: theme.palette.secondary[`800`] }
 });
