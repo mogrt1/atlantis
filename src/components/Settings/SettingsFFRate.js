@@ -5,9 +5,8 @@ import { styleSettingsFFRate } from './SettingsStyles';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 
@@ -22,40 +21,71 @@ class SettingsFFRate extends React.Component {
 
     this.changeRate = (e)=> {
       this.setState({ rate: e.target.value });
+      this.closeMenu();
 
       props.updateSetting(e.target.value);
+    };
+
+    this.openMenu = (e)=> {
+      this.setState({ anchorEl: e.currentTarget });
+    };
+
+    this.closeMenu = ()=> {
+      this.setState({ anchorEl: null });
     };
   }
 
   render() {
     const { classes } = this.props;
 
+    const { anchorEl } = this.state;
+
     return (
-      <ListItem className={classes.settingsItem}>
-        <ListItemIcon>
-          <FastForwardIcon />
-        </ListItemIcon>
-        <FormControl className={classes.select}>
-          <InputLabel htmlFor="settings-ff-rate">Fast-Forward Rate</InputLabel>
-          <Select
-            value={this.state.rate}
-            onChange={this.changeRate}
-            inputProps={{
-              name: `settings-ff-rate`,
-              id: `settings-ff-rate`
-            }}
-          >
-            {Array(this.rateLevels).fill(`0`).map((el, index)=> (
-              <MenuItem
-                key={el + index}
-                value={index + this.firstRate}
-              >
-                {`${index + this.firstRate}x`}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </ListItem>
+      <React.Fragment>
+        <ListItem
+          button
+          onClick={this.openMenu}
+          className={classes.settingsItem}
+          aria-owns={anchorEl ? `settings-ff-rate` : null}
+          aria-haspopup="true"
+        >
+          <ListItemIcon>
+            <FastForwardIcon />
+          </ListItemIcon>
+          <ListItemText className={classes.itemText}>
+            {`Fast-Forward Rate`}
+          </ListItemText>
+
+          <span className={classes.value}>
+            {`${this.state.rate}x`}
+          </span>
+        </ListItem>
+
+        <Menu
+          id="settings-ff-rate"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: `top`,
+            horizontal: `right`
+          }}
+          transformOrigin={{
+            vertical: `top`,
+            horizontal: `right`
+          }}
+          open={Boolean(anchorEl)}
+          onClose={this.closeMenu}
+        >
+          {Array(this.rateLevels).fill(`0`).map((el, index)=> (
+            <MenuItem
+              key={el + index}
+              value={index + this.firstRate}
+              onClick={this.changeRate}
+            >
+              {`${index + this.firstRate}x`}
+            </MenuItem>
+          ))}
+        </Menu>
+      </React.Fragment>
     );
   }
 }

@@ -26,8 +26,8 @@ const settingsItem = { height: 72 };
 
 export const styleSettingsFFRate = withStyles({
   settingsItem,
-  select: { width: `100%` },
-  itemText: { paddingLeft: 0 }
+  itemText: { paddingLeft: 0 },
+  value: { color: theme.palette.getContrastText(theme.palette.primary[`800`]) }
 });
 
 const toggle = {
