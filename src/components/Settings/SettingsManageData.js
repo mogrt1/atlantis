@@ -34,16 +34,14 @@ class SettingsKeyBindings extends React.Component {
       this.setState({ open: !this.state.open });
     };
 
-    this.deleteGame = (rom)=> ()=> {
-      props.deleteGame(rom);
-      this.dismissDelete();
-    };
-
-    const cleanUpRemoveSave = (name, type)=> {
-      const games = this.state.games.map((game)=> {
+    const cleanUpRemoveUI = (id, type)=> {
+      const games = this.state.games.filter((game)=>
+        (type === `game` && game.rom !== id)
+        || type !== `game`
+      ).map((game)=> {
         const rGame = { ...game };
 
-        if(rGame.name === name) {
+        if(rGame.name === id) {
           const saves = { ...rGame.saves };
           delete saves[type];
 
@@ -56,15 +54,22 @@ class SettingsKeyBindings extends React.Component {
       this.setState({ games });
     };
 
+    this.deleteGame = (rom)=> ()=> {
+      cleanUpRemoveUI(rom, `game`);
+
+      props.deleteGame(rom);
+      this.dismissDelete();
+    };
+
     this.deleteSRAM = (name)=> ()=> {
-      cleanUpRemoveSave(name, `sram`);
+      cleanUpRemoveUI(name, `sram`);
 
       props.deleteSRAM(name);
       this.dismissDelete();
     };
 
     this.deleteSaveState = (name, slot)=> ()=> {
-      cleanUpRemoveSave(name, slot);
+      cleanUpRemoveUI(name, slot);
 
       props.deleteSaveState(name, slot);
       this.dismissDelete();
