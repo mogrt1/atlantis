@@ -33,6 +33,11 @@ class QuickMenu extends React.Component {
 
     this.keyEvents = {};
 
+    this.menuAction = (action)=> ()=> {
+      action();
+      this.handleClose();
+    };
+
     this.handleClose = ()=> {
       this.setState({ anchor: null });
     };
@@ -63,10 +68,18 @@ class QuickMenu extends React.Component {
               <Menu
                 id="quick-menu"
                 anchorEl={anchor}
+                anchorOrigin={{
+                  vertical: `top`,
+                  horizontal: `center`
+                }}
+                transformOrigin={{
+                  vertical: `top`,
+                  horizontal: `center`
+                }}
                 open={Boolean(anchor)}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={actions.saveState}>
+                <MenuItem onClick={this.menuAction(actions.saveState)}>
                   <ListItemIcon>
                     <SaveIcon />
                   </ListItemIcon>
@@ -75,7 +88,7 @@ class QuickMenu extends React.Component {
                   </ListItemText>
                 </MenuItem>
 
-                <MenuItem onClick={actions.loadState}>
+                <MenuItem onClick={this.menuAction(actions.loadState)}>
                   <ListItemIcon>
                     <OpenInBrowserIcon />
                   </ListItemIcon>
@@ -84,7 +97,7 @@ class QuickMenu extends React.Component {
                   </ListItemText>
                 </MenuItem>
 
-                <MenuItem onClick={actions.abss}>
+                <MenuItem onClick={this.menuAction(actions.abss)}>
                   <ListItemIcon>
                     <VideogameAssetIcon />
                   </ListItemIcon>
@@ -93,7 +106,7 @@ class QuickMenu extends React.Component {
                   </ListItemText>
                 </MenuItem>
 
-                <MenuItem onClick={actions.reset}>
+                <MenuItem onClick={this.menuAction(actions.reset)}>
                   <ListItemIcon>
                     <AutorenewIcon />
                   </ListItemIcon>
