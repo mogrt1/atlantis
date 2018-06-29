@@ -11,8 +11,7 @@ import './index.css';
 
 const root = document.getElementById(`root`);
 
-root.addEventListener(`touchmove`, (e)=> e.preventDefault());
-root.addEventListener(`mousemove`, (e)=> e.preventDefault());
+document.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
 
 ReactDOM.render(<App />, root);
 registerServiceWorker();
