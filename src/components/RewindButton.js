@@ -11,14 +11,15 @@ export default class RewindButton extends React.Component {
 
     this.state = {};
 
-    const BACKUPS = 60,
-          BACKUP_INTERVAL = 1000;
+    const BACKUPS = 1024;
+    this.BACKUP_INTERVAL = 128;
+    const REWIND_INTERVAL = 16;
 
     this.recordTimeout = null;
 
     this.record = ()=> {
       if(!gameBoyEmulatorPlaying()) {
-        this.recordTimeout = setTimeout(this.record, BACKUP_INTERVAL);
+        this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
         return;
       }
 
@@ -30,11 +31,10 @@ export default class RewindButton extends React.Component {
         this.props.rewindQueue.shift();
       }
 
-      this.recordTimeout = setTimeout(this.record, BACKUP_INTERVAL);
+      this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
     };
 
     let rewindTimeout = null;
-    const REWIND_INTERVAL = 333;
 
     this.rewind = ()=> {
       if(this.props.rewindQueue.length) {
@@ -65,8 +65,7 @@ export default class RewindButton extends React.Component {
   }
 
   componentDidMount() {
-    const BACKUP_INTERVAL = 1000;
-    this.recordTimeout = setTimeout(this.record, BACKUP_INTERVAL);
+    this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
   }
 
   componentWillUnmount() {
