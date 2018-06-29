@@ -136,7 +136,7 @@ export default class Context extends React.Component {
                 if(!(`name` in game)) {
                   game.name = gameboy.name;
 
-                  set(`games`, JSON.stringify(library));
+                  set(`games`, library);
 
                   this.setState({ library });
                 }
@@ -266,7 +266,7 @@ export default class Context extends React.Component {
           this.actions.addToLibrary(
             results,
             ()=> {
-              set(`games`, JSON.stringify(this.state.library));
+              set(`games`, this.state.library);
             }
           );
         });
@@ -299,7 +299,7 @@ export default class Context extends React.Component {
 
           ()=> {
             if(this.state.library.length) {
-              set(`games`, JSON.stringify(this.state.library));
+              set(`games`, this.state.library);
             } else {
               del(`games`);
             }
@@ -319,7 +319,7 @@ export default class Context extends React.Component {
         const dataKeys = await keys();
 
         for(const key of dataKeys) {
-          if(key === `B64_SRAM_${name}`) {
+          if(key === `SRAM_${name}`) {
             del(key);
           }
         }
@@ -345,7 +345,7 @@ export default class Context extends React.Component {
           },
 
           ()=> {
-            set(`settings`, JSON.stringify(this.state.settings));
+            set(`settings`, this.state.settings);
           }
         );
       },
@@ -392,7 +392,7 @@ export default class Context extends React.Component {
             { library: updatedLibrary },
 
             ()=> {
-              set(`games`, JSON.stringify(this.state.library));
+              set(`games`, this.state.library);
             }
           );
         });
@@ -449,9 +449,7 @@ export default class Context extends React.Component {
   componentDidMount() {
     this.props.restoreCoreData().then(()=> {
       // Hydrate settings.
-      get(`settings`).then((settingsJSON = JSON.stringify(defaultSettings))=> {
-        const savedSettings = JSON.parse(settingsJSON);
-
+      get(`settings`).then((savedSettings = JSON.parse(JSON.stringify(defaultSettings)))=> {
         this.setState({
           settings: {
             ...this.state.settings,
@@ -461,9 +459,7 @@ export default class Context extends React.Component {
       });
 
       // Reattempt thumb downloads that could not be completed while offline.
-      get(`games`).then((gamesJSON = `[]`)=> {
-        const library = JSON.parse(gamesJSON);
-
+      get(`games`).then((library = [])=> {
         this.actions.retryThumbs(library);
       });
 

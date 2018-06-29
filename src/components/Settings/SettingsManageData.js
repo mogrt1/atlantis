@@ -110,7 +110,7 @@ class SettingsKeyBindings extends React.Component {
             continue;
           }
 
-          if(key === `B64_SRAM_${game.name}`) {
+          if(key === `SRAM_${game.name}`) {
             game.saves.sram = key;
           } else if(key === `FREEZE_${game.name}_main`) {
             game.saves.main = key;

@@ -23,9 +23,7 @@ class Library extends React.Component {
         return;
       }
 
-      this.props.addToLibrary(
-        JSON.parse(games)
-      );
+      this.props.addToLibrary(games);
     });
   }
 
