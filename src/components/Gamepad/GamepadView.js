@@ -21,7 +21,7 @@ const GamepadView = ()=> (
       const { ffToggle, ffRate, keyBindings } = state.settings;
 
       return (
-        <div className={`Gamepad ${!state.settings.showOverlay && `Gamepad-hide`}`}>
+        <div className={`Gamepad${(!state.settings.showOverlay && ` Gamepad-hide`) || ``}`}>
           <Dpad className="Gamepad-dpad" kb={keyBindings} />
 
           <GamepadButton
