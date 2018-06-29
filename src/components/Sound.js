@@ -1,12 +1,25 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 
+import { withStyles } from '@material-ui/core/styles';
+
+import theme from '../theme';
+
 import { Consumer } from './Context';
 
-export default class Sound extends React.Component {
+const styleSound = withStyles({
+  snackbar: {
+    height: 48,
+    color: theme.palette.getContrastText(theme.palette.primary[`800`]),
+    background: theme.palette.background.paper
+  },
+  button: { color: theme.palette.secondary[`800`] }
+});
+
+class Sound extends React.Component {
   constructor(props) {
     super(props);
 
@@ -14,22 +27,30 @@ export default class Sound extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <Consumer>
         {({ state, actions })=> (
           <Snackbar
+            onClick={actions.enableAudio}
             anchorOrigin={{
               vertical: `top`,
               horizontal: `center`
             }}
             open={state.audioNeedsConfirmation}
             ContentProps={{
-              // className: classes.snackbar,
+              className: classes.snackbar,
               'aria-describedby': `sound-message`
             }}
-            message={<span id="sound-message">{state.message}</span>}
+            message={<span id="sound-message">
+              {`Tap to enable sound.`}
+            </span>}
             action={
-              <Button onClick={actions.enableAudio} size="small">
+              <Button
+                size="small"
+                className={classes.button}
+              >
                 {`Enable`}
               </Button>
             }
@@ -40,4 +61,6 @@ export default class Sound extends React.Component {
   }
 }
 
-Sound.propTypes = {};
+Sound.propTypes = { classes: PropTypes.object.isRequired };
+
+export default styleSound(Sound);
