@@ -6,10 +6,7 @@ import './Emulator.css';
 
 import { settings } from '../../cores/GameBoy-Online/js/index';
 
-const SOUND = 0;
 const SMOOTHING = 13;
-
-settings[SOUND] = false;
 settings[SMOOTHING] = false;
 
 export default class Emulator extends React.Component {

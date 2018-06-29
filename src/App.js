@@ -10,6 +10,7 @@ import Context, { Consumer } from './components/Context';
 // import Demo from './components/Demo';
 import Gamepad from './components/Gamepad/GamepadView';
 import Emulator from './components/Emulator/Emulator';
+import Sound from './components/Sound';
 import Settings from './components/Settings/Settings';
 import Library from './components/Library/Library';
 
@@ -60,6 +61,7 @@ class App extends React.Component {
               <React.Fragment>
                 {/* {!state.currentROM && <Demo />} */}
                 <Emulator setCanvas={context.actions.setCanvas} />
+                <Sound />
                 <Gamepad />
                 <Settings />
                 <Library addToLibrary={context.actions.addToLibrary} />

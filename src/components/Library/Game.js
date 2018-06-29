@@ -7,10 +7,6 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-// import { gameboy, settings } from '../../cores/GameBoy-Online/js/index';
-
-// const SOUND = 0;
-
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -22,9 +18,7 @@ class Game extends React.Component {
     };
 
     this.setCurrentROM = ()=> {
-      // settings[SOUND] = true;
       props.setCurrentROM(props.rom);
-      // gameboy.initSound();
     };
 
     this.formattedTitle = ()=> {

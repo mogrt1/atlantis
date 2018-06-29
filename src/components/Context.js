@@ -18,8 +18,11 @@ import {
   saveState,
   openState,
   GameBoyJoyPadEvent as gameBoyJoyPadEvent,
-  GameBoyEmulatorInitialized as gameBoyEmulatorInitialized
+  GameBoyEmulatorInitialized as gameBoyEmulatorInitialized,
+  XAudioJSWebAudioContextHandle as audioContext
 } from '../cores/GameBoy-Online/js/index';
+
+// const SOUND = 0;
 
 const { Provider, Consumer } = createContext();
 
@@ -104,7 +107,8 @@ export default class Context extends React.Component {
       settings: JSON.parse(JSON.stringify(defaultSettings)),
       turbo: false,
       message: ``,
-      rewindQueue: []
+      rewindQueue: [],
+      audioNeedsConfirmation: false
     };
 
     this.actions = {
@@ -122,6 +126,8 @@ export default class Context extends React.Component {
 
           ()=> {
             start(this.state.canvas.current, this.state.currentROM);
+
+            this.actions.enableAudio();
 
             const library = [...this.state.library];
 
@@ -147,6 +153,24 @@ export default class Context extends React.Component {
             }
           }
         );
+      },
+
+      enableAudio: ()=> {
+        if(audioContext.state === `suspended`) {
+          audioContext.resume();
+
+          const CHECK_AUDIO_WAIT = 1000;
+
+          setTimeout(()=> {
+            if(audioContext.state === `suspended`) {
+              this.setState({ audioNeedsConfirmation: true });
+            } else {
+              this.setState({ audioNeedsConfirmation: false });
+            }
+          }, CHECK_AUDIO_WAIT);
+        } else {
+          this.setState({ audioNeedsConfirmation: false });
+        }
       },
 
       toggleDrawer: (drawerName)=> ()=> {
@@ -426,12 +450,12 @@ export default class Context extends React.Component {
     this.props.restoreCoreData().then(()=> {
       // Hydrate settings.
       get(`settings`).then((settingsJSON = JSON.stringify(defaultSettings))=> {
-        const settings = JSON.parse(settingsJSON);
+        const savedSettings = JSON.parse(settingsJSON);
 
         this.setState({
           settings: {
             ...this.state.settings,
-            ...settings
+            ...savedSettings
           }
         });
       });
