@@ -15,8 +15,16 @@ export default class FastForwardButton extends React.Component {
 
     let fastforward = false;
 
+    let pressed = false;
+
     this.toggleEvents = {
       down: ()=> {
+        if(pressed) {
+          return false;
+        }
+
+        pressed = true;
+
         if(gameBoyEmulatorPlaying()) {
           fastforward = !fastforward;
 
@@ -26,6 +34,9 @@ export default class FastForwardButton extends React.Component {
               : NORMAL
           );
         }
+      },
+      up: ()=> {
+        pressed = false;
       }
     };
 
