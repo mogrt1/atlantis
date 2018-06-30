@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { dpadDim } from './DpadStyles';
+
 import DpadView from './DpadView';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
@@ -13,38 +15,66 @@ export default class Dpad extends React.Component {
   constructor(props) {
     super(props);
 
+    const TOTAL = 100,
+          HALF = 2;
+
+    const screenDim = {};
+
+    let orientation = ``;
+
+    const updateScreenDim = ()=> {
+      screenDim.width = window.innerWidth;
+      screenDim.height = window.innerHeight;
+      screenDim.vw = screenDim.width / TOTAL;
+      screenDim.vh = screenDim.height / TOTAL;
+
+      screenDim.vmin =
+        screenDim.vw < screenDim.vh
+          ? screenDim.vw
+          : screenDim.vh;
+
+      screenDim.vmax =
+        screenDim.vw > screenDim.vh
+          ? screenDim.vw
+          : screenDim.vh;
+
+      orientation =
+        screenDim.width < screenDim.height
+          ? `portrait`
+          : `landscape`;
+    };
+
+    updateScreenDim();
+
+    window.addEventListener(`resize`, updateScreenDim);
+
+    const getDim = (dim)=>
+      dpadDim.portrait[dim].value * screenDim[dpadDim.portrait[dim].unit];
+
+    const origin = {
+      portrait: {
+        x: getDim(`left`) + (getDim(`width`) / HALF),
+        y: (screenDim.vmax * TOTAL) - getDim(`bottom`) - (getDim(`height`) / HALF)
+      },
+      landscape: {
+        x: getDim(`left`) + (getDim(`width`) / HALF),
+        y: dpadDim.landscape.bottom.reduce(
+          (prev, curr)=> prev - (curr.value * screenDim[curr.unit]),
+          screenDim.vmin * TOTAL
+        )
+      }
+    };
+
+    const offset = {
+      x: getDim(`width`) * (dpadDim.portrait.breadth.value / TOTAL / HALF),
+      y: getDim(`height`) * (dpadDim.portrait.breadth.value / TOTAL / HALF)
+    };
+
     this.buttonCodes = {
       UP: 2,
       DOWN: 3,
       LEFT: 1,
       RIGHT: 0
-    };
-
-    const TOTAL = 100,
-          HALF = 2;
-
-    const wid = window.innerWidth,
-          hgt = window.innerHeight,
-          vw = wid / TOTAL,
-          vh = hgt / TOTAL,
-          vmin = vw < vh ? vw : vh;
-
-    const dpadDim = {
-      bottom: 12,
-      left: 5,
-      width: 36,
-      height: 36,
-      breadth: 0.33
-    };
-
-    const origin = {
-      x: (dpadDim.left * vw) + (dpadDim.width * vw / HALF),
-      y: hgt - (dpadDim.bottom * vh) - (dpadDim.height * vmin / HALF)
-    };
-
-    const offset = {
-      x: dpadDim.width * vmin * dpadDim.breadth / HALF,
-      y: dpadDim.height * vmin * dpadDim.breadth / HALF
     };
 
     const detectDirection = (e)=> {
@@ -53,15 +83,15 @@ export default class Dpad extends React.Component {
 
       const pressed = [];
 
-      if(x > origin.x + offset.x) {
+      if(x > origin[orientation].x + offset.x) {
         pressed.push(this.buttonCodes.RIGHT);
-      } else if(x < origin.x - offset.x) {
+      } else if(x < origin[orientation].x - offset.x) {
         pressed.push(this.buttonCodes.LEFT);
       }
 
-      if(y > origin.y + offset.y) {
+      if(y > origin[orientation].y + offset.y) {
         pressed.push(this.buttonCodes.DOWN);
-      } else if(y < origin.y - offset.y) {
+      } else if(y < origin[orientation].y - offset.y) {
         pressed.push(this.buttonCodes.UP);
       }
 
