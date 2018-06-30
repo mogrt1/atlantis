@@ -8,7 +8,6 @@ import MenuItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Snackbar from '@material-ui/core/Snackbar';
-import MenuIcon from '@material-ui/icons/Menu';
 import SaveIcon from './images/SaveStateIcon';
 import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
@@ -62,7 +61,7 @@ class QuickMenu extends React.Component {
                 pointerCommands={this.events}
                 keyCommands={this.keyEvents}
               >
-                <MenuIcon />
+                {this.props.children}
               </Button>
 
               <Menu
@@ -148,6 +147,7 @@ class QuickMenu extends React.Component {
 }
 
 QuickMenu.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   kb: PropTypes.string.isRequired

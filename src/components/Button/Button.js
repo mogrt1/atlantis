@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ButtonView from './ButtonView';
-import './Button.css';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 

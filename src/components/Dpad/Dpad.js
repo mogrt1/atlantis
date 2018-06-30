@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import DpadView from './DpadView';
-import './Dpad.css';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 

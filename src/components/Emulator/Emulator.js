@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import EmulatorView from './EmulatorView';
-import './Emulator.css';
 
 import { settings } from '../../cores/GameBoy-Online/js/index';
 
