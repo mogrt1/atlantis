@@ -9,9 +9,20 @@ export default class TurboToggleButton extends React.Component {
 
     this.state = {};
 
+    let pressed = false;
+
     this.events = {
       down: ()=> {
+        if(pressed) {
+          return false;
+        }
+
+        pressed = true;
+
         props.toggleTurbo();
+      },
+      up: ()=> {
+        pressed = false;
       }
     };
   }
