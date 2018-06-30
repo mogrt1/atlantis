@@ -11,6 +11,7 @@ import { thumbs, games } from '../db/gameboy.js';
 
 import {
   gameboy,
+  settings,
   start,
   pause,
   run,
@@ -21,8 +22,6 @@ import {
   GameBoyEmulatorInitialized as gameBoyEmulatorInitialized,
   XAudioJSWebAudioContextHandle as audioContext
 } from '../cores/GameBoy-Online/js/index';
-
-// const SOUND = 0;
 
 const { Provider, Consumer } = createContext();
 
@@ -75,6 +74,7 @@ export const defaultSettings = {
   ffRate: 3,
   ffToggle: true,
   showOverlay: true,
+  mute: false,
   keyBindings: {
     'settings-kb-b': `z`,
     'settings-kb-a': `x`,
@@ -94,6 +94,8 @@ export const defaultSettings = {
     'settings-kb-reset': `r`
   }
 };
+
+const SOUND = 0;
 
 export default class Context extends React.Component {
   constructor(props) {
@@ -125,6 +127,7 @@ export default class Context extends React.Component {
           },
 
           ()=> {
+            settings[SOUND] = !this.state.mute;
             start(this.state.canvas.current, this.state.currentROM);
 
             this.actions.enableAudio();
@@ -156,7 +159,7 @@ export default class Context extends React.Component {
       },
 
       enableAudio: ()=> {
-        if(audioContext.state === `suspended`) {
+        if(audioContext && audioContext.state === `suspended`) {
           audioContext.resume();
 
           const CHECK_AUDIO_WAIT = 1000;

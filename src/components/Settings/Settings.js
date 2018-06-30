@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import SettingsIcon from '@material-ui/icons/Settings';
 
+import SettingsMute from './SettingsMute';
 import SettingsFFRate from './SettingsFFRate';
 import SettingsFFToggle from './SettingsFFToggle';
 import SettingsManageData from './SettingsManageData';
@@ -46,6 +47,11 @@ class Settings extends React.Component {
                     </ListSubheader>
                   }>
                     <div>
+                      <SettingsMute
+                        toggle={state.settings.mute}
+                        updateSetting={actions.updateSetting(`mute`)}
+                        enableAudio={actions.enableAudio}
+                      />
                       <SettingsFFRate
                         rate={state.settings.ffRate}
                         updateSetting={actions.updateSetting(`ffRate`)}

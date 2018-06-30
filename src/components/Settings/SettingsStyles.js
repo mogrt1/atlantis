@@ -41,6 +41,8 @@ export const styleSettingsFFToggle = withStyles(toggle);
 
 export const styleSettingsShowOverlay = withStyles(toggle);
 
+export const styleSettingsMute = withStyles(toggle);
+
 const collapsibleList = {
   itemText: { paddingLeft: 0 },
   nested: { paddingLeft: theme.spacing.unit * INDENT },
