@@ -11,3 +11,5 @@ const theme = createMuiTheme({
 });
 
 export default theme;
+
+export const landscape = `@media (orientation: landscape)`;
