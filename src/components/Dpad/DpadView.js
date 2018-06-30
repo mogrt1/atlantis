@@ -9,6 +9,7 @@ const DpadView = (props)=> {
 
   return (
     <div
+      ref={props.dpadRef}
       className={`${classes.dpad} ${props.className || ``}`}
       {...props.pointerEvents}
     >
@@ -19,6 +20,7 @@ const DpadView = (props)=> {
 };
 
 DpadView.propTypes = {
+  dpadRef: PropTypes.object.isRequired,
   pointerEvents: PropTypes.object,
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
