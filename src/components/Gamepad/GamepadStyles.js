@@ -13,7 +13,8 @@ const button = {
   '& .Button-label': {
     position: `absolute`,
     fontSize: `5vmin`,
-    color: `rgba(128, 128, 128, 0.5)`
+    color: `rgba(128, 128, 128, 0.5)`,
+    pointerEvents: `none`
   },
   '& sup': { fontFamily: `'Times New Roman', Times, serif` }
 };

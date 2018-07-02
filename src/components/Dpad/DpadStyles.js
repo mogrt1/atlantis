@@ -8,7 +8,8 @@ const axis = {
   boxShadow: `
     inset -1px 1px 16px 0px rgba(128, 128, 128, 1),
     0 0 3px 1px rgba(128, 128, 128, 1)
-  `
+  `,
+  pointerEvents: `none`
 };
 
 export const dpadDim = {
