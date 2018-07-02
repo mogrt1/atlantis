@@ -96,15 +96,19 @@ export const styleGamepad = withStyles({
   },
   b: {
     ...primary,
-    right: `24vmin`,
+    right: `max(24vmin, calc(20vmin + env(safe-area-inset-right)))`,
     bottom: `11.3vh`,
+
+    fallbacks: { right: `24vmin` },
 
     [landscape]: { bottom: `28vh` }
   },
   a: {
     ...primary,
-    right: `5vmin`,
+    right: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
     bottom: `18.3vh`,
+
+    fallbacks: { right: `5vmin` },
 
     [landscape]: { bottom: `44vh` }
   },
@@ -115,8 +119,10 @@ export const styleGamepad = withStyles({
 
     [landscape]: {
       ...secondary[landscape],
-      right: `5vmin`,
-      bottom: `25vh`
+      right: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+      bottom: `25vh`,
+
+      fallbacks: { right: `5vmin` }
     }
   },
   select: {
@@ -126,9 +132,11 @@ export const styleGamepad = withStyles({
 
     [landscape]: {
       ...secondary[landscape],
-      right: `14vmin`,
+      right: `max(14vmin, calc(10vmin + env(safe-area-inset-right)))`,
       bottom: `10vh`,
-      left: `auto`
+      left: `auto`,
+
+      fallbacks: { right: `14vmin` }
     }
   },
   icon: { fontSize: `5vmin` },

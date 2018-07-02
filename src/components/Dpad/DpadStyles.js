@@ -12,67 +12,17 @@ const axis = {
   pointerEvents: `none`
 };
 
-export const dpadDim = {
-  portrait: {
-    bottom: {
-      value: 9.3,
-      unit: `vh`
-    },
-    left: {
-      value: 5,
-      unit: `vmin`
-    },
-    width: {
-      value: 40,
-      unit: `vmin`
-    },
-    height: {
-      value: 40,
-      unit: `vmin`
-    },
-    breadth: {
-      value: 33,
-      unit: `%`
-    }
-  }
-};
-
-dpadDim.landscape = {
-  ...dpadDim.portrait,
-  bottom: [
-    {
-      value: 50,
-      unit: `vh`
-    },
-    {
-      value: 20,
-      unit: `vh`
-    },
-    {
-      value: 5,
-      unit: `vh`
-    }
-  ]
-};
-
-const getDim = (dim)=>
-  `${dpadDim.portrait[dim].value}${dpadDim.portrait[dim].unit}`;
-
 export const styleDpad = withStyles({
   dpad: {
     position: `absolute`,
-    bottom: getDim(`bottom`),
-    left: getDim(`left`),
-    width: getDim(`width`),
-    height: getDim(`height`),
+    bottom: `9.3vh`,
+    left: `max(5vmin, calc(1vmin + env(safe-area-inset-left)))`,
+    width: `40vmin`,
+    height: `40vmin`,
 
-    [landscape]: {
-      bottom: `calc(${
-        dpadDim.landscape.bottom.map(
-          (dim)=> `${dim.value}${dim.unit}`
-        ).join(` - `)
-      })`
-    }
+    fallbacks: { left: `5vmin` },
+
+    [landscape]: { bottom: `calc(50vh - 20vh - 5vh)` }
   },
   vertical: {
     ...axis,
