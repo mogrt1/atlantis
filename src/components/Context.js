@@ -102,6 +102,7 @@ export default class Context extends React.Component {
     super(props);
 
     this.state = {
+      canvas: null,
       settingsOpen: false,
       libraryOpen: false,
       library: [],
