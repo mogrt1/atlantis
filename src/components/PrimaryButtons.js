@@ -5,7 +5,7 @@ import GamepadButton from './GamepadButton';
 class PrimaryButtons extends React.Component {
   render() {
     return (
-      <React.Fragment>
+      <div>
         <GamepadButton
           className={classes.b}
           type="B"
@@ -24,7 +24,7 @@ class PrimaryButtons extends React.Component {
         >
           {`A`}
         </GamepadButton>
-      </React.Fragment>
+      </div>
     );
   }
 }
