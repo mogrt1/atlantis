@@ -16,12 +16,24 @@ export default class GamepadButton extends React.Component {
       B: 5
     };
 
-    this.events = {
-      down: ()=> {
+    const HAPTIC_DURATION = 150;
+
+    this.events = props.events || {
+      down: (e)=> {
         gameBoyJoyPadEvent(buttonCodes[props.type], `pressed`);
+        console.log(props.type, e.target, e.type);
+
+        if(`vibrate` in window.navigator) {
+          window.navigator.vibrate(HAPTIC_DURATION);
+        }
       },
-      up: ()=> {
+      up: (e)=> {
         gameBoyJoyPadEvent(buttonCodes[props.type]);
+        console.log(props.type, e.target, e.type);
+
+        if(`vibrate` in window.navigator) {
+          window.navigator.vibrate(HAPTIC_DURATION);
+        }
       }
     };
 
@@ -39,10 +51,18 @@ export default class GamepadButton extends React.Component {
     this.turboEvents = {
       down: ()=> {
         turboTimeout = setTimeout(turbo, TURBO_INTERVAL);
+
+        if(`vibrate` in window.navigator) {
+          window.navigator.vibrate(HAPTIC_DURATION, TURBO_INTERVAL, HAPTIC_DURATION);
+        }
       },
       up: ()=> {
         clearTimeout(turboTimeout);
         gameBoyJoyPadEvent(buttonCodes[props.type]);
+
+        if(`vibrate` in window.navigator) {
+          window.navigator.vibrate(HAPTIC_DURATION);
+        }
       }
     };
   }
@@ -70,6 +90,7 @@ GamepadButton.propTypes = {
   kb: PropTypes.string.isRequired,
   turbo: PropTypes.bool,
   turboKb: PropTypes.string,
+  events: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node
 };

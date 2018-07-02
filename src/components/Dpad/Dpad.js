@@ -19,7 +19,7 @@ export default class Dpad extends React.Component {
 
     const HALF = 2;
 
-    const BREADTH = 0.165;
+    const BREADTH = 0.25;
 
     this.updateDpadDim = ()=> {
       const {
@@ -47,6 +47,20 @@ export default class Dpad extends React.Component {
       RIGHT: 0
     };
 
+    const arraysEqual = (arr1, arr2)=> {
+      for(const [i, el] of arr1.entries()) {
+        if(el !== arr2[i]) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    let prevPressed = [];
+
+    const HAPTIC_DURATION = 150;
+
     const detectDirection = (e)=> {
       const x = e.clientX || e.targetTouches[0].clientX,
             y = e.clientY || e.targetTouches[0].clientY;
@@ -67,8 +81,16 @@ export default class Dpad extends React.Component {
         pressed.push(this.buttonCodes.UP);
       }
 
-      for(const [, value] of Object.entries(this.buttonCodes)) {
-        gameBoyJoyPadEvent(value, pressed.includes(value));
+      if(!arraysEqual(pressed, prevPressed)) {
+        for(const [, value] of Object.entries(this.buttonCodes)) {
+          gameBoyJoyPadEvent(value, pressed.includes(value));
+        }
+
+        if(`vibrate` in window.navigator) {
+          window.navigator.vibrate(HAPTIC_DURATION);
+        }
+
+        prevPressed = [...pressed];
       }
     };
 
@@ -92,6 +114,8 @@ export default class Dpad extends React.Component {
         for(const [, value] of Object.entries(this.buttonCodes)) {
           gameBoyJoyPadEvent(value);
         }
+
+        prevPressed = [];
       }
     };
   }
