@@ -9,11 +9,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 import './index.css';
 
-if(window.navigator.standalone) {
-  document.querySelector(`meta[name=viewport]`)
-    .setAttribute(`content`, `width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no`);
-}
-
 const root = document.getElementById(`root`);
 
 document.addEventListener(`touchstart`, (e)=> {
