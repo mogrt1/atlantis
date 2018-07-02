@@ -18,7 +18,7 @@ export default class GamepadButton extends React.Component {
 
     const HAPTIC_DURATION = 150;
 
-    this.events = props.events || {
+    this.events = {
       down: (e)=> {
         gameBoyJoyPadEvent(buttonCodes[props.type], `pressed`);
         console.log(props.type, e.target, e.type);
@@ -34,7 +34,8 @@ export default class GamepadButton extends React.Component {
         if(`vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
-      }
+      },
+      ...props.events
     };
 
     const TURBO_INTERVAL = 33;
