@@ -18,8 +18,15 @@ const root = document.getElementById(`root`);
 
 document.addEventListener(`touchstart`, (e)=> {
   if(
-    e.target.parentNode.className
-    && e.target.parentNode.className.includes(`GamepadView-gamepad`)
+    (
+      e.target.className
+      && e.target.className.includes(`GamepadView-gamepad`)
+    )
+    || (
+      e.target.parentNode.className
+      && e.target.parentNode.className.includes(`GamepadView-gamepad`)
+    )
+    || e.target.tagName === `CANVAS`
   ) {
     e.preventDefault();
   }
