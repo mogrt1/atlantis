@@ -22,6 +22,10 @@ export default class Dpad extends React.Component {
     const BREADTH = 0.25;
 
     this.updateDpadDim = ()=> {
+      if(!this.dpadRef.current) {
+        return false;
+      }
+
       const {
         top,
         left,
