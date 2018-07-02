@@ -60,7 +60,7 @@ const round = { borderRadius: `50%` },
       option = {
         ...rounded,
         ...button,
-        bottom: `33.3vh`,
+        bottom: `32.3vh`,
         width: `14vmin`,
         height: `10vmin`,
 
@@ -78,12 +78,17 @@ const round = { borderRadius: `50%` },
 
 export const styleGamepad = withStyles({
   gamepad: {
-    position: `absolute`,
-    top: `calc(48px + 90vw)`,
+    position: `fixed`,
+    top: `calc(48px + 90vw + env(safe-area-inset-top))`,
     left: 0,
     width: `100vw`,
-    height: `calc(100% - 90vw - 48px)`,
+    height: `calc(100% - 90vw - 48px - env(safe-area-inset-top))`,
     zIndex: 1,
+
+    fallbacks: {
+      top: `calc(48px + 90vw)`,
+      height: `calc(100% - 90vw - 48px)`
+    },
 
     [landscape]: {
       top: `calc(48px + 1vh)`,
@@ -142,11 +147,15 @@ export const styleGamepad = withStyles({
   icon: { fontSize: `5vmin` },
   rewind: {
     ...option,
-    right: `24vmin`
+    right: `max(24vmin, calc(19vmin + env(safe-area-inset-right)))`,
+
+    fallbacks: { right: `24vmin` }
   },
   fastForward: {
     ...option,
-    right: `5vmin`
+    right: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+
+    fallbacks: { right: `5vmin` }
   },
   quickMenu: {
     ...option,
@@ -156,7 +165,9 @@ export const styleGamepad = withStyles({
       ...option[landscape],
       top: 0,
       right: `auto`,
-      left: `5vmin`
+      left: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+
+      fallbacks: { left: `5vmin` }
     }
   },
   turbo: {
