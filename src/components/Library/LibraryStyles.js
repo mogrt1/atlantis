@@ -21,7 +21,12 @@ export const styleLibrary = withStyles({
   heading: { background: theme.palette.background.paper }
 });
 
-export const styleGameList = withStyles({ libraryList: { width: libraryWidth } });
+export const styleGameList = withStyles({
+  libraryList: {
+    paddingRight: `env(safe-area-inset-right)`,
+    width: libraryWidth
+  }
+});
 
 export const styleAddGame = withStyles({
   addGameLabel: {
@@ -34,15 +39,21 @@ export const styleAddGame = withStyles({
   }
 });
 
-export const styleGame = withStyles({
-  game: {
+const tileDim = {
+  width: `calc(${libraryWidth / libraryCols}px - env(safe-area-inset-right) / 2)`,
+  height: `calc(${libraryWidth / libraryCols}px - env(safe-area-inset-right) / 2)`,
+
+  fallbacks: {
     width: `${libraryWidth / libraryCols}px`,
     height: `${libraryWidth / libraryCols}px`
-  },
-  gameImage: { width: `${libraryWidth / libraryCols}px` },
+  }
+};
+
+export const styleGame = withStyles({
+  game: { ...tileDim },
+  gameImage: { ...tileDim },
   gameImageError: {
-    width: `${libraryWidth / libraryCols}px`,
-    height: `${libraryWidth / libraryCols}px`,
+    ...tileDim,
     background: `url(${gameboyCart}) 50% 50% no-repeat ${theme.palette.primary.light}`,
     backgroundSize: `50%`
   },

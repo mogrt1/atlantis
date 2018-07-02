@@ -12,9 +12,15 @@ import { Consumer } from './Context';
 
 const styleSound = withStyles({
   snackbar: {
-    height: 48,
+    paddingTop: `env(safe-area-inset-top)`,
+    height: `calc(48px + env(safe-area-inset-top))`,
     color: theme.palette.getContrastText(theme.palette.primary[`800`]),
-    background: theme.palette.background.paper
+    background: theme.palette.background.paper,
+
+    fallbacks: {
+      paddingTop: 6,
+      height: 48
+    }
   },
   button: { color: theme.palette.secondary[`800`] }
 });

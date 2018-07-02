@@ -101,7 +101,7 @@ export const styleGamepad = withStyles({
   },
   b: {
     ...primary,
-    right: `max(24vmin, calc(20vmin + env(safe-area-inset-right)))`,
+    right: `max(24vmin, calc(19vmin + env(safe-area-inset-right)))`,
     bottom: `11.3vh`,
 
     fallbacks: { right: `24vmin` },
@@ -110,7 +110,7 @@ export const styleGamepad = withStyles({
   },
   a: {
     ...primary,
-    right: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+    right: `max(5vmin, env(safe-area-inset-right))`,
     bottom: `18.3vh`,
 
     fallbacks: { right: `5vmin` },
@@ -124,7 +124,7 @@ export const styleGamepad = withStyles({
 
     [landscape]: {
       ...secondary[landscape],
-      right: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+      right: `max(5vmin, env(safe-area-inset-right))`,
       bottom: `25vh`,
 
       fallbacks: { right: `5vmin` }
@@ -137,7 +137,7 @@ export const styleGamepad = withStyles({
 
     [landscape]: {
       ...secondary[landscape],
-      right: `max(14vmin, calc(10vmin + env(safe-area-inset-right)))`,
+      right: `max(14vmin, calc(9vmin + env(safe-area-inset-right)))`,
       bottom: `10vh`,
       left: `auto`,
 
@@ -153,7 +153,7 @@ export const styleGamepad = withStyles({
   },
   fastForward: {
     ...option,
-    right: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+    right: `max(5vmin, env(safe-area-inset-right))`,
 
     fallbacks: { right: `5vmin` }
   },
@@ -165,7 +165,7 @@ export const styleGamepad = withStyles({
       ...option[landscape],
       top: 0,
       right: `auto`,
-      left: `max(5vmin, calc(1vmin + env(safe-area-inset-right)))`,
+      left: `max(5vmin, env(safe-area-inset-right))`,
 
       fallbacks: { left: `5vmin` }
     }

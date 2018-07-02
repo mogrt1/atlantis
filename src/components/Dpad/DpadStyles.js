@@ -16,7 +16,7 @@ export const styleDpad = withStyles({
   dpad: {
     position: `absolute`,
     bottom: `9.3vh`,
-    left: `max(5vmin, calc(1vmin + env(safe-area-inset-left)))`,
+    left: `max(5vmin, env(safe-area-inset-left))`,
     width: `40vmin`,
     height: `40vmin`,
 

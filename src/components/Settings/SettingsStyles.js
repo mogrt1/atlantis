@@ -22,7 +22,10 @@ export const styleSettings = withStyles({
   heading: { background: theme.palette.background.paper }
 });
 
-const settingsItem = { height: 72 };
+const settingsItem = {
+  paddingLeft: `max(24px, env(safe-area-inset-left))`,
+  height: 72
+};
 
 export const styleSettingsFFRate = withStyles({
   settingsItem,
