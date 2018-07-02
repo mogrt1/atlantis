@@ -164,14 +164,14 @@ export const styleGamepad = withStyles({
     boxSizing: `content-box`,
     right: `-0.75vmin`,
     bottom: `-0.75vmin`,
-    width: `max(7.5vmin, env(safe-area-inset-bottom))`,
-    height: `max(7.5vmin, env(safe-area-inset-bottom))`,
+    width: `max(10vmin, env(safe-area-inset-bottom))`,
+    height: `max(10vmin, env(safe-area-inset-bottom))`,
     textIndent: `1.5vmin`,
     borderRadius: `1.5vmin`,
 
     fallbacks: {
-      width: `7.5vmin`,
-      height: `7.5vmin`
+      width: `10vmin`,
+      height: `10vmin`
     }
   }
 });
