@@ -18,14 +18,8 @@ const root = document.getElementById(`root`);
 
 document.addEventListener(`touchstart`, (e)=> {
   if(
-    (
-      e.target.className
-      && e.target.className.includes(`GamepadView-gamepad`)
-    )
-    || (
-      e.target.parentNode.className
-      && e.target.parentNode.className.includes(`GamepadView-gamepad`)
-    )
+    e.target.className.includes(`GamepadView-gamepad`)
+    || e.target.parentNode.className.includes(`GamepadView-gamepad`)
     || e.target.tagName === `CANVAS`
   ) {
     e.preventDefault();
@@ -36,3 +30,7 @@ document.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: fals
 
 ReactDOM.render(<App />, root);
 registerServiceWorker();
+
+if(module.hot) {
+  module.hot.accept();
+}
