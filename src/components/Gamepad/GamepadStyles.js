@@ -79,13 +79,16 @@ const round = { borderRadius: `50%` },
 export const styleGamepad = withStyles({
   gamepad: {
     position: `absolute`,
-    bottom: 0,
+    top: `calc(48px + 90vw)`,
     left: 0,
     width: `100vw`,
-    height: `calc(100vh - 90vw - 48px)`,
+    height: `calc(100% - 90vw - 48px)`,
     zIndex: 1,
 
-    [landscape]: { height: `calc(100vh - 48px - 1vh)` }
+    [landscape]: {
+      top: `calc(48px + 1vh)`,
+      height: `calc(100% - 48px - 1vh)`
+    }
   },
   hide: {
     opacity: 0,
