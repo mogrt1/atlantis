@@ -16,6 +16,15 @@ if(window.navigator.standalone) {
 
 const root = document.getElementById(`root`);
 
+document.addEventListener(`touchstart`, (e)=> {
+  if(
+    e.target.parentNode.className
+    && e.target.parentNode.className.includes(`GamepadView-gamepad`)
+  ) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
 document.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
 
 ReactDOM.render(<App />, root);
