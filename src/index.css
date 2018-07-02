@@ -6,14 +6,15 @@ html {
 }
 
 body {
-  margin: 0;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   font-family: sans-serif;
 }
 
 #root {
+  position: relative;
+  top: env(safe-area-inset-top);
   width: 100vw;
   height: 100vh;
+  height: calc(100vh - env(safe-area-inset-top));
   overflow: hidden;
 }
 
