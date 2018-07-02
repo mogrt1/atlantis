@@ -118,7 +118,7 @@ export default class Context extends React.Component {
         this.setState({ canvas });
       },
 
-      setCurrentROM: (currentROM, autoLoad)=> {
+      setCurrentROM: (currentROM)=> {
         this.setState(
           {
             currentROM,
@@ -127,7 +127,7 @@ export default class Context extends React.Component {
           },
 
           ()=> {
-            settings[SOUND] = !this.state.mute;
+            settings[SOUND] = !this.state.settings.mute;
             start(this.state.canvas.current, this.state.currentROM);
 
             this.actions.enableAudio();
@@ -148,12 +148,10 @@ export default class Context extends React.Component {
               }
             }
 
-            if(autoLoad) {
-              // Load autosave.
-              openState(`auto`, this.state.canvas.current);
-            } else {
-              set(`currentROM`, this.state.currentROM);
-            }
+            // Load autosave.
+            openState(`auto`, this.state.canvas.current);
+
+            set(`currentROM`, this.state.currentROM);
           }
         );
       },
