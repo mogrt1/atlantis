@@ -16,6 +16,7 @@ import QuickMenu from '../QuickMenu/QuickMenu';
 import TurboToggleButton from '../TurboToggleButton';
 
 import { Consumer } from '../Context';
+import PrimaryButtons from '../PrimaryButtons/PrimaryButtons';
 
 const GamepadView = (props)=> {
   const { classes } = props;
@@ -29,24 +30,13 @@ const GamepadView = (props)=> {
           <div className={`${classes.gamepad} ${(!state.settings.showOverlay && classes.hide) || ``}`}>
             <Dpad kb={keyBindings} />
 
-            <GamepadButton
-              className={classes.b}
-              type="B"
-              kb={keyBindings[`settings-kb-b`]}
-              turbo={state.turbo}
-              turboKb={keyBindings[`settings-kb-b-turbo`]}
-            >
-              {`B`}
-            </GamepadButton>
-            <GamepadButton
-              className={classes.a}
-              type="A"
-              kb={keyBindings[`settings-kb-a`]}
-              turbo={state.turbo}
-              turboKb={keyBindings[`settings-kb-a-turbo`]}
-            >
-              {`A`}
-            </GamepadButton>
+            <PrimaryButtons
+              kbB={keyBindings[`settings-kb-b`]}
+              kbA={keyBindings[`settings-kb-a`]}
+              turboKbB={keyBindings[`settings-kb-b-turbo`]}
+              turboKbA={keyBindings[`settings-kb-a-turbo`]}
+            />
+
             <GamepadButton className={classes.start} type="START" kb={keyBindings[`settings-kb-start`]}>
               {`Start`}
             </GamepadButton>

@@ -52,6 +52,10 @@ export default class Dpad extends React.Component {
     };
 
     const arraysEqual = (arr1, arr2)=> {
+      if(arr1.length !== arr2.length) {
+        return false;
+      }
+
       for(const [i, el] of arr1.entries()) {
         if(el !== arr2[i]) {
           return false;
@@ -120,6 +124,10 @@ export default class Dpad extends React.Component {
         }
 
         prevPressed = [];
+
+        if(`vibrate` in window.navigator) {
+          window.navigator.vibrate(HAPTIC_DURATION);
+        }
       }
     };
   }

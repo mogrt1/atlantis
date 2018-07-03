@@ -45,11 +45,15 @@ export default class PointerCommands extends React.Component {
       }
     });
 
-    return React.cloneElement(this.props.children, { pointerEvents });
+    return React.cloneElement(
+      this.props.children,
+      this.props.apply ? { ...pointerEvents } : { pointerEvents }
+    );
   }
 }
 
 PointerCommands.propTypes = {
+  apply: PropTypes.bool,
   down: PropTypes.func,
   move: PropTypes.func,
   up: PropTypes.func,
