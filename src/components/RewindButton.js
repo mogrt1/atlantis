@@ -38,7 +38,7 @@ export default class RewindButton extends React.Component {
 
     this.rewind = ()=> {
       if(this.props.rewindQueue.length) {
-        gameboy.returnFromState(this.props.rewindQueue.pop());
+        gameboy.returnFromState(this.props.rewindQueue.pop(), `rewinding`);
         gameboy.run(`force`);
         gameboy.stopEmulator = 3;
 
