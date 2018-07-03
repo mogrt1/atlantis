@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { keys } from 'idb-keyval';
+import { set, get, keys } from 'idb-keyval';
 
 import { styleSettingsManageData } from './SettingsStyles';
 
@@ -9,6 +9,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -19,6 +21,10 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StorageIcon from '@material-ui/icons/Storage';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ExportIcon from '@material-ui/icons/Save';
+import ImportIcon from '@material-ui/icons/Publish';
+
+import { persistValues } from '../../cores/GameBoy-Online/js/index';
 
 class SettingsKeyBindings extends React.Component {
   constructor(props) {
@@ -94,6 +100,30 @@ class SettingsKeyBindings extends React.Component {
       [`main`, `save state data for`],
       [`auto`, `autosave data for`]
     ]);
+
+    this.importSRAM = (key)=> (e)=> {
+      const [file] = e.target.files;
+
+      if(!file) {
+        return false;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = (re)=> {
+        const sram = new Uint8Array(re.target.result);
+
+        persistValues[key] = sram;
+
+        set(key, sram);
+      };
+
+      reader.onerror = (err)=> {
+        console.error(`Could not upload SRAM file!`, err);
+      };
+
+      reader.readAsArrayBuffer(file);
+    };
   }
 
   componentDidMount() {
@@ -111,6 +141,16 @@ class SettingsKeyBindings extends React.Component {
           }
 
           if(key === `SRAM_${game.name}`) {
+            get(key).then((sram)=> {
+              const blob = new Blob(sram);
+              const url = URL.createObjectURL(blob);
+              game.saves.sram = {
+                key,
+                url
+              };
+
+              this.setState({ games });
+            });
             game.saves.sram = key;
           } else if(key === `FREEZE_${game.name}_main`) {
             game.saves.main = key;
@@ -149,66 +189,94 @@ class SettingsKeyBindings extends React.Component {
           unmountOnExit
         >
           <List component="div" disablePadding>
-            {this.state.games.map(({ title, md5, rom, name, saves })=> (
-              <React.Fragment key={md5}>
-                <ListItem className={classes.nested} dense button onClick={this.requestPermission({
-                  action: this.deleteGame(rom),
-                  type: `game`,
-                  name: title
-                })}>
-                  <ListItemIcon>
-                    <DeleteIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={title}
-                    classes={{
-                      root: classes.itemRoot,
-                      primary: classes.itemPrimary
-                    }}
-                  />
-                </ListItem>
-                {name && Object.entries(saves).map(([key])=> {
-                  let label = ``,
-                      action = null;
+            {this.state.games.map((game)=> {
+              const { title, md5, rom, name, saves } = game;
 
-                  if(key === `sram`) {
-                    label = `SRAM`;
-                    action = this.deleteSRAM(name);
-                  } else if(key === `main`) {
-                    label = `Save State`;
-                    action = this.deleteSaveState(name, `main`);
-                  } else if(key === `auto`) {
-                    label = `Autosave`;
-                    action = this.deleteSaveState(name, `auto`);
-                  }
+              return (
+                <React.Fragment key={md5}>
+                  <ListItem className={classes.nested} dense button onClick={this.requestPermission({
+                    action: this.deleteGame(rom),
+                    type: `game`,
+                    name: title
+                  })}>
+                    <ListItemIcon>
+                      <DeleteIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={title}
+                      classes={{
+                        root: classes.itemRoot,
+                        primary: classes.itemPrimary
+                      }}
+                    />
+                  </ListItem>
+                  {name && Object.entries(saves).map(([key, saveValue])=> {
+                    let label = ``,
+                        action = null;
 
-                  return (
-                    <ListItem
-                      key={key}
-                      className={`${classes.nested} ${classes.save}`}
-                      dense
-                      button
-                      onClick={this.requestPermission({
-                        action,
-                        type: key,
-                        name: title
-                      })}
-                    >
-                      <ListItemIcon>
-                        <DeleteIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={label}
-                        classes={{
-                          root: classes.itemRoot,
-                          primary: classes.itemPrimary
-                        }}
-                      />
-                    </ListItem>
-                  );
-                })}
-              </React.Fragment>
-            ))}
+                    if(key === `sram`) {
+                      label = `SRAM`;
+                      action = this.deleteSRAM(name);
+                    } else if(key === `main`) {
+                      label = `Save State`;
+                      action = this.deleteSaveState(name, `main`);
+                    } else if(key === `auto`) {
+                      label = `Autosave`;
+                      action = this.deleteSaveState(name, `auto`);
+                    }
+
+                    return (
+                      <ListItem
+                        key={key}
+                        className={`${classes.nested} ${classes.save}`}
+                        dense
+                        button
+                        onClick={this.requestPermission({
+                          action,
+                          type: key,
+                          name: title
+                        })}
+                      >
+                        <ListItemIcon>
+                          <DeleteIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={label}
+                          classes={{
+                            root: classes.itemRoot,
+                            primary: classes.itemPrimary
+                          }}
+                        />
+                        {key === `sram` && <ListItemSecondaryAction>
+                          <IconButton aria-label="Import">
+                            <label htmlFor={`library-add-game-${name}`} className={classes.addGameLabel}>
+                              <ImportIcon />
+                            </label>
+                            <input
+                              id={`library-add-game-${name}`}
+                              type="file"
+                              style={{ display: `none` }}
+                              onChange={this.importSRAM(saveValue.key)}
+                            />
+                          </IconButton>
+                          <IconButton aria-label="Export">
+                            <a
+                              className={classes.secondaryAction}
+                              href={saveValue.url}
+                              download={`${title.split(`.`)[0]}.srm`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <ExportIcon />
+                            </a>
+                          </IconButton>
+                        </ListItemSecondaryAction>}
+                      </ListItem>
+                    );
+                  })}
+                </React.Fragment>
+              );
+            })}
           </List>
         </Collapse>
 

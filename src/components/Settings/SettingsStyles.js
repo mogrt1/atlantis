@@ -90,5 +90,6 @@ export const styleSettingsManageData = withStyles({
     lineHeight: 1.2,
     color: theme.palette.getContrastText(theme.palette.primary[`800`])
   },
-  confirmButton: { background: theme.palette.secondary[`800`] }
+  confirmButton: { background: theme.palette.secondary[`800`] },
+  secondaryAction: { color: `inherit` }
 });
