@@ -13,8 +13,9 @@ const root = document.getElementById(`root`);
 
 root.addEventListener(`touchstart`, (e)=> {
   if(
-    e.target.className.includes(`GamepadView-gamepad`)
-    || e.target.parentNode.className.includes(`GamepadView-gamepad`)
+    e.target.className.includes(`GamepadView`)
+    || e.target.parentNode.className.includes(`GamepadView`)
+    || e.target.className.includes(`PrimaryButtons`)
     || e.target.tagName === `CANVAS`
   ) {
     e.preventDefault();
