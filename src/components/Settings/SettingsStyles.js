@@ -18,7 +18,10 @@ export const styleSettings = withStyles({
     left: 0,
     color: theme.palette.getContrastText(theme.palette.primary[`800`])
   },
-  drawer: { width: settingsWidth },
+  drawer: {
+    width: settingsWidth,
+    maxWidth: `calc(100vw - ${THUMB_WIDTH}px)`
+  },
   heading: { background: theme.palette.background.paper }
 });
 

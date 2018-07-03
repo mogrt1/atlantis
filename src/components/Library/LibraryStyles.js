@@ -17,7 +17,10 @@ export const styleLibrary = withStyles({
     right: 0,
     color: theme.palette.getContrastText(theme.palette.primary[`800`])
   },
-  drawer: { width: libraryWidth },
+  drawer: {
+    width: libraryWidth,
+    maxWidth: `calc(100vw - ${THUMB_WIDTH}px)`
+  },
   heading: { background: theme.palette.background.paper }
 });
 
