@@ -15,27 +15,29 @@ const axis = {
 export const styleDpad = withStyles({
   dpad: {
     position: `absolute`,
-    bottom: `9.3vh`,
-    left: `max(5vmin, env(safe-area-inset-left))`,
-    width: `40vmin`,
-    height: `40vmin`,
+    bottom: `6.3vh`,
+    left: `env(safe-area-inset-left)`,
+    width: `50vmin`,
+    height: `50vmin`,
 
-    fallbacks: { left: `5vmin` },
+    fallbacks: { left: `0` },
 
-    [landscape]: { bottom: `calc(50vh - 20vh - 5vh)` }
+    [landscape]: { bottom: `calc(50vh - 25vh - 5vh)` }
   },
   vertical: {
     ...axis,
-    top: 0,
-    left: `calc(50% - 33% / 2)`,
-    width: `33%`,
-    height: `100%`
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
+    width: `calc(40vmin * 0.33)`,
+    height: `40vmin`
   },
   horizontal: {
     ...axis,
-    top: `calc(50% - 33% / 2)`,
-    left: `0`,
-    width: `100%`,
-    height: `33%`
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
+    width: `40vmin`,
+    height: `calc(40vmin * 0.33)`
   }
 });
