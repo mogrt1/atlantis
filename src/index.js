@@ -11,7 +11,7 @@ import './index.css';
 
 const root = document.getElementById(`root`);
 
-document.addEventListener(`touchstart`, (e)=> {
+root.addEventListener(`touchstart`, (e)=> {
   if(
     e.target.className.includes(`GamepadView-gamepad`)
     || e.target.parentNode.className.includes(`GamepadView-gamepad`)
@@ -21,7 +21,7 @@ document.addEventListener(`touchstart`, (e)=> {
   }
 }, { passive: false });
 
-document.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
+root.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
 
 ReactDOM.render(<App />, root);
 registerServiceWorker();
