@@ -26,7 +26,3 @@ root.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false })
 
 ReactDOM.render(<App />, root);
 registerServiceWorker();
-
-if(module.hot) {
-  module.hot.accept();
-}
