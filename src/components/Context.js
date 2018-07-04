@@ -20,7 +20,8 @@ import {
   openState,
   GameBoyJoyPadEvent as gameBoyJoyPadEvent,
   GameBoyEmulatorInitialized as gameBoyEmulatorInitialized,
-  XAudioJSWebAudioContextHandle as audioContext
+  XAudioJSWebAudioContextHandle as audioContext,
+  persistValues
 } from '../cores/GameBoy-Online/js/index';
 
 const { Provider, Consumer } = createContext();
@@ -323,6 +324,7 @@ export default class Context extends React.Component {
         for(const key of dataKeys) {
           if(key === `SRAM_${name}`) {
             del(key);
+            delete persistValues[key];
           }
         }
       },
@@ -333,6 +335,7 @@ export default class Context extends React.Component {
         for(const key of dataKeys) {
           if(key === `FREEZE_${name}_${slot}`) {
             del(key);
+            delete persistValues[key];
           }
         }
       },
