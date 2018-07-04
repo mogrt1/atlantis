@@ -1,0 +1,2 @@
+html{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}body{font-family:sans-serif}#root,body{overflow:hidden}#root{position:relative;top:env(safe-area-inset-top);width:100vw;height:100vh;height:calc(100vh - env(safe-area-inset-top))}svg{pointer-events:none}
+/*# sourceMappingURL=main.d9a6e3b4.css.map*/
