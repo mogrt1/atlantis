@@ -24,7 +24,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ExportIcon from '@material-ui/icons/Save';
 import ImportIcon from '@material-ui/icons/Publish';
 
-import { persistValues } from '../../cores/GameBoy-Online/js/index';
+import { Consumer } from '../Context';
+
+import { gameboy, persistValues, pause } from '../../cores/GameBoy-Online/js/index';
 
 class SettingsKeyBindings extends React.Component {
   constructor(props) {
@@ -101,7 +103,19 @@ class SettingsKeyBindings extends React.Component {
       [`auto`, `autosave data for`]
     ]);
 
-    this.importSRAM = (key)=> (e)=> {
+    const modifySaveState = async (key, index, value)=> {
+      const state = await get(key);
+
+      if(!state) {
+        return false;
+      }
+
+      state[index] = value;
+
+      set(key, state);
+    };
+
+    this.importSRAM = (name, key, gameROM, currentROM, reset)=> (e)=> {
       const [file] = e.target.files;
 
       if(!file) {
@@ -114,8 +128,18 @@ class SettingsKeyBindings extends React.Component {
         const sram = new Uint8Array(re.target.result);
 
         persistValues[key] = sram;
-
         set(key, sram);
+
+        if(gameROM === currentROM) {
+          gameboy.MBCRam = sram;
+          reset();
+          pause();
+        }
+
+        const SRAM_INDEX = 19;
+
+        modifySaveState(`FREEZE_${name}_main`, SRAM_INDEX, sram);
+        modifySaveState(`FREEZE_${name}_auto`, SRAM_INDEX, sram);
       };
 
       reader.onerror = (err)=> {
@@ -174,141 +198,153 @@ class SettingsKeyBindings extends React.Component {
     const { currentlyDeleting } = this.state;
 
     return (
-      <React.Fragment>
-        <ListItem className={classes.settingsItem} button onClick={this.toggleManager}>
-          <ListItemIcon>
-            <StorageIcon />
-          </ListItemIcon>
-          <ListItemText primary="Data Management" className={classes.itemText} />
-          <Expand className={classes.expand} />
-        </ListItem>
-        <Collapse
-          className={classes.collapsibleList}
-          in={isOpen}
-          timeout="auto"
-          unmountOnExit
-        >
-          <List component="div" disablePadding>
-            {this.state.games.map((game)=> {
-              const { title, md5, rom, name, saves } = game;
+      <Consumer>
+        {({ state, actions })=> (
+          <React.Fragment>
+            <ListItem className={classes.settingsItem} button onClick={this.toggleManager}>
+              <ListItemIcon>
+                <StorageIcon />
+              </ListItemIcon>
+              <ListItemText primary="Data Management" className={classes.itemText} />
+              <Expand className={classes.expand} />
+            </ListItem>
+            <Collapse
+              className={classes.collapsibleList}
+              in={isOpen}
+              timeout="auto"
+              unmountOnExit
+            >
+              <List component="div" disablePadding>
+                {this.state.games.map((game)=> {
+                  const { title, md5, rom, name, saves } = game;
 
-              return (
-                <React.Fragment key={md5}>
-                  <ListItem className={classes.nested} dense button onClick={this.requestPermission({
-                    action: this.deleteGame(rom),
-                    type: `game`,
-                    name: title
-                  })}>
-                    <ListItemIcon>
-                      <DeleteIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={title}
-                      classes={{
-                        root: classes.itemRoot,
-                        primary: classes.itemPrimary
-                      }}
-                    />
-                  </ListItem>
-                  {name && Object.entries(saves).map(([key, saveValue])=> {
-                    let label = ``,
-                        action = null;
-
-                    if(key === `sram`) {
-                      label = `SRAM`;
-                      action = this.deleteSRAM(name);
-                    } else if(key === `main`) {
-                      label = `Save State`;
-                      action = this.deleteSaveState(name, `main`);
-                    } else if(key === `auto`) {
-                      label = `Autosave`;
-                      action = this.deleteSaveState(name, `auto`);
-                    }
-
-                    return (
-                      <ListItem
-                        key={key}
-                        className={`${classes.nested} ${classes.save}`}
-                        dense
-                        button
-                        onClick={this.requestPermission({
-                          action,
-                          type: key,
-                          name: title
-                        })}
-                      >
+                  return (
+                    <React.Fragment key={md5}>
+                      <ListItem className={classes.nested} dense button onClick={this.requestPermission({
+                        action: this.deleteGame(rom),
+                        type: `game`,
+                        name: title
+                      })}>
                         <ListItemIcon>
                           <DeleteIcon />
                         </ListItemIcon>
                         <ListItemText
-                          primary={label}
+                          primary={title}
                           classes={{
                             root: classes.itemRoot,
                             primary: classes.itemPrimary
                           }}
                         />
-                        {key === `sram` && <ListItemSecondaryAction>
-                          <IconButton aria-label="Import">
-                            <label htmlFor={`library-add-game-${name}`} className={classes.addGameLabel}>
-                              <ImportIcon />
-                            </label>
-                            <input
-                              id={`library-add-game-${name}`}
-                              type="file"
-                              style={{ display: `none` }}
-                              onChange={this.importSRAM(saveValue.key)}
-                            />
-                          </IconButton>
-                          <IconButton aria-label="Export">
-                            <a
-                              className={classes.secondaryAction}
-                              href={saveValue.url}
-                              download={`${title.split(`.`)[0]}.srm`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <ExportIcon />
-                            </a>
-                          </IconButton>
-                        </ListItemSecondaryAction>}
                       </ListItem>
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
-          </List>
-        </Collapse>
+                      {name && Object.entries(saves).map(([key, saveValue])=> {
+                        let label = ``,
+                            action = null;
 
-        <Dialog
-          maxWidth="xs"
-          aria-labelledby="settings-manage-data-confirm-title"
-          open={Boolean(currentlyDeleting.name)}
-        >
-          <DialogTitle id="settings-manage-data-confirm-title">
-            {`Really delete?`}
-          </DialogTitle>
-          <DialogContent className={classes.confirmBody}>
-            {
-              `You are about to delete ${
-                this.confirmationMessages.get(currentlyDeleting.type) || ``
-              } "${currentlyDeleting.name}"`
-            }
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.dismissDelete} color="primary">
-              {`Cancel`}
-            </Button>
-            <Button
-              onClick={currentlyDeleting.action}
-              variant="contained"
-              className={classes.confirmButton}
+                        if(key === `sram`) {
+                          label = `SRAM`;
+                          action = this.deleteSRAM(name);
+                        } else if(key === `main`) {
+                          label = `Save State`;
+                          action = this.deleteSaveState(name, `main`);
+                        } else if(key === `auto`) {
+                          label = `Autosave`;
+                          action = this.deleteSaveState(name, `auto`);
+                        }
+
+                        return (
+                          <ListItem
+                            key={key}
+                            className={`${classes.nested} ${classes.save}`}
+                            dense
+                            button
+                            onClick={this.requestPermission({
+                              action,
+                              type: key,
+                              name: title
+                            })}
+                          >
+                            <ListItemIcon>
+                              <DeleteIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={label}
+                              classes={{
+                                root: classes.itemRoot,
+                                primary: classes.itemPrimary
+                              }}
+                            />
+                            {key === `sram` && <ListItemSecondaryAction>
+                              <IconButton aria-label="Import">
+                                <label htmlFor={`library-add-game-${name}`} className={classes.addGameLabel}>
+                                  <ImportIcon />
+                                </label>
+                                <input
+                                  id={`library-add-game-${name}`}
+                                  type="file"
+                                  style={{ display: `none` }}
+                                  onChange={
+                                    this.importSRAM(
+                                      name,
+                                      saveValue.key,
+                                      rom,
+                                      state.currentROM,
+                                      actions.reset
+                                    )
+                                  }
+                                />
+                              </IconButton>
+                              <IconButton aria-label="Export">
+                                <a
+                                  className={classes.secondaryAction}
+                                  href={saveValue.url}
+                                  download={`${title.split(`.`)[0]}.srm`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <ExportIcon />
+                                </a>
+                              </IconButton>
+                            </ListItemSecondaryAction>}
+                          </ListItem>
+                        );
+                      })}
+                    </React.Fragment>
+                  );
+                })}
+              </List>
+            </Collapse>
+
+            <Dialog
+              maxWidth="xs"
+              aria-labelledby="settings-manage-data-confirm-title"
+              open={Boolean(currentlyDeleting.name)}
             >
-              {`Delete`}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
+              <DialogTitle id="settings-manage-data-confirm-title">
+                {`Really delete?`}
+              </DialogTitle>
+              <DialogContent className={classes.confirmBody}>
+                {
+                  `You are about to delete ${
+                    this.confirmationMessages.get(currentlyDeleting.type) || ``
+                  } "${currentlyDeleting.name}"`
+                }
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.dismissDelete} color="primary">
+                  {`Cancel`}
+                </Button>
+                <Button
+                  onClick={currentlyDeleting.action}
+                  variant="contained"
+                  className={classes.confirmButton}
+                >
+                  {`Delete`}
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </React.Fragment>
+        )}
+      </Consumer>
     );
   }
 }
