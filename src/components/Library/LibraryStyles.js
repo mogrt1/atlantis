@@ -21,7 +21,10 @@ export const styleLibrary = withStyles({
     width: libraryWidth,
     maxWidth: `calc(100vw - ${THUMB_WIDTH}px)`
   },
-  heading: { background: theme.palette.background.paper }
+  heading: {
+    paddingTop: `env(safe-area-inset-top)`,
+    background: theme.palette.background.paper
+  }
 });
 
 export const styleGameList = withStyles({

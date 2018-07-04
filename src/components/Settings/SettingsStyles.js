@@ -22,7 +22,10 @@ export const styleSettings = withStyles({
     width: settingsWidth,
     maxWidth: `calc(100vw - ${THUMB_WIDTH}px)`
   },
-  heading: { background: theme.palette.background.paper }
+  heading: {
+    paddingTop: `env(safe-area-inset-top)`,
+    background: theme.palette.background.paper
+  }
 });
 
 const settingsItem = {
