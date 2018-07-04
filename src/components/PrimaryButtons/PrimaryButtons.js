@@ -105,8 +105,6 @@ class PrimaryButtons extends React.Component {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
 
-        console.log(`pressed`, pressed);
-
         prevPressed = [...pressed];
       }
     };
