@@ -1,7 +1,11 @@
 {
   "main.css": "/atlantis/static/css/main.d9a6e3b4.css",
   "main.css.map": "/atlantis/static/css/main.d9a6e3b4.css.map",
-  "main.js": "/atlantis/static/js/main.f16e161d.js",
-  "main.js.map": "/atlantis/static/js/main.f16e161d.js.map",
-  "static/media/gameboy.svg": "/atlantis/static/media/gameboy.336c4267.svg"
+  "main.js": "/atlantis/static/js/main.eab4802e.js",
+  "main.js.map": "/atlantis/static/js/main.eab4802e.js.map",
+  "static/media/flappyboy.gb": "/atlantis/static/media/flappyboy.906d426f.gb",
+  "static/media/gameboy.svg": "/atlantis/static/media/gameboy.336c4267.svg",
+  "static/media/infinity.gb": "/atlantis/static/media/infinity.6d6507bd.gb",
+  "static/media/postbot.gb": "/atlantis/static/media/postbot.1b9066c1.gb",
+  "static/media/space-invasion.gb": "/atlantis/static/media/space-invasion.8ac285d7.gb"
 }
