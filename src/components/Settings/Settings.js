@@ -15,6 +15,7 @@ import SettingsFFToggle from './SettingsFFToggle';
 import SettingsManageData from './SettingsManageData';
 import SettingsShowOverlay from './SettingsShowOverlay';
 import SettingsKeyBindings from './SettingsKeyBindings';
+import Link from '../Link/Link';
 
 import { Consumer } from '../Context';
 
@@ -74,6 +75,9 @@ class Settings extends React.Component {
                         keyBindings={state.settings.keyBindings}
                         updateSetting={actions.updateSetting(`keyBindings`)}
                       />
+                      <Link error href="https://github.com/brianblakely/atlantis/issues/new?template=bug-report.md">
+                        Report a Bug
+                      </Link>
                     </div>
                   </List>
                 </div>
