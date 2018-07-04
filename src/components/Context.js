@@ -72,6 +72,7 @@ const getThumbUri = async (title)=> {
 const thumbIsUri = (thumb)=> thumb !== false && thumb !== `reattempt`;
 
 export const defaultSettings = {
+  firstUse: true,
   ffRate: 3,
   ffToggle: true,
   showOverlay: true,
@@ -103,6 +104,7 @@ export default class Context extends React.Component {
     super(props);
 
     this.state = {
+      hydrated: false,
       canvas: null,
       settingsOpen: false,
       libraryOpen: false,
@@ -116,6 +118,11 @@ export default class Context extends React.Component {
     };
 
     this.actions = {
+      firstUseComplete: ()=> {
+        this.actions.updateSetting(`firstUse`)(false);
+        this.setState({ libraryOpen: true });
+      },
+
       setCanvas: (canvas)=> {
         this.setState({ canvas });
       },
@@ -456,6 +463,7 @@ export default class Context extends React.Component {
       // Hydrate settings.
       get(`settings`).then((savedSettings = JSON.parse(JSON.stringify(defaultSettings)))=> {
         this.setState({
+          hydrated: true,
           settings: {
             ...this.state.settings,
             ...savedSettings

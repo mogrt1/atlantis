@@ -5,14 +5,17 @@ import { get } from 'idb-keyval';
 
 import { styleLibrary } from './LibraryStyles';
 
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import LibraryIcon from '@material-ui/icons/VideoLibrary';
+import {
+  IconButton,
+  Drawer,
+  List,
+  ListSubheader
+} from '@material-ui/core';
+import { VideoLibrary as LibraryIcon } from '@material-ui/icons';
 
 import AddGame from './AddGame';
 import GameList from './GameList';
+import Homebrew from './Homebrew';
 
 import { Consumer } from '../Context';
 
@@ -51,7 +54,7 @@ class Library extends React.Component {
                 <div className={classes.drawer}>
                   <List subheader={
                     <ListSubheader className={classes.heading}>
-                      Library
+                      {`Library`}
                     </ListSubheader>
                   }>
                     <div>
@@ -59,6 +62,8 @@ class Library extends React.Component {
                       <GameList />
                     </div>
                   </List>
+
+                  <Homebrew />
                 </div>
               </div>
             </Drawer>

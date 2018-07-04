@@ -69,7 +69,6 @@ class Game extends React.Component {
           }}
         />
       </GridListTile>
-
     );
   }
 }
@@ -78,7 +77,7 @@ Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  rom: PropTypes.string.isRequired,
+  rom: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 

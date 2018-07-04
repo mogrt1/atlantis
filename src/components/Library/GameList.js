@@ -22,7 +22,7 @@ class GameList extends React.Component {
             cols={libraryCols}
             spacing={0}
           >
-            {state.library.map((data)=> (
+            {this.props.children || state.library.map((data)=> (
               <Game
                 key={data.md5}
                 thumb={data.thumb}
@@ -38,6 +38,9 @@ class GameList extends React.Component {
   }
 }
 
-GameList.propTypes = { classes: PropTypes.object.isRequired };
+GameList.propTypes = {
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.node
+};
 
 export default styleGameList(GameList);

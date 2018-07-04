@@ -74,3 +74,5 @@ export const styleGame = withStyles({
     fontSize: `0.75rem`
   }
 });
+
+export const styleHomebrew = withStyles({ heading: { background: theme.palette.background.paper } });
