@@ -62,8 +62,9 @@ class PrimaryButtons extends React.Component {
     let prevPressed = [];
 
     const HAPTIC_DURATION = 150;
+    const TURBO_INTERVAL = 33;
 
-    this.detectButton = (e)=> {
+    this.detectButton = (e, turbo)=> {
       const x = e.clientX || e.targetTouches[0].clientX,
             y = e.clientY || e.targetTouches[0].clientY;
 
@@ -102,17 +103,42 @@ class PrimaryButtons extends React.Component {
         }
 
         if(`vibrate` in window.navigator) {
-          window.navigator.vibrate(HAPTIC_DURATION);
+          window.navigator.vibrate(
+            turbo
+              ? [HAPTIC_DURATION, TURBO_INTERVAL, HAPTIC_DURATION]
+              : HAPTIC_DURATION
+          );
         }
 
         prevPressed = [...pressed];
       }
     };
 
-    this.events = {
-      down: (e)=> this.detectButton(e),
-      move: (e)=> this.detectButton(e),
+    let turboPressed = false;
+    let turboTimeout = null;
+
+    const turboEvent = ()=> {
+      turboPressed = !turboPressed;
+
+      for(const button of prevPressed) {
+        gameBoyJoyPadEvent(button, turboPressed);
+      }
+
+      turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
+    };
+
+    this.events = (turbo)=> ({
+      down: (e)=> {
+        this.detectButton(e, turbo);
+
+        if(turbo) {
+          turboEvent();
+        }
+      },
+      move: (e)=> this.detectButton(e, turbo),
       up: ()=> {
+        clearTimeout(turboTimeout);
+
         gameBoyJoyPadEvent(buttonCodes.B);
         gameBoyJoyPadEvent(buttonCodes.A);
 
@@ -122,7 +148,7 @@ class PrimaryButtons extends React.Component {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
       }
-    };
+    });
   }
 
   componentDidMount() {
@@ -137,7 +163,7 @@ class PrimaryButtons extends React.Component {
     return (
       <Consumer>
         {({ state })=> (
-          <PointerCommands {...this.events} apply>
+          <PointerCommands {...this.events(state.turbo)} apply>
             <div ref={this.buttonRef} className={classes.buttons}>
               <GamepadButton
                 className={classes.b}
