@@ -1,50 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { styleFirstUse } from './FirstUseStyles';
+
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Button
 } from '@material-ui/core';
 import {
-  Settings as SettingsIcon,
-  Link as LinkIcon
+  Settings as SettingsIcon
 } from '@material-ui/icons';
 
-import { styleFirstUse, styleLink } from './FirstUseStyles';
-
 import SettingsShowOverlay from '../Settings/SettingsShowOverlay';
+import Link from '../Link/Link';
 
 import { Consumer } from '../Context';
-
-const Link = styleLink((props)=> (
-  <ListItem
-    button
-    component="a"
-    href={props.href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className={props.classes.link}
-  >
-    <ListItemIcon>
-      <LinkIcon />
-    </ListItemIcon>
-    <ListItemText classes={{ root: props.classes.textRoot }}>
-      {props.children}
-    </ListItemText>
-  </ListItem>
-));
-
-Link.propTypes = {
-  href: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired
-};
 
 class FirstUse extends React.Component {
   render() {

@@ -7,8 +7,3 @@ export const styleFirstUse = withStyles({
   inlineIcon: { verticalAlign: `middle` },
   button: { background: theme.palette.secondary[`800`] }
 });
-
-export const styleLink = withStyles({
-  link: { height: 48 },
-  textRoot: { paddingLeft: 0 }
-});
