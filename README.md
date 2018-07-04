@@ -2,7 +2,7 @@
 
 A JavaScript Game Boy Color emulator, playable in any Web client.
 
-## [GO. PLAY.](https://brianblakely.github.io/atlantis/)
+# [GO. PLAY.](https://brianblakely.github.io/atlantis/)
 
 ## Homebrew Games
 
