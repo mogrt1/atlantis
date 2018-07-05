@@ -73,10 +73,11 @@ const thumbIsUri = (thumb)=> thumb !== false && thumb !== `reattempt`;
 
 export const defaultSettings = {
   firstUse: true,
+  mute: false,
+  haptics: true,
   ffRate: 3,
   ffToggle: true,
   showOverlay: true,
-  mute: false,
   keyBindings: {
     'settings-kb-b': `z`,
     'settings-kb-a': `x`,

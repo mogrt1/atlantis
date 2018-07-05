@@ -67,7 +67,7 @@ export default class Dpad extends React.Component {
 
     let prevPressed = [];
 
-    const HAPTIC_DURATION = 150;
+    const HAPTIC_DURATION = 50;
 
     const detectDirection = (e)=> {
       const x = e.clientX || e.targetTouches[0].clientX,
@@ -94,7 +94,7 @@ export default class Dpad extends React.Component {
           gameBoyJoyPadEvent(value, pressed.includes(value));
         }
 
-        if(`vibrate` in window.navigator) {
+        if(this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
 
@@ -125,7 +125,7 @@ export default class Dpad extends React.Component {
 
         prevPressed = [];
 
-        if(`vibrate` in window.navigator) {
+        if(this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
       }
@@ -183,5 +183,6 @@ export default class Dpad extends React.Component {
 
 Dpad.propTypes = {
   className: PropTypes.string,
-  kb: PropTypes.object
+  kb: PropTypes.object,
+  haptics: PropTypes.bool
 };

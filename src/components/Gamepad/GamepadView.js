@@ -28,19 +28,33 @@ const GamepadView = (props)=> {
 
         return (
           <div className={`${classes.gamepad} ${(!state.settings.showOverlay && classes.hide) || ``}`}>
-            <Dpad kb={keyBindings} />
+            <Dpad
+              kb={keyBindings}
+              haptics={state.settings.haptics}
+            />
 
             <PrimaryButtons
               kbB={keyBindings[`settings-kb-b`]}
               kbA={keyBindings[`settings-kb-a`]}
               turboKbB={keyBindings[`settings-kb-b-turbo`]}
               turboKbA={keyBindings[`settings-kb-a-turbo`]}
+              haptics={state.settings.haptics}
             />
 
-            <GamepadButton className={classes.start} type="START" kb={keyBindings[`settings-kb-start`]}>
+            <GamepadButton
+              className={classes.start}
+              type="START"
+              kb={keyBindings[`settings-kb-start`]}
+              haptics={state.settings.haptics}
+            >
               {`Start`}
             </GamepadButton>
-            <GamepadButton className={classes.select} type="SELECT" kb={keyBindings[`settings-kb-select`]}>
+            <GamepadButton
+              className={classes.select}
+              type="SELECT"
+              kb={keyBindings[`settings-kb-select`]}
+              haptics={state.settings.haptics}
+            >
               {`Select`}
             </GamepadButton>
 

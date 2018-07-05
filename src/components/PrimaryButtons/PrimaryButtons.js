@@ -61,7 +61,7 @@ class PrimaryButtons extends React.Component {
 
     let prevPressed = [];
 
-    const HAPTIC_DURATION = 150;
+    const HAPTIC_DURATION = 50;
     const TURBO_INTERVAL = 33;
 
     this.detectButton = (e, turbo)=> {
@@ -102,7 +102,7 @@ class PrimaryButtons extends React.Component {
           gameBoyJoyPadEvent(value, pressed.includes(value));
         }
 
-        if(`vibrate` in window.navigator) {
+        if(this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(
             turbo
               ? [HAPTIC_DURATION, TURBO_INTERVAL, HAPTIC_DURATION]
@@ -144,7 +144,7 @@ class PrimaryButtons extends React.Component {
 
         prevPressed = [];
 
-        if(`vibrate` in window.navigator) {
+        if(this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
       }
@@ -197,7 +197,8 @@ PrimaryButtons.propTypes = {
   kbB: PropTypes.string.isRequired,
   kbA: PropTypes.string.isRequired,
   turboKbB: PropTypes.string,
-  turboKbA: PropTypes.string
+  turboKbA: PropTypes.string,
+  haptics: PropTypes.bool
 };
 
 export default stylePrimaryButtons(PrimaryButtons);
