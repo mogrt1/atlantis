@@ -5,7 +5,6 @@ import { styleFirstUse } from './FirstUseStyles';
 
 import {
   Dialog,
-  withMobileDialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
@@ -23,7 +22,7 @@ import { Consumer } from '../Context';
 
 class FirstUse extends React.Component {
   render() {
-    const { classes, fullScreen } = this.props;
+    const { classes } = this.props;
 
     return (
       <Consumer>
@@ -31,7 +30,7 @@ class FirstUse extends React.Component {
           <Dialog
             className={classes.dialog}
             maxWidth="xs"
-            fullScreen={fullScreen}
+            scroll="body"
             aria-labelledby="first-use"
             open={state.settings.firstUse}
           >
@@ -87,9 +86,6 @@ class FirstUse extends React.Component {
   }
 }
 
-FirstUse.propTypes = {
-  classes: PropTypes.object.isRequired,
-  fullScreen: PropTypes.bool.isRequired
-};
+FirstUse.propTypes = { classes: PropTypes.object.isRequired };
 
-export default withMobileDialog()(styleFirstUse(FirstUse));
+export default styleFirstUse(FirstUse);
