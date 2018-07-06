@@ -19,7 +19,8 @@ export default class Dpad extends React.Component {
 
     const HALF = 2;
 
-    const BREADTH = 0.25;
+    const BREADTH_VERTICAL = 0.165;
+    const BREADTH_HORIZONTAL = 0.33;
 
     this.updateDpadDim = ()=> {
       if(!this.dpadRef.current) {
@@ -39,8 +40,8 @@ export default class Dpad extends React.Component {
       };
 
       dpadDim.offset = {
-        x: width * BREADTH / HALF,
-        y: height * BREADTH / HALF
+        x: width * BREADTH_VERTICAL / HALF,
+        y: height * BREADTH_HORIZONTAL / HALF
       };
     };
 
