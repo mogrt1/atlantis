@@ -34,6 +34,11 @@ class Homebrew extends React.Component {
     };
   }
 
+  shouldComponentUpdate(...next) {
+    const [, nextState] = next;
+    return nextState.currentHomebrew && nextState.currentHomebrew !== this.state.currentHomebrew;
+  }
+
   render() {
     const { classes } = this.props;
 

@@ -48,7 +48,22 @@ const getDataUri = (url)=> new Promise((resolve)=> {
   });
 });
 
-const zip = new JSZip();
+const buffersEqual = (buf1, buf2)=> {
+  if(buf1.byteLength !== buf2.byteLength) {
+    return false;
+  }
+
+  const ta1 = new Uint8Array(buf1),
+        ta2 = new Uint8Array(buf2);
+
+  for(const [i] of ta1.entries()) {
+    if(ta1[i] !== ta2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+};
 
 const getThumbUri = async (title)=> {
   const processUri = (uri)=> {
@@ -114,7 +129,7 @@ export default class Context extends React.Component {
       settingsOpen: false,
       libraryOpen: false,
       library: [],
-      currentROM: [],
+      currentROM: null,
       settings: JSON.parse(JSON.stringify(defaultSettings)),
       turbo: false,
       message: ``,
@@ -132,25 +147,33 @@ export default class Context extends React.Component {
         this.setState({ canvas });
       },
 
-      getBinaryString: (typedArray)=> new Promise((resolve)=> {
+      getBinaryString: (arrayBuffer)=> new Promise((resolve)=> {
         const reader = new FileReader();
         reader.onload = function() {
           resolve(reader.result);
         };
-        reader.readAsText(new Blob(typedArray));
+        reader.readAsBinaryString(new Blob([arrayBuffer]));
       }),
 
-      setCurrentROM: async (typedArray)=> {
-        let currentROM = typedArray;
+      unzip: (arrayBuffer)=> new Promise(async (resolve)=> {
+        const zip = new JSZip();
 
         try {
-          const result = await zip.loadAsync(currentROM);
+          const result = await zip.loadAsync(arrayBuffer);
           const [filename] = Object.keys(result.files);
 
-          currentROM = await zip.file(filename).async(`uint8array`);
+          resolve(await zip.file(filename).async(`arraybuffer`));
         } catch(error) {
           console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
         }
+
+        resolve(arrayBuffer);
+      }),
+
+      setCurrentROM: async (arrayBuffer)=> {
+        let currentROM = arrayBuffer;
+
+        currentROM = await this.actions.unzip(currentROM);
 
         const stringROM = await this.actions.getBinaryString(currentROM);
 
@@ -163,14 +186,14 @@ export default class Context extends React.Component {
 
           ()=> {
             settings[SOUND] = !this.state.settings.mute;
-            start(this.state.canvas.current, this.state.currentROM, stringROM);
+            start(this.state.canvas.current, new Uint8Array(this.state.currentROM), stringROM);
 
             this.actions.enableAudio();
 
             const library = [...this.state.library];
 
             for(const game of library) {
-              if(game.rom === currentROM) {
+              if(buffersEqual(game.rom, currentROM)) {
                 if(!(`name` in game)) {
                   game.name = gameboy.name;
 
@@ -184,7 +207,7 @@ export default class Context extends React.Component {
             }
 
             // Load autosave.
-            openState(`auto`, this.state.canvas.current);
+            openState(`auto`, this.state.canvas.current, stringROM);
 
             set(`currentROM`, this.state.currentROM);
           }
@@ -237,7 +260,7 @@ export default class Context extends React.Component {
         for(const rom of roms) {
           const { md5 } = rom;
 
-          for(const { libMd5 } of this.state.library) {
+          for(const { md5: libMd5 } of this.state.library) {
             if(md5 === libMd5) {
               return;
             }
@@ -257,32 +280,33 @@ export default class Context extends React.Component {
           const reader = new FileReader();
 
           const buffer = new Spark.ArrayBuffer();
-          let rom = ``;
 
-          reader.onload = (re)=> {
-            if(typeof re.target.result === `object`) {
-              buffer.append(re.target.result);
+          reader.onload = ()=> {
+            this.actions.unzip(reader.result).then((rom)=> {
+              buffer.append(rom);
 
-              reader.readAsBinaryString(file);
-            } else {
-              rom = re.target.result;
-            }
+              if(buffer._length && rom.byteLength) {
+                const md5 = buffer.end().toUpperCase();
 
-            if(buffer._length && rom.length) {
-              const md5 = buffer.end().toUpperCase();
+                for(const { md5: libMd5 } of this.state.library) {
+                  if(md5 === libMd5) {
+                    return;
+                  }
+                }
 
-              const romData = {
-                title: games[md5] || file.name,
-                md5,
-                rom
-              };
+                const romData = {
+                  title: games[md5] || file.name.replace(/\.zip/g, ``),
+                  md5,
+                  rom
+                };
 
-              getThumbUri(romData.title).then((uri)=> {
-                romData.thumb = uri;
+                getThumbUri(romData.title).then((uri)=> {
+                  romData.thumb = uri;
 
-                resolve(romData);
-              });
-            }
+                  resolve(romData);
+                });
+              }
+            });
           };
 
           reader.onerror = (err)=> {
@@ -312,7 +336,7 @@ export default class Context extends React.Component {
         let deletedGame = null;
 
         const library = this.state.library.filter((game)=> {
-          if(game.rom === rom) {
+          if(buffersEqual(game.rom, rom)) {
             deletedGame = game;
             return false;
           }
@@ -322,8 +346,8 @@ export default class Context extends React.Component {
 
         let { currentROM } = this.state;
 
-        if(currentROM === rom) {
-          currentROM = ``;
+        if(buffersEqual(currentROM, rom)) {
+          currentROM = null;
           stop();
         }
 
@@ -340,7 +364,7 @@ export default class Context extends React.Component {
               del(`games`);
             }
 
-            if(!currentROM) {
+            if(!this.state.currentROM) {
               del(`currentROM`);
             }
           }
@@ -445,8 +469,9 @@ export default class Context extends React.Component {
         this.actions.showMessage(`Saved state.`);
       },
 
-      loadState: ()=> {
-        openState(`main`, this.state.canvas.current);
+      loadState: async ()=> {
+        const stringROM = await this.actions.getBinaryString(this.state.currentROM);
+        openState(`main`, this.state.canvas.current, stringROM);
         this.actions.showMessage(`Loaded state.`);
       },
 
@@ -472,7 +497,7 @@ export default class Context extends React.Component {
 
       reset: async ()=> {
         const stringROM = await this.actions.getBinaryString(this.state.currentROM);
-        start(this.state.canvas.current, this.state.currentROM, stringROM);
+        start(this.state.canvas.current, new Uint8Array(this.state.currentROM), stringROM);
       },
 
       showMessage: (message)=> {

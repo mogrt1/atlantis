@@ -17,7 +17,7 @@ export default class Loader extends React.Component {
         const reader = new FileReader();
 
         reader.onloadend = ()=> {
-          this.props.setCurrentROM(new Uint8Array(reader.result));
+          this.props.setCurrentROM(reader.result);
         };
 
         reader.readAsArrayBuffer(blob);
@@ -32,7 +32,7 @@ export default class Loader extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.uri !== this.props.uri;
+    return nextProps.uri && nextProps.uri !== this.props.uri;
   }
 
   componentDidUpdate() {

@@ -77,7 +77,7 @@ Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  rom: PropTypes.string,
+  rom: PropTypes.object,
   classes: PropTypes.object.isRequired
 };
 
