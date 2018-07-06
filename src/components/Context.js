@@ -74,7 +74,7 @@ const thumbIsUri = (thumb)=> thumb !== false && thumb !== `reattempt`;
 export const defaultSettings = {
   firstUse: true,
   mute: false,
-  haptics: true,
+  haptics: `vibrate` in window.navigator,
   ffRate: 3,
   ffToggle: true,
   enableRewind: true,
