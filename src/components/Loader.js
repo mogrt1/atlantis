@@ -32,14 +32,7 @@ export default class Loader extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if(
-      (nextProps.rom && nextProps.rom === this.props.rom)
-      || (nextProps.uri && nextProps.uri === this.props.uri)
-    ) {
-      return false;
-    }
-
-    return true;
+    return nextProps.uri !== this.props.uri;
   }
 
   componentDidUpdate() {
@@ -53,7 +46,6 @@ export default class Loader extends React.Component {
 
 
 Loader.propTypes = {
-  rom: PropTypes.string,
   uri: PropTypes.string,
   setCurrentROM: PropTypes.func.isRequired
 };
