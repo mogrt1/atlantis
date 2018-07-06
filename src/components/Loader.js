@@ -17,10 +17,10 @@ export default class Loader extends React.Component {
         const reader = new FileReader();
 
         reader.onloadend = ()=> {
-          this.props.setCurrentROM(reader.result);
+          this.props.setCurrentROM(new Uint8Array(reader.result));
         };
 
-        reader.readAsBinaryString(blob);
+        reader.readAsArrayBuffer(blob);
       }).catch((error)=> {
         console.error(`There has been a problem with your fetch operation: `, error.message);
       });

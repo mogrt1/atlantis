@@ -58,7 +58,7 @@ const GamepadView = (props)=> {
               {`Select`}
             </GamepadButton>
 
-            {state.settings.enableRewind && state.currentROM && <RewindButton
+            {state.settings.enableRewind && state.currentROM.length && <RewindButton
               className={classes.rewind}
               kb={keyBindings[`settings-kb-rw`]}
               rewindQueue={state.rewindQueue}
@@ -75,7 +75,7 @@ const GamepadView = (props)=> {
               <FastForwardIcon className={classes.icon} />
             </FastForwardButton>
 
-            {state.currentROM && <QuickMenu className={classes.quickMenu} kb="q">
+            {state.currentROM.length && <QuickMenu className={classes.quickMenu} kb="q">
               <MenuIcon className={classes.icon} />
             </QuickMenu>}
 

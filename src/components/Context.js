@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import Spark from 'spark-md5';
 import { set, get, del, keys } from 'idb-keyval';
+import JSZip from 'jszip';
 
 import { thumbs, games } from '../db/gameboy.js';
 
@@ -46,6 +47,8 @@ const getDataUri = (url)=> new Promise((resolve)=> {
     resolve(false);
   });
 });
+
+const zip = new JSZip();
 
 const getThumbUri = async (title)=> {
   const processUri = (uri)=> {
@@ -111,7 +114,8 @@ export default class Context extends React.Component {
       settingsOpen: false,
       libraryOpen: false,
       library: [],
-      currentROM: ``,
+      currentROM: [],
+      currentName: ``,
       settings: JSON.parse(JSON.stringify(defaultSettings)),
       turbo: false,
       message: ``,
@@ -129,7 +133,38 @@ export default class Context extends React.Component {
         this.setState({ canvas });
       },
 
-      setCurrentROM: (currentROM)=> {
+      getName: (typedArray)=> new Promise((resolve)=> {
+        const reader = new FileReader();
+        reader.onload = function() {
+          resolve(reader.result);
+        };
+        reader.readAsText(new Blob(typedArray));
+      }),
+
+      setCurrentROM: async (typedArray)=> {
+        let currentROM = typedArray;
+
+        try {
+          const result = await zip.loadAsync(currentROM);
+          const [filename] = Object.keys(result.files);
+
+          currentROM = await zip.file(filename).async(`uint8array`);
+        } catch(error) {
+          console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
+        }
+
+        const stringROM = this.actions.getName(currentROM);
+
+        let name = ``;
+        for(const i of Array(0x13F - 0x134).fill(0)) {
+          const index = i + 0x134;
+          if(stringROM[index] > 0) {
+            name += stringROM[index];
+          }
+        }
+
+        console.log(`name`, name);
+
         this.setState(
           {
             currentROM,
@@ -139,7 +174,7 @@ export default class Context extends React.Component {
 
           ()=> {
             settings[SOUND] = !this.state.settings.mute;
-            start(this.state.canvas.current, this.state.currentROM);
+            start(this.state.canvas.current, this.state.currentROM, name);
 
             this.actions.enableAudio();
 

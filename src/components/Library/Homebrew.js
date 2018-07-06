@@ -14,13 +14,13 @@ import GameList from './GameList';
 import Game from './Game';
 import Loader from '../Loader';
 
-import spaceInvasionUri from './homebrew/space-invasion/space-invasion.gb';
+import spaceInvasionUri from './homebrew/space-invasion/space-invasion.gb.zip';
 import spaceInvasionThumb from './homebrew/space-invasion/space-invasion.png';
-import flappyBoyUri from './homebrew/flappyboy/flappyboy.gb';
+import flappyBoyUri from './homebrew/flappyboy/flappyboy.gb.zip';
 import flappyBoyThumb from './homebrew/flappyboy/flappyboy.png';
-import infinityUri from './homebrew/infinity/infinity.gb';
+import infinityUri from './homebrew/infinity/infinity.gb.zip';
 import infinityThumb from './homebrew/infinity/infinity.png';
-import postbotUri from './homebrew/postbot/postbot.gb';
+import postbotUri from './homebrew/postbot/postbot.gb.zip';
 import postbotThumb from './homebrew/postbot/postbot.png';
 
 class Homebrew extends React.Component {
