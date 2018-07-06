@@ -171,9 +171,9 @@ export default class Context extends React.Component {
       }),
 
       setCurrentROM: async (arrayBuffer)=> {
-        let currentROM = arrayBuffer;
+        const unzippedROM = arrayBuffer;
 
-        currentROM = await this.actions.unzip(currentROM);
+        const currentROM = await this.actions.unzip(unzippedROM);
 
         const stringROM = await this.actions.getBinaryString(currentROM);
 
@@ -193,7 +193,7 @@ export default class Context extends React.Component {
             const library = [...this.state.library];
 
             for(const game of library) {
-              if(buffersEqual(game.rom, currentROM)) {
+              if(buffersEqual(game.rom, unzippedROM)) {
                 if(!(`name` in game)) {
                   game.name = gameboy.name;
 
