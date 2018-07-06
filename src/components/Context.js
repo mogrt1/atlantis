@@ -297,7 +297,7 @@ export default class Context extends React.Component {
                 const romData = {
                   title: games[md5] || file.name.replace(/\.zip/g, ``),
                   md5,
-                  rom
+                  rom: reader.result
                 };
 
                 getThumbUri(romData.title).then((uri)=> {
