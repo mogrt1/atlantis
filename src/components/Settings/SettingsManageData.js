@@ -28,7 +28,7 @@ import { Consumer } from '../Context';
 
 import { gameboy, persistValues, pause } from '../../cores/GameBoy-Online/js/index';
 
-class SettingsKeyBindings extends React.Component {
+class SettingsManageData extends React.Component {
   constructor(props) {
     super(props);
 
@@ -347,7 +347,7 @@ class SettingsKeyBindings extends React.Component {
   }
 }
 
-SettingsKeyBindings.propTypes = {
+SettingsManageData.propTypes = {
   classes: PropTypes.object.isRequired,
   library: PropTypes.array,
   deleteGame: PropTypes.func.isRequired,
@@ -355,4 +355,4 @@ SettingsKeyBindings.propTypes = {
   deleteSaveState: PropTypes.func.isRequired
 };
 
-export default styleSettingsManageData(SettingsKeyBindings);
+export default styleSettingsManageData(SettingsManageData);
