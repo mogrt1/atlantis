@@ -115,7 +115,6 @@ export default class Context extends React.Component {
       libraryOpen: false,
       library: [],
       currentROM: [],
-      currentName: ``,
       settings: JSON.parse(JSON.stringify(defaultSettings)),
       turbo: false,
       message: ``,
@@ -133,7 +132,7 @@ export default class Context extends React.Component {
         this.setState({ canvas });
       },
 
-      getName: (typedArray)=> new Promise((resolve)=> {
+      getBinaryString: (typedArray)=> new Promise((resolve)=> {
         const reader = new FileReader();
         reader.onload = function() {
           resolve(reader.result);
@@ -153,17 +152,7 @@ export default class Context extends React.Component {
           console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
         }
 
-        const stringROM = this.actions.getName(currentROM);
-
-        let name = ``;
-        for(const i of Array(0x13F - 0x134).fill(0)) {
-          const index = i + 0x134;
-          if(stringROM[index] > 0) {
-            name += stringROM[index];
-          }
-        }
-
-        console.log(`name`, name);
+        const stringROM = await this.actions.getBinaryString(currentROM);
 
         this.setState(
           {
@@ -174,7 +163,7 @@ export default class Context extends React.Component {
 
           ()=> {
             settings[SOUND] = !this.state.settings.mute;
-            start(this.state.canvas.current, this.state.currentROM, name);
+            start(this.state.canvas.current, this.state.currentROM, stringROM);
 
             this.actions.enableAudio();
 
@@ -481,8 +470,9 @@ export default class Context extends React.Component {
         }, PRESSTIME);
       },
 
-      reset: ()=> {
-        start(this.state.canvas.current, this.state.currentROM);
+      reset: async ()=> {
+        const stringROM = await this.actions.getBinaryString(this.state.currentROM);
+        start(this.state.canvas.current, this.state.currentROM, stringROM);
       },
 
       showMessage: (message)=> {

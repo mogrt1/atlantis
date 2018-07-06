@@ -115,7 +115,7 @@ class SettingsKeyBindings extends React.Component {
       set(key, state);
     };
 
-    this.importSRAM = (name, key, gameROM, currentROM, reset)=> (e)=> {
+    this.importSRAM = (name, key, reset)=> (e)=> {
       const [file] = e.target.files;
 
       if(!file) {
@@ -130,7 +130,7 @@ class SettingsKeyBindings extends React.Component {
         persistValues[key] = sram;
         set(key, sram);
 
-        if(gameROM === currentROM) {
+        if(name === gameboy.name) {
           gameboy.MBCRam = sram;
           reset();
           pause();
@@ -199,7 +199,7 @@ class SettingsKeyBindings extends React.Component {
 
     return (
       <Consumer>
-        {({ state, actions })=> (
+        {(context)=> (
           <React.Fragment>
             <ListItem className={classes.settingsItem} button onClick={this.toggleManager}>
               <ListItemIcon>
@@ -286,9 +286,7 @@ class SettingsKeyBindings extends React.Component {
                                     this.importSRAM(
                                       name,
                                       saveValue.key,
-                                      rom,
-                                      state.currentROM,
-                                      actions.reset
+                                      context.actions.reset
                                     )
                                   }
                                 />
