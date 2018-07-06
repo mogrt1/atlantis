@@ -46,10 +46,11 @@ const toggle = {
   toggleSwitchChecked: { color: `${theme.palette.secondary[`800`]} !important` }
 };
 
+export const styleSettingsMute = withStyles(toggle);
 export const styleSettingsHaptics = withStyles(toggle);
 export const styleSettingsFFToggle = withStyles(toggle);
+export const styleSettingsRewind = withStyles(toggle);
 export const styleSettingsShowOverlay = withStyles(toggle);
-export const styleSettingsMute = withStyles(toggle);
 
 const collapsibleList = {
   itemText: { paddingLeft: 0 },

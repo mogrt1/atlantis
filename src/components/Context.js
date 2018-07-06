@@ -77,6 +77,7 @@ export const defaultSettings = {
   haptics: true,
   ffRate: 3,
   ffToggle: true,
+  enableRewind: true,
   showOverlay: true,
   keyBindings: {
     'settings-kb-b': `z`,

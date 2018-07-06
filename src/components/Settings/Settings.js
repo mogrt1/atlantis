@@ -13,6 +13,7 @@ import SettingsMute from './SettingsMute';
 import SettingsHaptics from './SettingsHaptics';
 import SettingsFFRate from './SettingsFFRate';
 import SettingsFFToggle from './SettingsFFToggle';
+import SettingsRewind from './SettingsRewind';
 import SettingsManageData from './SettingsManageData';
 import SettingsShowOverlay from './SettingsShowOverlay';
 import SettingsKeyBindings from './SettingsKeyBindings';
@@ -65,6 +66,10 @@ class Settings extends React.Component {
                       <SettingsFFToggle
                         toggle={state.settings.ffToggle}
                         updateSetting={actions.updateSetting(`ffToggle`)}
+                      />
+                      <SettingsRewind
+                        toggle={state.settings.enableRewind}
+                        updateSetting={actions.updateSetting(`enableRewind`)}
                       />
                       <SettingsManageData
                         library={state.library}
