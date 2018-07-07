@@ -54,7 +54,6 @@ class QuickMenu extends React.Component {
           return (
             <React.Fragment>
               <Button
-                onClick={this.handleClick}
                 aria-owns={anchor ? `quick-menu` : null}
                 aria-haspopup="true"
                 className={this.props.className}
