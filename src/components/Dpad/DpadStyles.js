@@ -1,6 +1,6 @@
 import { withStyles } from '@material-ui/core/styles';
 
-import { landscape } from '../../theme';
+import { landscape, largeDisplay } from '../../theme';
 
 const axis = {
   position: `absolute`,
@@ -22,7 +22,12 @@ export const styleDpad = withStyles({
 
     fallbacks: { left: `0` },
 
-    [landscape]: { bottom: `calc(50vh - 25vh - 5vh)` }
+    [landscape]: { bottom: `calc(50vh - 25vh - 5vh)` },
+    [largeDisplay]: {
+      left: `calc(-100% + env(safe-area-inset-left))`,
+
+      fallbacks: { left: `-100%` }
+    }
   },
   vertical: {
     ...axis,
