@@ -21,18 +21,6 @@ const button = {
 
 const round = { borderRadius: `50%` },
       rounded = { borderRadius: `25%` },
-      primary = {
-        ...round,
-        ...button,
-        width: `20vmin`,
-        height: `20vmin`,
-
-        '& .Button-label': {
-          ...button[`& .Button-label`],
-          bottom: `25%`,
-          left: `25%`
-        }
-      },
       secondary = {
         ...round,
         ...button,
@@ -98,24 +86,6 @@ export const styleGamepad = withStyles({
   hide: {
     opacity: 0,
     pointerEvents: `none`
-  },
-  b: {
-    ...primary,
-    right: `max(24vmin, calc(19vmin + env(safe-area-inset-right)))`,
-    bottom: `11.3vh`,
-
-    fallbacks: { right: `24vmin` },
-
-    [landscape]: { bottom: `28vh` }
-  },
-  a: {
-    ...primary,
-    right: `max(5vmin, env(safe-area-inset-right))`,
-    bottom: `18.3vh`,
-
-    fallbacks: { right: `5vmin` },
-
-    [landscape]: { bottom: `44vh` }
   },
   start: {
     ...secondary,
