@@ -154,7 +154,8 @@ class PrimaryButtons extends React.Component {
   componentDidMount() {
     this.updateButtonDim();
 
-    window.addEventListener(`resize`, this.updateButtonDim);
+    const RESIZE_DEBOUNCE = 1000;
+    window.addEventListener(`resize`, ()=> setTimeout(this.updateButtonDim, RESIZE_DEBOUNCE));
   }
 
   render() {

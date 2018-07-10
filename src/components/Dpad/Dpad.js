@@ -136,7 +136,8 @@ export default class Dpad extends React.Component {
   componentDidMount() {
     this.updateDpadDim();
 
-    window.addEventListener(`resize`, this.updateDpadDim);
+    const RESIZE_DEBOUNCE = 1000;
+    window.addEventListener(`resize`, ()=> setTimeout(this.updateDpadDim, RESIZE_DEBOUNCE));
   }
 
   render() {
