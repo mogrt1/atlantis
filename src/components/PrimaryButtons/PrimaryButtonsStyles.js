@@ -1,29 +1,6 @@
 import { withStyles } from '@material-ui/core/styles';
 
-import { landscape } from '../../theme';
-
-const button = {
-  pointerEvents: `none`,
-  position: `absolute`,
-  width: `20vmin`,
-  height: `20vmin`,
-  borderRadius: `50%`,
-  boxShadow: `
-    inset -1px 1px 16px 0px rgba(128, 128, 128, 1),
-    0 0 3px 1px rgba(128, 128, 128, 1)
-  `,
-  overflow: `hidden`,
-
-  '& .Button-label': {
-    position: `absolute`,
-    bottom: `25%`,
-    left: `25%`,
-    fontSize: `5vmin`,
-    color: `rgba(128, 128, 128, 0.5)`,
-    pointerEvents: `none`
-  },
-  '& sup': { fontFamily: `'Times New Roman', Times, serif` }
-};
+import { gamepadButton, landscape } from '../../theme';
 
 export const stylePrimaryButtons = withStyles({
   buttons: {
@@ -38,14 +15,16 @@ export const stylePrimaryButtons = withStyles({
     [landscape]: { bottom: `28vh` }
   },
   b: {
-    ...button,
+    ...gamepadButton,
     bottom: 0,
-    left: 0
+    left: 0,
+    pointerEvents: `none`
   },
   a: {
-    ...button,
+    ...gamepadButton,
     top: 0,
-    right: 0
+    right: 0,
+    pointerEvents: `none`
   },
   ba: {
     position: `absolute`,

@@ -1,47 +1,16 @@
 import { withStyles } from '@material-ui/core/styles';
 
-import { landscape } from '../../theme';
+import { gamepadButton, landscape, largeDisplay, stubby } from '../../theme';
 
-const button = {
-  position: `absolute`,
-  overflow: `hidden`,
-  boxShadow: `
-    inset -1px 1px 16px 0px rgba(128, 128, 128, 1),
-    0 0 3px 1px rgba(128, 128, 128, 1)
-  `,
-
-  '& .Button-label': {
-    position: `absolute`,
-    fontSize: `5vmin`,
-    color: `rgba(128, 128, 128, 0.5)`,
-    pointerEvents: `none`
-  },
-  '& sup': { fontFamily: `'Times New Roman', Times, serif` }
-};
-
-const round = { borderRadius: `50%` },
-      rounded = { borderRadius: `25%` },
-      primary = {
-        ...round,
-        ...button,
-        width: `20vmin`,
-        height: `20vmin`,
-
-        '& .Button-label': {
-          ...button[`& .Button-label`],
-          bottom: `25%`,
-          left: `25%`
-        }
-      },
+const rounded = { borderRadius: `25%` },
       secondary = {
-        ...round,
-        ...button,
+        ...gamepadButton,
         width: `15vmin`,
         height: `5vmin`,
         overflow: `visible`,
 
         '& .Button-label': {
-          ...button[`& .Button-label`],
+          ...gamepadButton[`& .Button-label`],
           left: 0,
           bottom: `-120%`,
           width: `100%`,
@@ -58,14 +27,14 @@ const round = { borderRadius: `50%` },
         [landscape]: { transform: `rotate(-40deg)` }
       },
       option = {
+        ...gamepadButton,
         ...rounded,
-        ...button,
         bottom: `32.3vh`,
         width: `14vmin`,
         height: `10vmin`,
 
         '& .Button-label': {
-          ...button[`& .Button-label`],
+          ...gamepadButton[`& .Button-label`],
           bottom: `5%`,
           left: `10%`
         },
@@ -73,7 +42,8 @@ const round = { borderRadius: `50%` },
         [landscape]: {
           top: 0,
           bottom: `auto`
-        }
+        },
+        [largeDisplay]: { [stubby]: { bottom: `35vh` } }
       };
 
 export const styleGamepad = withStyles({
@@ -93,29 +63,21 @@ export const styleGamepad = withStyles({
     [landscape]: {
       top: `calc(48px + 1vh)`,
       height: `calc(100% - 48px - 1vh)`
+    },
+    [largeDisplay]: {
+      transform: `scale(0.5)`,
+      transformOrigin: `100% 50%`,
+
+      [stubby]: {
+        height: `calc(100% - 90vw - env(safe-area-inset-top))`,
+
+        fallbacks: { height: `calc(100% - 90vw)` }
+      }
     }
   },
   hide: {
     opacity: 0,
     pointerEvents: `none`
-  },
-  b: {
-    ...primary,
-    right: `max(24vmin, calc(19vmin + env(safe-area-inset-right)))`,
-    bottom: `11.3vh`,
-
-    fallbacks: { right: `24vmin` },
-
-    [landscape]: { bottom: `28vh` }
-  },
-  a: {
-    ...primary,
-    right: `max(5vmin, env(safe-area-inset-right))`,
-    bottom: `18.3vh`,
-
-    fallbacks: { right: `5vmin` },
-
-    [landscape]: { bottom: `44vh` }
   },
   start: {
     ...secondary,
@@ -167,11 +129,17 @@ export const styleGamepad = withStyles({
       right: `auto`,
       left: `max(5vmin, env(safe-area-inset-right))`,
 
-      fallbacks: { left: `5vmin` }
+      fallbacks: { left: `5vmin` },
+
+      [largeDisplay]: {
+        left: `calc(-100% - max(5vmin, env(safe-area-inset-right)))`,
+
+        fallbacks: { left: `calc(-100% + 5vmin)` }
+      }
     }
   },
   turbo: {
-    ...button,
+    ...gamepadButton,
     boxSizing: `content-box`,
     right: `-0.75vmin`,
     bottom: `-0.75vmin`,

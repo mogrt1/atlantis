@@ -55,10 +55,10 @@ class Settings extends React.Component {
                         updateSetting={actions.updateSetting(`mute`)}
                         enableAudio={actions.enableAudio}
                       />
-                      <SettingsHaptics
+                      {`vibrate` in window.navigator && <SettingsHaptics
                         toggle={state.settings.haptics}
                         updateSetting={actions.updateSetting(`haptics`)}
-                      />
+                      />}
                       <SettingsFFRate
                         rate={state.settings.ffRate}
                         updateSetting={actions.updateSetting(`ffRate`)}

@@ -127,17 +127,28 @@ class PrimaryButtons extends React.Component {
       turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
     };
 
+    let startedPressing = false;
+
     this.events = (turbo)=> ({
       down: (e)=> {
+        startedPressing = true;
+
         this.detectButton(e, turbo);
 
         if(turbo) {
           turboEvent();
         }
       },
-      move: (e)=> this.detectButton(e, turbo),
+      move: (e)=> {
+        if(!startedPressing) {
+          return false;
+        }
+
+        this.detectButton(e, turbo);
+      },
       up: ()=> {
         clearTimeout(turboTimeout);
+        startedPressing = false;
 
         gameBoyJoyPadEvent(buttonCodes.B);
         gameBoyJoyPadEvent(buttonCodes.A);
