@@ -145,12 +145,17 @@ export const styleGamepad = withStyles({
     bottom: `-0.75vmin`,
     width: `max(10vmin, env(safe-area-inset-bottom))`,
     height: `max(10vmin, env(safe-area-inset-bottom))`,
-    textIndent: `1.5vmin`,
     borderRadius: `1.5vmin`,
 
     fallbacks: {
       width: `10vmin`,
       height: `10vmin`
+    },
+
+    '& .Button-label': {
+      ...gamepadButton[`& .Button-label`],
+      bottom: `30%`,
+      left: `15%`
     }
   }
 });
