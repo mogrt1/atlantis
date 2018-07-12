@@ -7,7 +7,7 @@ import KeyCommands from '../KeyCommands';
 
 import { Consumer } from '../Context';
 
-import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/js/index';
+import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/index';
 
 export default class Dpad extends React.Component {
   constructor(props) {

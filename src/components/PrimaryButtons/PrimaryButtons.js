@@ -8,7 +8,7 @@ import GamepadButton from '../GamepadButton';
 
 import { Consumer } from '../Context';
 
-import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/js/index';
+import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/index';
 
 class PrimaryButtons extends React.Component {
   constructor(props) {

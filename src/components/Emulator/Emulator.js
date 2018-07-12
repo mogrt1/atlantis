@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import EmulatorView from './EmulatorView';
 
-import { settings } from '../../cores/GameBoy-Online/js/index';
+import { settings } from '../../cores/GameBoy-Online/index';
 
 const SMOOTHING = 13;
 settings[SMOOTHING] = false;

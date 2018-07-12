@@ -12,7 +12,7 @@ import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import {
   gameboy,
   settings
-} from '../../cores/GameBoy-Online/js/index';
+} from '../../cores/GameBoy-Online/index';
 
 const SOUND = 0;
 

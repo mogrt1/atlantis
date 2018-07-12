@@ -26,7 +26,7 @@ import ImportIcon from '@material-ui/icons/Publish';
 
 import { Consumer } from '../Context';
 
-import { gameboy, persistValues, pause } from '../../cores/GameBoy-Online/js/index';
+import { gameboy, persistValues, pause } from '../../cores/GameBoy-Online/index';
 
 class SettingsManageData extends React.Component {
   constructor(props) {

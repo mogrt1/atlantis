@@ -14,7 +14,7 @@ import Sound from './components/Sound';
 import Settings from './components/Settings/Settings';
 import Library from './components/Library/Library';
 
-import { persistValues, saveValue } from './cores/GameBoy-Online/js/index';
+import { persistValues, saveValue } from './cores/GameBoy-Online/index';
 
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 

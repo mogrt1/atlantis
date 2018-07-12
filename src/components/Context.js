@@ -23,7 +23,7 @@ import {
   GameBoyEmulatorInitialized as gameBoyEmulatorInitialized,
   XAudioJSWebAudioContextHandle as audioContext,
   persistValues
-} from '../cores/GameBoy-Online/js/index';
+} from '../cores/GameBoy-Online/index';
 
 const { Provider, Consumer } = createContext();
 

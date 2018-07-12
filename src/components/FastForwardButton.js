@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from './Button/Button';
 
-import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying } from '../cores/GameBoy-Online/js/index';
+import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying } from '../cores/GameBoy-Online/index';
 
 export default class FastForwardButton extends React.Component {
   constructor(props) {
