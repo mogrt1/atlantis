@@ -15,5 +15,13 @@ export const styleQuickMenu = withStyles({
       paddingTop: 6,
       height: 48
     }
-  }
+  },
+  clock: {
+    flexDirection: `row`,
+    justifyContent: `space-around`,
+    padding: `env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)`,
+
+    fallbacks: { padding: `6px` }
+  },
+  clockDone: { color: theme.palette.secondary[`800`] }
 });
