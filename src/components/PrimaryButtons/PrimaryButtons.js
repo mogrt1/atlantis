@@ -114,7 +114,7 @@ class PrimaryButtons extends React.Component {
       }
     };
 
-    let turboPressed = false;
+    let turboPressed = true;
     let turboTimeout = null;
 
     const turboEvent = ()=> {
@@ -136,7 +136,7 @@ class PrimaryButtons extends React.Component {
         this.detectButton(e, turbo);
 
         if(turbo) {
-          turboEvent();
+          turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
         }
       },
       move: (e)=> {
@@ -148,6 +148,7 @@ class PrimaryButtons extends React.Component {
       },
       up: ()=> {
         clearTimeout(turboTimeout);
+        turboPressed = true;
         startedPressing = false;
 
         gameBoyJoyPadEvent(buttonCodes.B);
