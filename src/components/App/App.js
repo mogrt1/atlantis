@@ -4,17 +4,18 @@ import { get, set, del, keys } from 'idb-keyval';
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from './theme';
+import theme from '../../theme';
+import { styleApp } from './AppStyles';
 
-import Context, { Consumer } from './components/Context';
-import FirstUse from './components/FirstUse/FirstUse';
-import Gamepad from './components/Gamepad/GamepadView';
-import Emulator from './components/Emulator/Emulator';
-import Sound from './components/Sound';
-import Settings from './components/Settings/Settings';
-import Library from './components/Library/Library';
+import Context, { Consumer } from '../Context';
+import FirstUse from '../FirstUse/FirstUse';
+import Gamepad from '../Gamepad/GamepadView';
+import Emulator from '../Emulator/Emulator';
+import Sound from '../Sound';
+import Settings from '../Settings/Settings';
+import Library from '../Library/Library';
 
-import { persistValues, saveValue } from './cores/GameBoy-Online/index';
+import { persistValues, saveValue } from '../../cores/GameBoy-Online/index';
 
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 
@@ -49,6 +50,23 @@ saveValue.subscribe((key, value)=> {
 });
 
 class App extends React.Component {
+  componentDidMount() {
+    const root = document.getElementById(`root`);
+
+    root.addEventListener(`touchstart`, (e)=> {
+      if(
+        e.target.className.includes(`GamepadView`)
+        || e.target.parentNode.className.includes(`GamepadView`)
+        || e.target.className.includes(`PrimaryButtons`)
+        || e.target.tagName === `CANVAS`
+      ) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    root.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
+  }
+
   render() {
     return (
       <Context restoreCoreData={restoreCoreData}>
@@ -73,4 +91,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default styleApp(App);
