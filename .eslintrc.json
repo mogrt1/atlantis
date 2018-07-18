@@ -1,7 +1,7 @@
 {
   "extends": [
     "eslint:all",
-    "plugin:react/recommended"
+    "plugin:react/all"
   ],
 
   "parserOptions": {
@@ -140,6 +140,13 @@
       "after": true
     }],
     "no-confusing-arrow": "off",
-    "sort-imports": "off"
+    "sort-imports": "off",
+
+    "react/no-set-state": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "react/jsx-indent-props": "off"
   }
 }

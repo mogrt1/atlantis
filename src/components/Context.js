@@ -198,7 +198,7 @@ export default class Context extends React.Component {
 
       toggleDrawer: (drawerName)=> ()=> {
         this.setState(
-          { [`${drawerName}Open`]: !this.state[`${drawerName}Open`] },
+          (prevState)=> ({ [`${drawerName}Open`]: !prevState[`${drawerName}Open`] }),
 
           ()=> {
             if(!gameBoyEmulatorInitialized()) {
@@ -231,12 +231,12 @@ export default class Context extends React.Component {
           }
         }
 
-        this.setState({
+        this.setState((prevState)=> ({
           library: [
-            ...this.state.library,
+            ...prevState.library,
             ...roms
           ]
-        }, callback);
+        }), callback);
       },
 
       uploadGame: (e)=> {
@@ -299,15 +299,6 @@ export default class Context extends React.Component {
       deleteGame: (rom)=> {
         let deletedGame = null;
 
-        const library = this.state.library.filter((game)=> {
-          if(buffersEqual(game.rom, rom)) {
-            deletedGame = game;
-            return false;
-          }
-
-          return true;
-        });
-
         let { currentROM } = this.state;
 
         if(buffersEqual(currentROM, rom)) {
@@ -316,10 +307,17 @@ export default class Context extends React.Component {
         }
 
         this.setState(
-          {
-            library,
+          (prevState)=> ({
+            library: prevState.library.filter((game)=> {
+              if(buffersEqual(game.rom, rom)) {
+                deletedGame = game;
+                return false;
+              }
+
+              return true;
+            }),
             currentROM
-          },
+          }),
 
           ()=> {
             if(this.state.library.length) {
@@ -363,12 +361,12 @@ export default class Context extends React.Component {
 
       updateSetting: (key)=> (value)=> {
         this.setState(
-          {
+          (prevState)=> ({
             settings: {
-              ...this.state.settings,
+              ...prevState.settings,
               [key]: value
             }
-          },
+          }),
 
           ()=> {
             set(`settings`, this.state.settings);
@@ -425,7 +423,7 @@ export default class Context extends React.Component {
       },
 
       toggleTurbo: ()=> {
-        this.setState({ turbo: !this.state.turbo });
+        this.setState((prevState)=> ({ turbo: !prevState.turbo }));
       },
 
       saveState: ()=> {
@@ -478,13 +476,13 @@ export default class Context extends React.Component {
     this.props.restoreCoreData().then(()=> {
       // Hydrate settings.
       get(`settings`).then((savedSettings = JSON.parse(JSON.stringify(defaultSettings)))=> {
-        this.setState({
+        this.setState((prevState)=> ({
           hydrated: true,
           settings: {
-            ...this.state.settings,
+            ...prevState.settings,
             ...savedSettings
           }
-        });
+        }));
       });
 
       // Reattempt thumb downloads that could not be completed while offline.
