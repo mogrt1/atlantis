@@ -1,8 +1,6 @@
 {
-  "main.css": "/atlantis/static/css/main.d9a6e3b4.css",
-  "main.css.map": "/atlantis/static/css/main.d9a6e3b4.css.map",
-  "main.js": "/atlantis/static/js/main.a1fee137.js",
-  "main.js.map": "/atlantis/static/js/main.a1fee137.js.map",
+  "main.js": "/atlantis/static/js/main.b48efbcc.js",
+  "main.js.map": "/atlantis/static/js/main.b48efbcc.js.map",
   "static/media/flappyboy.gb.zip": "/atlantis/static/media/flappyboy.gb.0c981b1e.zip",
   "static/media/gameboy.svg": "/atlantis/static/media/gameboy.336c4267.svg",
   "static/media/infinity.gb.zip": "/atlantis/static/media/infinity.gb.830a393c.zip",
