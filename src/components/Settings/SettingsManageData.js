@@ -39,27 +39,27 @@ class SettingsManageData extends React.Component {
     };
 
     this.toggleManager = ()=> {
-      this.setState({ open: !this.state.open });
+      this.setState((prevState)=> ({ open: !prevState.open }));
     };
 
     const cleanUpRemoveUI = (id, type)=> {
-      const games = this.state.games.filter((game)=>
-        (type === `game` && game.rom !== id)
+      this.setState((prevState)=> ({
+        games: prevState.games.filter((game)=>
+          (type === `game` && game.rom !== id)
         || type !== `game`
-      ).map((game)=> {
-        const rGame = { ...game };
+        ).map((game)=> {
+          const rGame = { ...game };
 
-        if(rGame.name === id) {
-          const saves = { ...rGame.saves };
-          delete saves[type];
+          if(rGame.name === id) {
+            const saves = { ...rGame.saves };
+            delete saves[type];
 
-          rGame.saves = saves;
-        }
+            rGame.saves = saves;
+          }
 
-        return rGame;
-      });
-
-      this.setState({ games });
+          return rGame;
+        })
+      }));
     };
 
     this.deleteGame = (rom)=> ()=> {
@@ -199,13 +199,15 @@ class SettingsManageData extends React.Component {
 
     return (
       <Consumer>
-        {(context)=> (
+        {({ actions })=> (
           <React.Fragment>
-            <ListItem className={classes.settingsItem} button onClick={this.toggleManager}>
+            <ListItem
+              button className={classes.settingsItem}
+              onClick={this.toggleManager}>
               <ListItemIcon>
                 <StorageIcon />
               </ListItemIcon>
-              <ListItemText primary="Data Management" className={classes.itemText} />
+              <ListItemText className={classes.itemText} primary="Data Management" />
               <Expand className={classes.expand} />
             </ListItem>
             <Collapse
@@ -220,20 +222,22 @@ class SettingsManageData extends React.Component {
 
                   return (
                     <React.Fragment key={md5}>
-                      <ListItem className={classes.nested} dense button onClick={this.requestPermission({
-                        action: this.deleteGame(rom),
-                        type: `game`,
-                        name: title
-                      })}>
+                      <ListItem
+                        button className={classes.nested}
+                        dense onClick={this.requestPermission({
+                          action: this.deleteGame(rom),
+                          type: `game`,
+                          name: title
+                        })}>
                         <ListItemIcon>
                           <DeleteIcon />
                         </ListItemIcon>
                         <ListItemText
-                          primary={title}
                           classes={{
                             root: classes.itemRoot,
                             primary: classes.itemPrimary
                           }}
+                          primary={title}
                         />
                       </ListItem>
                       {name && Object.entries(saves).map(([key, saveValue])=> {
@@ -254,9 +258,9 @@ class SettingsManageData extends React.Component {
                         return (
                           <ListItem
                             key={key}
+                            button
                             className={`${classes.nested} ${classes.save}`}
                             dense
-                            button
                             onClick={this.requestPermission({
                               action,
                               type: key,
@@ -267,37 +271,37 @@ class SettingsManageData extends React.Component {
                               <DeleteIcon />
                             </ListItemIcon>
                             <ListItemText
-                              primary={label}
                               classes={{
                                 root: classes.itemRoot,
                                 primary: classes.itemPrimary
                               }}
+                              primary={label}
                             />
                             {key === `sram` && <ListItemSecondaryAction>
                               <IconButton aria-label="Import">
-                                <label htmlFor={`library-add-game-${name}`} className={classes.addGameLabel}>
+                                <label className={classes.addGameLabel} htmlFor={`library-add-game-${name}`}>
                                   <ImportIcon />
                                 </label>
                                 <input
                                   id={`library-add-game-${name}`}
-                                  type="file"
-                                  style={{ display: `none` }}
                                   onChange={
                                     this.importSRAM(
                                       name,
                                       saveValue.key,
-                                      context.actions.reset
+                                      actions.reset
                                     )
                                   }
+                                  style={{ display: `none` }}
+                                  type="file"
                                 />
                               </IconButton>
                               <IconButton aria-label="Export">
                                 <a
                                   className={classes.secondaryAction}
-                                  href={saveValue.url}
                                   download={`${title.split(`.`)[0]}.srm`}
-                                  target="_blank"
+                                  href={saveValue.url}
                                   rel="noopener noreferrer"
+                                  target="_blank"
                                 >
                                   <ExportIcon />
                                 </a>
@@ -313,8 +317,8 @@ class SettingsManageData extends React.Component {
             </Collapse>
 
             <Dialog
-              maxWidth="xs"
               aria-labelledby="settings-manage-data-confirm-title"
+              maxWidth="xs"
               open={Boolean(currentlyDeleting.name)}
             >
               <DialogTitle id="settings-manage-data-confirm-title">
@@ -328,13 +332,13 @@ class SettingsManageData extends React.Component {
                 }
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.dismissDelete} color="primary">
+                <Button color="primary" onClick={this.dismissDelete}>
                   {`Cancel`}
                 </Button>
                 <Button
+                  className={classes.confirmButton}
                   onClick={currentlyDeleting.action}
                   variant="contained"
-                  className={classes.confirmButton}
                 >
                   {`Delete`}
                 </Button>
@@ -348,11 +352,13 @@ class SettingsManageData extends React.Component {
 }
 
 SettingsManageData.propTypes = {
-  classes: PropTypes.object.isRequired,
-  library: PropTypes.array,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  library: PropTypes.arrayOf(PropTypes.object),
   deleteGame: PropTypes.func.isRequired,
   deleteSRAM: PropTypes.func.isRequired,
   deleteSaveState: PropTypes.func.isRequired
 };
+
+SettingsManageData.defaultProps = { library: [] };
 
 export default styleSettingsManageData(SettingsManageData);

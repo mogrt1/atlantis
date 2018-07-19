@@ -88,6 +88,10 @@
       "ignoreArrayIndexes": true
     }],
 
+    "no-unused-vars": ["error", {
+      "ignoreRestSiblings": true
+    }],
+
     "array-bracket-newline": "off",
     "array-element-newline": "off",
     "capitalized-comments": "off",
@@ -147,6 +151,25 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-indent": "off",
     "react/jsx-closing-bracket-location": "off",
-    "react/jsx-indent-props": "off"
+    "react/jsx-indent-props": "off",
+    "react/jsx-closing-tag-location": "off",
+    "react/forbid-component-props": "off",
+    "react/jsx-max-props-per-line": ["error", {
+      "maximum": 2
+    }],
+    "react/self-closing-comp": ["error", {
+      "html": false
+    }],
+    "react/jsx-max-depth": ["error", {
+      "max": 3
+    }],
+    "react/sort-prop-types": "off",
+    "react/jsx-sort-default-props": "off",
+    "react/jsx-sort-props": ["error", {
+      "ignoreCase": true,
+      "callbacksLast": true,
+      "shorthandLast": true,
+      "reservedFirst": true
+    }]
   }
 }

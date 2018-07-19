@@ -67,6 +67,6 @@ class Sound extends React.Component {
   }
 }
 
-Sound.propTypes = { classes: PropTypes.object.isRequired };
+Sound.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default styleSound(Sound);

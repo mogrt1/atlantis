@@ -67,6 +67,10 @@ class App extends React.Component {
     root.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     return (
       <Context restoreCoreData={restoreCoreData}>

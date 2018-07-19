@@ -85,7 +85,7 @@ class QuickMenu extends React.Component {
       );
     };
 
-    this.exitClock = ()=> {
+    this.handleExitClock = ()=> {
       this.setState({ openClock: false });
     };
   }
@@ -102,28 +102,28 @@ class QuickMenu extends React.Component {
           return (
             <React.Fragment>
               <Button
-                aria-owns={anchor ? `quick-menu` : null}
                 aria-haspopup="true"
+                aria-owns={anchor ? `quick-menu` : null}
                 className={this.props.className}
-                pointerCommands={this.events}
                 keyCommands={this.keyEvents}
+                pointerCommands={this.events}
               >
                 {this.props.children}
               </Button>
 
               <Menu
-                id="quick-menu"
                 anchorEl={anchor}
                 anchorOrigin={{
                   vertical: `top`,
                   horizontal: `center`
                 }}
+                id="quick-menu"
+                onClose={this.handleClose}
+                open={Boolean(anchor)}
                 transformOrigin={{
                   vertical: `top`,
                   horizontal: `center`
                 }}
-                open={Boolean(anchor)}
-                onClose={this.handleClose}
               >
                 <MenuItem onClick={this.menuAction(actions.saveState)}>
                   <ListItemIcon>
@@ -177,78 +177,98 @@ class QuickMenu extends React.Component {
                   vertical: `top`,
                   horizontal: `center`
                 }}
-                open={Boolean(state.message)}
-                onClose={actions.hideMessage}
                 autoHideDuration={750}
                 ContentProps={{
-                  className: classes.snackbar,
+                  'className': classes.snackbar,
                   'aria-describedby': `message`
                 }}
-                message={<span id="message">{state.message}</span>}
+                message={<span id="message">
+                  {state.message}
+                </span>}
+                onClose={actions.hideMessage}
+                open={Boolean(state.message)}
               />
 
-              <Drawer classes={{ paper: classes.clock }} anchor="bottom" open={this.state.openClock}>
+              <Drawer
+                anchor="bottom" classes={{ paper: classes.clock }}
+                open={this.state.openClock}>
                 <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-days">{`Days`}</InputLabel>
+                  <InputLabel htmlFor="quick-menu-clock-days">
+                    {`Days`}
+                  </InputLabel>
                   <Select
-                    value={this.state.days}
-                    onChange={this.changeClock(`days`)}
                     inputProps={{
                       name: `quick-menu-clock-days`,
                       id: `quick-menu-clock-days`
                     }}
+                    onChange={this.changeClock(`days`)}
+                    value={this.state.days}
                   >
                     {Array(DAYS).fill(ZERO).map((zero, val)=>
-                      <MenuItem key={zero + val} value={val}>{val}</MenuItem>
+                      (<MenuItem key={String(zero + val)} value={val}>
+                        {val}
+                      </MenuItem>)
                     )}
                   </Select>
                 </FormControl>
                 <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-hours">{`Hours`}</InputLabel>
+                  <InputLabel htmlFor="quick-menu-clock-hours">
+                    {`Hours`}
+                  </InputLabel>
                   <Select
-                    value={this.state.hours}
-                    onChange={this.changeClock(`hours`)}
                     inputProps={{
                       name: `quick-menu-clock-hours`,
                       id: `quick-menu-clock-hours`
                     }}
+                    onChange={this.changeClock(`hours`)}
+                    value={this.state.hours}
                   >
                     {Array(HOURS).fill(ZERO).map((zero, val)=>
-                      <MenuItem key={zero + val} value={val}>{val}</MenuItem>
+                      (<MenuItem key={String(zero + val)} value={val}>
+                        {val}
+                      </MenuItem>)
                     )}
                   </Select>
                 </FormControl>
                 <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-minutes">{`Minutes`}</InputLabel>
+                  <InputLabel htmlFor="quick-menu-clock-minutes">
+                    {`Minutes`}
+                  </InputLabel>
                   <Select
-                    value={this.state.minutes}
-                    onChange={this.changeClock(`minutes`)}
                     inputProps={{
                       name: `quick-menu-clock-minutes`,
                       id: `quick-menu-clock-minutes`
                     }}
+                    onChange={this.changeClock(`minutes`)}
+                    value={this.state.minutes}
                   >
                     {Array(MINUTES).fill(ZERO).map((zero, val)=>
-                      <MenuItem key={zero + val} value={val}>{val}</MenuItem>
+                      (<MenuItem key={String(zero + val)} value={val}>
+                        {val}
+                      </MenuItem>)
                     )}
                   </Select>
                 </FormControl>
                 <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-seconds">{`Seconds`}</InputLabel>
+                  <InputLabel htmlFor="quick-menu-clock-seconds">
+                    {`Seconds`}
+                  </InputLabel>
                   <Select
-                    value={this.state.seconds}
-                    onChange={this.changeClock(`seconds`)}
                     inputProps={{
                       name: `quick-menu-clock-seconds`,
                       id: `quick-menu-clock-seconds`
                     }}
+                    onChange={this.changeClock(`seconds`)}
+                    value={this.state.seconds}
                   >
                     {Array(SECONDS).fill(ZERO).map((zero, val)=>
-                      <MenuItem key={zero + val} value={val}>{val}</MenuItem>
+                      (<MenuItem key={String(zero + val)} value={val}>
+                        {val}
+                      </MenuItem>)
                     )}
                   </Select>
                 </FormControl>
-                <MaterialButton onClick={this.exitClock} className={classes.clockDone}>
+                <MaterialButton className={classes.clockDone} onClick={this.handleExitClock}>
                   {`Done`}
                 </MaterialButton>
               </Drawer>
@@ -272,7 +292,7 @@ class QuickMenu extends React.Component {
 QuickMenu.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   kb: PropTypes.string.isRequired
 };
 

@@ -46,6 +46,6 @@ export default class Loader extends React.Component {
 
 
 Loader.propTypes = {
-  uri: PropTypes.string,
+  uri: PropTypes.string.isRequired,
   setCurrentROM: PropTypes.func.isRequired
 };

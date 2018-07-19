@@ -28,11 +28,6 @@ export default class KeyCommands extends React.Component {
     document.addEventListener(`keyup`, this.eventDelegateUp);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener(`keydown`, this.eventDelegateDown);
-    document.removeEventListener(`keyup`, this.eventDelegateUp);
-  }
-
   componentDidUpdate() {
     document.removeEventListener(`keydown`, this.eventDelegateDown);
     document.removeEventListener(`keyup`, this.eventDelegateUp);
@@ -40,9 +35,14 @@ export default class KeyCommands extends React.Component {
     document.addEventListener(`keyup`, this.eventDelegateUp);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener(`keydown`, this.eventDelegateDown);
+    document.removeEventListener(`keyup`, this.eventDelegateUp);
+  }
+
   render() {
     return null;
   }
 }
 
-KeyCommands.propTypes = { children: PropTypes.object.isRequired };
+KeyCommands.propTypes = { children: PropTypes.objectOf(PropTypes.object).isRequired };

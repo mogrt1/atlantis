@@ -17,7 +17,7 @@ class Game extends React.Component {
       this.setState({ imageError: true });
     };
 
-    this.setCurrentROM = ()=> {
+    this.handleROMSelection = ()=> {
       props.setCurrentROM(props.rom);
     };
 
@@ -48,25 +48,25 @@ class Game extends React.Component {
 
     return (
       <GridListTile className={classes.game}>
-        <ButtonBase onClick={this.setCurrentROM}>
+        <ButtonBase onClick={this.handleROMSelection}>
           {
             !thumb || thumb === `reattempt` || this.state.imageError
-              ? <div className={classes.gameImageError} aria-label={title}></div>
+              ? <div aria-label={title} className={classes.gameImageError}></div>
               : <img
-                src={thumb}
                 alt={title}
                 className={classes.gameImage}
                 onError={this.handleImageError}
+                src={thumb}
               />
           }
         </ButtonBase>
         <GridListTileBar
-          title={this.formattedTitle()}
           classes={{
             root: classes.gameTitleRoot,
             titleWrap: classes.gameTitleWrap,
             title: classes.gameTitleText
           }}
+          title={this.formattedTitle()}
         />
       </GridListTile>
     );
@@ -77,8 +77,10 @@ Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  rom: PropTypes.object,
-  classes: PropTypes.object.isRequired
+  rom: PropTypes.string,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
 };
+
+Game.defaultProps = { rom: `` };
 
 export default styleGame(Game);

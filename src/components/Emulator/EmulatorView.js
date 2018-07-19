@@ -9,17 +9,19 @@ const EmulatorView = (props)=> {
 
   return (
     <canvas
-      className={classes.canvas}
       ref={props.canvasRef}
-      width="160"
+      className={classes.canvas}
       height="144"
-    ></canvas>
+      width="160"
+    >
+      {`Your client does not support this application. What are you using??`}
+    </canvas>
   );
 };
 
 EmulatorView.propTypes = {
-  canvasRef: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  canvasRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
 export default pure(styleEmulator(EmulatorView));

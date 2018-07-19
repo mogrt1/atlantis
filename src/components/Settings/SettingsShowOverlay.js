@@ -17,7 +17,7 @@ class SettingsShowOverlay extends React.Component {
 
     this.overlayToggle = ()=> {
       this.setState(
-        { toggle: !this.state.toggle },
+        (prevState)=> ({ toggle: !prevState.toggle }),
 
         ()=> {
           props.updateSetting(this.state.toggle);
@@ -30,26 +30,31 @@ class SettingsShowOverlay extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem className={classes.settingsItem} button onClick={this.overlayToggle}>
+      <ListItem
+        button className={classes.settingsItem}
+        onClick={this.overlayToggle}>
         <ListItemIcon>
           <VideogameAssetIcon />
         </ListItemIcon>
         <ListItemText className={classes.itemText}>
           {`Touch Overlay`}
         </ListItemText>
-        <Switch checked={this.state.toggle} classes={{
-          root: classes.toggleSwitch,
-          checked: classes.toggleSwitchChecked
-        }} />
+        <Switch
+          checked={this.state.toggle} classes={{
+            root: classes.toggleSwitch,
+            checked: classes.toggleSwitchChecked
+          }} />
       </ListItem>
     );
   }
 }
 
 SettingsShowOverlay.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   toggle: PropTypes.bool
 };
+
+SettingsShowOverlay.defaultProps = { toggle: null };
 
 export default styleSettingsShowOverlay(SettingsShowOverlay);

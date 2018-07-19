@@ -17,7 +17,7 @@ class SettingsHaptics extends React.Component {
 
     this.toggleHaptics = ()=> {
       this.setState(
-        { haptics: !this.state.haptics },
+        (prevState)=> ({ haptics: !prevState.haptics }),
 
         ()=> {
           props.updateSetting(this.state.haptics);
@@ -30,26 +30,31 @@ class SettingsHaptics extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem className={classes.settingsItem} button onClick={this.toggleHaptics}>
+      <ListItem
+        button className={classes.settingsItem}
+        onClick={this.toggleHaptics}>
         <ListItemIcon>
           <VibrationIcon />
         </ListItemIcon>
         <ListItemText className={classes.itemText}>
           {`Haptic Feedback`}
         </ListItemText>
-        <Switch checked={this.state.haptics} classes={{
-          root: classes.toggleSwitch,
-          checked: classes.toggleSwitchChecked
-        }} />
+        <Switch
+          checked={this.state.haptics} classes={{
+            root: classes.toggleSwitch,
+            checked: classes.toggleSwitchChecked
+          }} />
       </ListItem>
     );
   }
 }
 
 SettingsHaptics.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   toggle: PropTypes.bool
 };
+
+SettingsHaptics.defaultProps = { toggle: null };
 
 export default styleSettingsHaptics(SettingsHaptics);

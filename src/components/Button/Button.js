@@ -8,6 +8,10 @@ import KeyCommands from '../KeyCommands';
 import { Consumer } from '../Context';
 
 export default class Button extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     return (
       <Consumer>
@@ -34,7 +38,13 @@ export default class Button extends React.Component {
 
 Button.propTypes = {
   children: PropTypes.node,
-  pointerCommands: PropTypes.object.isRequired,
-  keyCommands: PropTypes.object,
+  pointerCommands: PropTypes.objectOf(PropTypes.func).isRequired,
+  keyCommands: PropTypes.objectOf(PropTypes.object),
   className: PropTypes.string
+};
+
+Button.defaultProps = {
+  children: ``,
+  keyCommands: {},
+  className: ``
 };

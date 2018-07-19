@@ -59,3 +59,10 @@ PointerCommands.propTypes = {
   up: PropTypes.func,
   children: PropTypes.element.isRequired
 };
+
+PointerCommands.defaultProps = {
+  apply: false,
+  down: null,
+  move: null,
+  up: null
+};

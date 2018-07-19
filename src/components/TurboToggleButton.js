@@ -44,3 +44,8 @@ TurboToggleButton.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node
 };
+
+TurboToggleButton.defaultProps = {
+  className: ``,
+  children: null
+};

@@ -43,11 +43,11 @@ class SettingsFFRate extends React.Component {
     return (
       <React.Fragment>
         <ListItem
-          button
-          onClick={this.openMenu}
-          className={classes.settingsItem}
-          aria-owns={anchorEl ? `settings-ff-rate` : null}
           aria-haspopup="true"
+          aria-owns={anchorEl ? `settings-ff-rate` : null}
+          button
+          className={classes.settingsItem}
+          onClick={this.openMenu}
         >
           <ListItemIcon>
             <FastForwardIcon />
@@ -62,24 +62,24 @@ class SettingsFFRate extends React.Component {
         </ListItem>
 
         <Menu
-          id="settings-ff-rate"
           anchorEl={anchorEl}
           anchorOrigin={{
             vertical: `top`,
             horizontal: `right`
           }}
+          id="settings-ff-rate"
+          onClose={this.closeMenu}
+          open={Boolean(anchorEl)}
           transformOrigin={{
             vertical: `top`,
             horizontal: `right`
           }}
-          open={Boolean(anchorEl)}
-          onClose={this.closeMenu}
         >
           {Array(this.rateLevels).fill(`0`).map((el, index)=> (
             <MenuItem
-              key={el + index}
-              value={index + this.firstRate}
+              key={String(el + index)}
               onClick={this.changeRate}
+              value={index + this.firstRate}
             >
               {`${index + this.firstRate}x`}
             </MenuItem>
@@ -91,9 +91,11 @@ class SettingsFFRate extends React.Component {
 }
 
 SettingsFFRate.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   rate: PropTypes.number
 };
+
+SettingsFFRate.defaultProps = { rate: null };
 
 export default styleSettingsFFRate(SettingsFFRate);

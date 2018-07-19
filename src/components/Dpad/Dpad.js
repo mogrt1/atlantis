@@ -140,6 +140,10 @@ export default class Dpad extends React.Component {
     window.addEventListener(`resize`, ()=> setTimeout(this.updateDpadDim, RESIZE_DEBOUNCE));
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { kb } = this.props;
 
@@ -185,6 +189,8 @@ export default class Dpad extends React.Component {
 
 Dpad.propTypes = {
   className: PropTypes.string,
-  kb: PropTypes.object,
-  haptics: PropTypes.bool
+  kb: PropTypes.objectOf(PropTypes.string).isRequired,
+  haptics: PropTypes.bool.isRequired
 };
+
+Dpad.defaultProps = { className: `` };

@@ -180,19 +180,21 @@ class PrimaryButtons extends React.Component {
             <div ref={this.buttonRef} className={classes.buttons}>
               <GamepadButton
                 className={classes.b}
-                type="B"
+                haptics={false}
                 kb={this.props.kbB}
                 turbo={state.turbo}
                 turboKb={this.props.turboKbB}
+                type="B"
               >
                 {`B`}
               </GamepadButton>
               <GamepadButton
                 className={classes.a}
-                type="A"
+                haptics={false}
                 kb={this.props.kbA}
                 turbo={state.turbo}
                 turboKb={this.props.turboKbA}
+                type="A"
               >
                 {`A`}
               </GamepadButton>
@@ -206,12 +208,12 @@ class PrimaryButtons extends React.Component {
 }
 
 PrimaryButtons.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   kbB: PropTypes.string.isRequired,
   kbA: PropTypes.string.isRequired,
-  turboKbB: PropTypes.string,
-  turboKbA: PropTypes.string,
-  haptics: PropTypes.bool
+  turboKbB: PropTypes.string.isRequired,
+  turboKbA: PropTypes.string.isRequired,
+  haptics: PropTypes.bool.isRequired
 };
 
 export default stylePrimaryButtons(PrimaryButtons);

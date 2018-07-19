@@ -22,6 +22,10 @@ import Link from '../Link/Link';
 import { Consumer } from '../Context';
 
 class Settings extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -30,18 +34,18 @@ class Settings extends React.Component {
         {({ state, actions })=> (
           <React.Fragment>
             <IconButton
-              color="inherit"
               aria-label="open settings"
-              onClick={actions.toggleDrawer(`settings`)}
               className={classes.open}
+              color="inherit"
+              onClick={actions.toggleDrawer(`settings`)}
             >
               <SettingsIcon />
             </IconButton>
 
-            <Drawer open={state.settingsOpen} onClose={actions.toggleDrawer(`settings`)}>
+            <Drawer onClose={actions.toggleDrawer(`settings`)} open={state.settingsOpen}>
               <div
-                tabIndex={0}
                 role="button"
+                tabIndex={0}
               >
                 <div className={classes.drawer}>
                   <List subheader={
@@ -51,9 +55,9 @@ class Settings extends React.Component {
                   }>
                     <div>
                       <SettingsMute
+                        enableAudio={actions.enableAudio}
                         toggle={state.settings.mute}
                         updateSetting={actions.updateSetting(`mute`)}
-                        enableAudio={actions.enableAudio}
                       />
                       {`vibrate` in window.navigator && <SettingsHaptics
                         toggle={state.settings.haptics}
@@ -72,10 +76,10 @@ class Settings extends React.Component {
                         updateSetting={actions.updateSetting(`enableRewind`)}
                       />
                       <SettingsManageData
-                        library={state.library}
                         deleteGame={actions.deleteGame}
-                        deleteSRAM={actions.deleteSRAM}
                         deleteSaveState={actions.deleteSaveState}
+                        deleteSRAM={actions.deleteSRAM}
+                        library={state.library}
                       />
                       <SettingsShowOverlay
                         toggle={state.settings.showOverlay}
@@ -86,7 +90,7 @@ class Settings extends React.Component {
                         updateSetting={actions.updateSetting(`keyBindings`)}
                       />
                       <Link error href="https://github.com/brianblakely/atlantis/issues/new?template=bug-report.md">
-                        Report a Bug
+                        {`Report a Bug`}
                       </Link>
                     </div>
                   </List>
@@ -100,6 +104,6 @@ class Settings extends React.Component {
   }
 }
 
-Settings.propTypes = { classes: PropTypes.object.isRequired };
+Settings.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default styleSettings(Settings);

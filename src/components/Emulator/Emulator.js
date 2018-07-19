@@ -19,9 +19,13 @@ export default class Emulator extends React.Component {
     this.props.setCanvas(this.canvasRef);
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     return (
-      <EmulatorView canvasRef={this.canvasRef}></EmulatorView>
+      <EmulatorView canvasRef={this.canvasRef} />
     );
   }
 }

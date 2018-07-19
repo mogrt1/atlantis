@@ -75,10 +75,13 @@ export default class GamepadButton extends React.Component {
     return (
       <Button
         className={this.props.className}
-        pointerCommands={this.props.turbo ? this.turboEvents : this.events}
         keyCommands={this.keyEvents}
+        pointerCommands={this.props.turbo ? this.turboEvents : this.events}
       >
-        {this.props.children}{this.props.turbo && <sup>{`τ`}</sup>}
+        {this.props.children}
+        {this.props.turbo && <sup>
+          {`τ`}
+        </sup>}
       </Button>
     );
   }
@@ -89,8 +92,16 @@ GamepadButton.propTypes = {
   kb: PropTypes.string.isRequired,
   turbo: PropTypes.bool,
   turboKb: PropTypes.string,
-  events: PropTypes.object,
+  events: PropTypes.objectOf(PropTypes.func),
   className: PropTypes.string,
   children: PropTypes.node,
-  haptics: PropTypes.bool
+  haptics: PropTypes.bool.isRequired
+};
+
+GamepadButton.defaultProps = {
+  turbo: null,
+  turboKb: ``,
+  events: {},
+  className: ``,
+  children: null
 };

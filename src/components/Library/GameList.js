@@ -10,6 +10,10 @@ import GridList from '@material-ui/core/GridList';
 import Game from './Game';
 
 class GameList extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -17,18 +21,18 @@ class GameList extends React.Component {
       <Consumer>
         {({ state, actions })=> (
           <GridList
-            className={classes.libraryList}
             cellHeight={libraryWidth / libraryCols}
+            className={classes.libraryList}
             cols={libraryCols}
             spacing={0}
           >
             {this.props.children || state.library.map((data)=> (
               <Game
                 key={data.md5}
-                thumb={data.thumb}
-                title={data.title}
                 rom={data.rom}
                 setCurrentROM={actions.setCurrentROM}
+                thumb={data.thumb}
+                title={data.title}
               />
             ))}
           </GridList>
@@ -39,8 +43,10 @@ class GameList extends React.Component {
 }
 
 GameList.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   children: PropTypes.node
 };
+
+GameList.defaultProps = { children: null };
 
 export default styleGameList(GameList);

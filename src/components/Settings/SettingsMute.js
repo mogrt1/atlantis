@@ -24,7 +24,7 @@ class SettingsMute extends React.Component {
 
     this.toggleMute = ()=> {
       this.setState(
-        { mute: !this.state.mute },
+        (prevState)=> ({ mute: !prevState.mute }),
 
         ()=> {
           props.updateSetting(this.state.mute);
@@ -48,27 +48,35 @@ class SettingsMute extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem className={classes.settingsItem} button onClick={this.toggleMute}>
+      <ListItem
+        button className={classes.settingsItem}
+        onClick={this.toggleMute}
+      >
         <ListItemIcon>
           <VolumeOffIcon />
         </ListItemIcon>
         <ListItemText className={classes.itemText}>
           {`Mute`}
         </ListItemText>
-        <Switch checked={this.state.mute} classes={{
-          root: classes.toggleSwitch,
-          checked: classes.toggleSwitchChecked
-        }} />
+        <Switch
+          checked={this.state.mute}
+          classes={{
+            root: classes.toggleSwitch,
+            checked: classes.toggleSwitchChecked
+          }}
+        />
       </ListItem>
     );
   }
 }
 
 SettingsMute.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   enableAudio: PropTypes.func.isRequired,
   toggle: PropTypes.bool
 };
+
+SettingsMute.defaultProps = { toggle: null };
 
 export default styleSettingsMute(SettingsMute);

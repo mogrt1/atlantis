@@ -38,18 +38,22 @@ class Library extends React.Component {
         {({ state, actions })=> (
           <React.Fragment>
             <IconButton
-              color="inherit"
               aria-label="open settings"
-              onClick={actions.toggleDrawer(`library`)}
               className={classes.open}
+              color="inherit"
+              onClick={actions.toggleDrawer(`library`)}
             >
               <LibraryIcon />
             </IconButton>
 
-            <Drawer open={state.libraryOpen} onClose={actions.toggleDrawer(`library`)} anchor="right">
+            <Drawer
+              anchor="right"
+              onClose={actions.toggleDrawer(`library`)}
+              open={state.libraryOpen}
+            >
               <div
-                tabIndex={0}
                 role="button"
+                tabIndex={0}
               >
                 <div className={classes.drawer}>
                   <List subheader={
@@ -75,7 +79,7 @@ class Library extends React.Component {
 }
 
 Library.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   addToLibrary: PropTypes.func.isRequired
 };
 

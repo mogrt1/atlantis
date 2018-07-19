@@ -17,7 +17,7 @@ class SettingsFFToggle extends React.Component {
 
     this.toggleToggle = ()=> {
       this.setState(
-        { toggle: !this.state.toggle },
+        (prevState)=> ({ toggle: !prevState.toggle }),
 
         ()=> {
           props.updateSetting(this.state.toggle);
@@ -30,26 +30,31 @@ class SettingsFFToggle extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem className={classes.settingsItem} button onClick={this.toggleToggle}>
+      <ListItem
+        button className={classes.settingsItem}
+        onClick={this.toggleToggle}>
         <ListItemIcon>
           <FastForwardIcon />
         </ListItemIcon>
         <ListItemText className={classes.itemText}>
           {`FF Toggle`}
         </ListItemText>
-        <Switch checked={this.state.toggle} classes={{
-          root: classes.toggleSwitch,
-          checked: classes.toggleSwitchChecked
-        }} />
+        <Switch
+          checked={this.state.toggle} classes={{
+            root: classes.toggleSwitch,
+            checked: classes.toggleSwitchChecked
+          }} />
       </ListItem>
     );
   }
 }
 
 SettingsFFToggle.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   toggle: PropTypes.bool
 };
+
+SettingsFFToggle.defaultProps = { toggle: null };
 
 export default styleSettingsFFToggle(SettingsFFToggle);

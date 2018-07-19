@@ -58,8 +58,8 @@ export default class FastForwardButton extends React.Component {
     return (
       <Button
         className={this.props.className}
-        pointerCommands={this.props.toggle ? this.toggleEvents : this.noToggleEvents}
         keyCommands={{ [this.props.kb]: this.props.toggle ? this.toggleEvents : this.noToggleEvents }}
+        pointerCommands={this.props.toggle ? this.toggleEvents : this.noToggleEvents}
       >
         {this.props.children}
       </Button>
@@ -73,4 +73,9 @@ FastForwardButton.propTypes = {
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node
+};
+
+FastForwardButton.defaultProps = {
+  className: ``,
+  children: null
 };

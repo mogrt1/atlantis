@@ -18,11 +18,9 @@ class SettingsKeyBindings extends React.Component {
   constructor(props) {
     super(props);
 
-    const keyBindings = props.keyBindings || {};
-
     this.state = {
       open: false,
-      ...keyBindings
+      ...props.keyBindings
     };
 
     this.bindings = {
@@ -45,7 +43,7 @@ class SettingsKeyBindings extends React.Component {
     };
 
     this.toggleBindings = ()=> {
-      this.setState({ open: !this.state.open });
+      this.setState((prevState)=> ({ open: !prevState.open }));
     };
 
     this.assignKey = (e)=> {
@@ -58,8 +56,7 @@ class SettingsKeyBindings extends React.Component {
         { [e.target.id]: value },
 
         ()=> {
-          const bindings = { ...this.state };
-          delete bindings.open;
+          const { open, ...bindings } = this.state;
 
           props.updateSetting(bindings);
         }
@@ -74,11 +71,14 @@ class SettingsKeyBindings extends React.Component {
 
     return (
       <React.Fragment>
-        <ListItem className={classes.settingsItem} button onClick={this.toggleBindings}>
+        <ListItem
+          button className={classes.settingsItem}
+          onClick={this.toggleBindings}
+        >
           <ListItemIcon>
             <KeyboardIcon />
           </ListItemIcon>
-          <ListItemText primary="Keyboard Bindings" className={classes.itemText} />
+          <ListItemText className={classes.itemText} primary="Keyboard Bindings" />
           <Expand className={classes.expand} />
         </ListItem>
         <Collapse
@@ -89,15 +89,21 @@ class SettingsKeyBindings extends React.Component {
         >
           <List component="div" disablePadding>
             {Object.entries(this.bindings).map(([id, label])=> (
-              <ListItem key={id} className={classes.nested} dense>
+              <ListItem
+                key={id} className={classes.nested}
+                dense>
                 <TextField
-                  id={`settings-kb-${id}`}
                   className={classes.input}
+                  id={`settings-kb-${id}`}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">
+                      {`key:`}
+                    </InputAdornment>
+                  }}
                   label={label}
-                  value={this.state[`settings-kb-${id}`]}
-                  onKeyDown={this.assignKey}
                   margin="normal"
-                  InputProps={{ startAdornment: <InputAdornment position="start">key:</InputAdornment> }}
+                  onKeyDown={this.assignKey}
+                  value={this.state[`settings-kb-${id}`]}
                 />
               </ListItem>
             ))}
@@ -109,9 +115,11 @@ class SettingsKeyBindings extends React.Component {
 }
 
 SettingsKeyBindings.propTypes = {
-  classes: PropTypes.object.isRequired,
-  keyBindings: PropTypes.object,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  keyBindings: PropTypes.objectOf(PropTypes.string),
   updateSetting: PropTypes.func.isRequired
 };
+
+SettingsKeyBindings.defaultProps = { keyBindings: {} };
 
 export default styleSettingsKeyBindings(SettingsKeyBindings);

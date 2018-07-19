@@ -14,11 +14,11 @@ import { Link as LinkIcon } from '@material-ui/icons';
 const Link = (props)=> (
   <ListItem
     button
+    className={`${props.classes.link} ${props.error ? props.classes.error : ``}`}
     component="a"
     href={props.href}
-    target="_blank"
     rel="noopener noreferrer"
-    className={`${props.classes.link} ${props.error ? props.classes.error : ``}`}
+    target="_blank"
   >
     <ListItemIcon>
       <LinkIcon />
@@ -30,10 +30,12 @@ const Link = (props)=> (
 );
 
 Link.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   href: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
   error: PropTypes.bool
 };
+
+Link.defaultProps = { error: false };
 
 export default pure(styleLink(Link));

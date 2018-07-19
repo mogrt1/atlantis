@@ -17,7 +17,7 @@ class SettingsRewind extends React.Component {
 
     this.toggleRewind = ()=> {
       this.setState(
-        { rewind: !this.state.rewind },
+        (prevState)=> ({ rewind: !prevState.rewind }),
 
         ()=> {
           props.updateSetting(this.state.rewind);
@@ -30,26 +30,34 @@ class SettingsRewind extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem className={classes.settingsItem} button onClick={this.toggleRewind}>
+      <ListItem
+        button className={classes.settingsItem}
+        onClick={this.toggleRewind}
+      >
         <ListItemIcon>
           <RewindIcon />
         </ListItemIcon>
         <ListItemText className={classes.itemText}>
           {`Enable Rewind`}
         </ListItemText>
-        <Switch checked={this.state.rewind} classes={{
-          root: classes.toggleSwitch,
-          checked: classes.toggleSwitchChecked
-        }} />
+        <Switch
+          checked={this.state.rewind}
+          classes={{
+            root: classes.toggleSwitch,
+            checked: classes.toggleSwitchChecked
+          }}
+        />
       </ListItem>
     );
   }
 }
 
 SettingsRewind.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   toggle: PropTypes.bool
 };
+
+SettingsRewind.defaultProps = { toggle: null };
 
 export default styleSettingsRewind(SettingsRewind);

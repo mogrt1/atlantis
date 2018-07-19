@@ -29,31 +29,31 @@ const GamepadView = (props)=> {
         return (
           <div className={`${classes.gamepad} ${(!state.settings.showOverlay && classes.hide) || ``}`}>
             <Dpad
-              kb={keyBindings}
               haptics={state.settings.haptics}
+              kb={keyBindings}
             />
 
             <PrimaryButtons
-              kbB={keyBindings[`settings-kb-b`]}
-              kbA={keyBindings[`settings-kb-a`]}
-              turboKbB={keyBindings[`settings-kb-b-turbo`]}
-              turboKbA={keyBindings[`settings-kb-a-turbo`]}
               haptics={state.settings.haptics}
+              kbA={keyBindings[`settings-kb-a`]}
+              kbB={keyBindings[`settings-kb-b`]}
+              turboKbA={keyBindings[`settings-kb-a-turbo`]}
+              turboKbB={keyBindings[`settings-kb-b-turbo`]}
             />
 
             <GamepadButton
               className={classes.start}
-              type="START"
-              kb={keyBindings[`settings-kb-start`]}
               haptics={state.settings.haptics}
+              kb={keyBindings[`settings-kb-start`]}
+              type="START"
             >
               {`Start`}
             </GamepadButton>
             <GamepadButton
               className={classes.select}
-              type="SELECT"
-              kb={keyBindings[`settings-kb-select`]}
               haptics={state.settings.haptics}
+              kb={keyBindings[`settings-kb-select`]}
+              type="SELECT"
             >
               {`Select`}
             </GamepadButton>
@@ -69,8 +69,8 @@ const GamepadView = (props)=> {
             <FastForwardButton
               className={classes.fastForward}
               kb={keyBindings[`settings-kb-ff`]}
-              toggle={ffToggle === false ? ffToggle : true}
               rate={ffRate}
+              toggle={ffToggle === false ? ffToggle : true}
             >
               <FastForwardIcon className={classes.icon} />
             </FastForwardButton>
@@ -80,7 +80,9 @@ const GamepadView = (props)=> {
             </QuickMenu>}
 
             <TurboToggleButton className={classes.turbo} toggleTurbo={actions.toggleTurbo}>
-              <sup>{`τ`}</sup>
+              <sup>
+                {`τ`}
+              </sup>
             </TurboToggleButton>
           </div>
         );
@@ -89,6 +91,6 @@ const GamepadView = (props)=> {
   );
 };
 
-GamepadView.propTypes = { classes: PropTypes.object.isRequired };
+GamepadView.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default pure(styleGamepad(GamepadView));

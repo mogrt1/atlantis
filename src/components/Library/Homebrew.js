@@ -46,7 +46,7 @@ class Homebrew extends React.Component {
 
     return (
       <Consumer>
-        {(context)=> (
+        {({ actions })=> (
           <List subheader={
             <ListSubheader className={classes.heading}>
               {`Free Homebrew Games`}
@@ -55,29 +55,29 @@ class Homebrew extends React.Component {
             <div>
               <GameList>
                 <Game
+                  setCurrentROM={this.load(spaceInvasionUri)}
                   thumb={spaceInvasionThumb}
                   title="Space Invasion"
-                  setCurrentROM={this.load(spaceInvasionUri)}
                 />
                 <Game
+                  setCurrentROM={this.load(flappyBoyUri)}
                   thumb={flappyBoyThumb}
                   title="FlappyBoy"
-                  setCurrentROM={this.load(flappyBoyUri)}
                 />
                 <Game
+                  setCurrentROM={this.load(infinityUri)}
                   thumb={infinityThumb}
                   title="Infinity Demo"
-                  setCurrentROM={this.load(infinityUri)}
                 />
                 <Game
+                  setCurrentROM={this.load(postbotUri)}
                   thumb={postbotThumb}
                   title="Post Bot"
-                  setCurrentROM={this.load(postbotUri)}
                 />
               </GameList>
               {currentHomebrew && <Loader
+                setCurrentROM={actions.setCurrentROM}
                 uri={currentHomebrew}
-                setCurrentROM={context.actions.setCurrentROM}
               />}
             </div>
           </List>
@@ -87,6 +87,6 @@ class Homebrew extends React.Component {
   }
 }
 
-Homebrew.propTypes = { classes: PropTypes.object.isRequired };
+Homebrew.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default styleHomebrew(Homebrew);

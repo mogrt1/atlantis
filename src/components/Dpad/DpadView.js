@@ -20,10 +20,15 @@ const DpadView = (props)=> {
 };
 
 DpadView.propTypes = {
-  dpadRef: PropTypes.object.isRequired,
-  pointerEvents: PropTypes.object,
+  dpadRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  pointerEvents: PropTypes.objectOf(PropTypes.func),
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+};
+
+DpadView.defaultProps = {
+  pointerEvents: {},
+  className: ``
 };
 
 export default pure(styleDpad(DpadView));

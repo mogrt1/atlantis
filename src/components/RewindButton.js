@@ -76,8 +76,8 @@ export default class RewindButton extends React.Component {
     return (
       <Button
         className={this.props.className}
-        pointerCommands={this.events}
         keyCommands={{ [this.props.kb]: this.events }}
+        pointerCommands={this.events}
       >
         {this.props.children}
       </Button>
@@ -89,5 +89,10 @@ RewindButton.propTypes = {
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  rewindQueue: PropTypes.array.isRequired
+  rewindQueue: PropTypes.arrayOf(PropTypes.array).isRequired
+};
+
+RewindButton.defaultProps = {
+  className: ``,
+  children: null
 };

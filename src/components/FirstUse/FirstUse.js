@@ -11,9 +11,7 @@ import {
   DialogActions,
   Button
 } from '@material-ui/core';
-import {
-  Settings as SettingsIcon
-} from '@material-ui/icons';
+import { Settings as SettingsIcon } from '@material-ui/icons';
 
 import SettingsShowOverlay from '../Settings/SettingsShowOverlay';
 import Link from '../Link/Link';
@@ -21,6 +19,18 @@ import Link from '../Link/Link';
 import { Consumer } from '../Context';
 
 class FirstUse extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleDone = (action)=> (e)=> {
+      action(e);
+    };
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -28,11 +38,11 @@ class FirstUse extends React.Component {
       <Consumer>
         {({ state, actions })=> (
           <Dialog
+            aria-labelledby="first-use"
             className={classes.dialog}
             maxWidth="xs"
-            scroll="body"
-            aria-labelledby="first-use"
             open={state.settings.firstUse}
+            scroll="body"
           >
             <DialogTitle id="first-use">
               {`Welcome`}
@@ -73,9 +83,9 @@ class FirstUse extends React.Component {
             </DialogContent>
             <DialogActions>
               <Button
-                onClick={actions.firstUseComplete}
-                variant="contained"
                 className={classes.button}
+                onClick={this.handleDone(actions.firstUseComplete)}
+                variant="contained"
               >
                 {`Thanks`}
               </Button>
@@ -86,6 +96,6 @@ class FirstUse extends React.Component {
   }
 }
 
-FirstUse.propTypes = { classes: PropTypes.object.isRequired };
+FirstUse.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
 export default styleFirstUse(FirstUse);
