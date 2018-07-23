@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
+import { shouldUpdate } from 'recompose';
 
 import { styleLink } from './LinkStyles';
 
@@ -38,4 +38,4 @@ Link.propTypes = {
 
 Link.defaultProps = { error: false };
 
-export default pure(styleLink(Link));
+export default shouldUpdate(()=> false)(styleLink(Link));

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { shouldUpdate } from 'recompose';
 
 import ButtonView from './ButtonView';
 import PointerCommands from '../PointerCommands';
@@ -7,34 +8,26 @@ import KeyCommands from '../KeyCommands';
 
 import { Consumer } from '../Context';
 
-export default class Button extends React.Component {
-  shouldComponentUpdate() {
-    return false;
-  }
+const Button = (props)=> (
+  <Consumer>
+    {({ state })=> (
+      <React.Fragment>
+        <PointerCommands {...props.pointerCommands}>
+          <ButtonView className={props.className}>
+            {props.children}
+          </ButtonView>
+        </PointerCommands>
 
-  render() {
-    return (
-      <Consumer>
-        {({ state })=> (
-          <React.Fragment>
-            <PointerCommands {...this.props.pointerCommands}>
-              <ButtonView className={this.props.className}>
-                {this.props.children}
-              </ButtonView>
-            </PointerCommands>
-
-            {
-              !state.settingsOpen && this.props.keyCommands
+        {
+          !state.settingsOpen && props.keyCommands
               && <KeyCommands>
-                {this.props.keyCommands}
+                {props.keyCommands}
               </KeyCommands>
-            }
-          </React.Fragment>
-        )}
-      </Consumer>
-    );
-  }
-}
+        }
+      </React.Fragment>
+    )}
+  </Consumer>
+);
 
 Button.propTypes = {
   children: PropTypes.node,
@@ -48,3 +41,5 @@ Button.defaultProps = {
   keyCommands: {},
   className: ``
 };
+
+export default shouldUpdate(()=> false)(Button);

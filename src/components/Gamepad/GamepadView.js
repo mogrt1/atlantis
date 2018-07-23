@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
+import { shouldUpdate } from 'recompose';
 
 import RewindIcon from '@material-ui/icons/FastRewind';
 import FastForwardIcon from '@material-ui/icons/FastForward';
@@ -93,4 +93,4 @@ const GamepadView = (props)=> {
 
 GamepadView.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
-export default pure(styleGamepad(GamepadView));
+export default shouldUpdate(()=> false)(styleGamepad(GamepadView));

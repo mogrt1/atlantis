@@ -1,60 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { shouldUpdate } from 'recompose';
 
-import { styleSettingsFFToggle } from './SettingsStyles';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Switch from '@material-ui/core/Switch';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 
-class SettingsFFToggle extends React.Component {
-  constructor(props) {
-    super(props);
+import SettingsControlToggle from './SettingsControlToggle';
 
-    this.state = { toggle: props.toggle === false ? props.toggle : true };
+const SettingsFFToggle = ()=> (
+  <SettingsControlToggle
+    icon={<FastForwardIcon />}
+    label="FF Toggle"
+    setting="ffToggle"
+  />
+);
 
-    this.toggleToggle = ()=> {
-      this.setState(
-        (prevState)=> ({ toggle: !prevState.toggle }),
-
-        ()=> {
-          props.updateSetting(this.state.toggle);
-        }
-      );
-    };
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <ListItem
-        button className={classes.settingsItem}
-        onClick={this.toggleToggle}>
-        <ListItemIcon>
-          <FastForwardIcon />
-        </ListItemIcon>
-        <ListItemText className={classes.itemText}>
-          {`FF Toggle`}
-        </ListItemText>
-        <Switch
-          checked={this.state.toggle} classes={{
-            root: classes.toggleSwitch,
-            checked: classes.toggleSwitchChecked
-          }} />
-      </ListItem>
-    );
-  }
-}
-
-SettingsFFToggle.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  updateSetting: PropTypes.func.isRequired,
-  toggle: PropTypes.bool
-};
-
-SettingsFFToggle.defaultProps = { toggle: null };
-
-export default styleSettingsFFToggle(SettingsFFToggle);
+export default shouldUpdate(()=> false)(SettingsFFToggle);

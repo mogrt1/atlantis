@@ -39,18 +39,12 @@ export const styleSettingsFFRate = withStyles({
   value: { color: theme.palette.getContrastText(theme.palette.primary[`800`]) }
 });
 
-const toggle = {
+export const styleSettingsToggle = withStyles({
   settingsItem,
   itemText: { paddingLeft: 0 },
   toggleSwitch: { right: `-12px` },
   toggleSwitchChecked: { color: `${theme.palette.secondary[`800`]} !important` }
-};
-
-export const styleSettingsMute = withStyles(toggle);
-export const styleSettingsHaptics = withStyles(toggle);
-export const styleSettingsFFToggle = withStyles(toggle);
-export const styleSettingsRewind = withStyles(toggle);
-export const styleSettingsShowOverlay = withStyles(toggle);
+});
 
 const collapsibleList = {
   itemText: { paddingLeft: 0 },

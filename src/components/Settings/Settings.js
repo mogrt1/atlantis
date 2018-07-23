@@ -54,37 +54,21 @@ class Settings extends React.Component {
                     </ListSubheader>
                   }>
                     <div>
-                      <SettingsMute
-                        enableAudio={actions.enableAudio}
-                        toggle={state.settings.mute}
-                        updateSetting={actions.updateSetting(`mute`)}
-                      />
-                      {`vibrate` in window.navigator && <SettingsHaptics
-                        toggle={state.settings.haptics}
-                        updateSetting={actions.updateSetting(`haptics`)}
-                      />}
+                      <SettingsMute />
+                      {`vibrate` in window.navigator && <SettingsHaptics />}
                       <SettingsFFRate
                         rate={state.settings.ffRate}
                         updateSetting={actions.updateSetting(`ffRate`)}
                       />
-                      <SettingsFFToggle
-                        toggle={state.settings.ffToggle}
-                        updateSetting={actions.updateSetting(`ffToggle`)}
-                      />
-                      <SettingsRewind
-                        toggle={state.settings.enableRewind}
-                        updateSetting={actions.updateSetting(`enableRewind`)}
-                      />
+                      <SettingsFFToggle />
+                      <SettingsRewind />
                       <SettingsManageData
                         deleteGame={actions.deleteGame}
                         deleteSaveState={actions.deleteSaveState}
                         deleteSRAM={actions.deleteSRAM}
                         library={state.library}
                       />
-                      <SettingsShowOverlay
-                        toggle={state.settings.showOverlay}
-                        updateSetting={actions.updateSetting(`showOverlay`)}
-                      />
+                      <SettingsShowOverlay />
                       <SettingsKeyBindings
                         keyBindings={state.settings.keyBindings}
                         updateSetting={actions.updateSetting(`keyBindings`)}

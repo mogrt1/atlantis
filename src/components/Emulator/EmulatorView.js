@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
+import { shouldUpdate } from 'recompose';
 
 import { styleEmulator } from './EmulatorStyles';
 
@@ -24,4 +24,4 @@ EmulatorView.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
-export default pure(styleEmulator(EmulatorView));
+export default shouldUpdate(()=> false)(styleEmulator(EmulatorView));

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pure } from 'recompose';
+import { shouldUpdate } from 'recompose';
 
 import { styleDpad } from './DpadStyles';
 
@@ -31,4 +31,4 @@ DpadView.defaultProps = {
   className: ``
 };
 
-export default pure(styleDpad(DpadView));
+export default shouldUpdate(()=> false)(styleDpad(DpadView));

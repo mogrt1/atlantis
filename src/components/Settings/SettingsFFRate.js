@@ -35,6 +35,10 @@ class SettingsFFRate extends React.Component {
     };
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
 

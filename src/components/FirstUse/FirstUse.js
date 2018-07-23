@@ -57,10 +57,7 @@ class FirstUse extends React.Component {
                 {<SettingsIcon className={classes.inlineIcon} />}
                 {`).`}
               </DialogContentText>
-              <SettingsShowOverlay
-                toggle={state.settings.showOverlay}
-                updateSetting={actions.updateSetting(`showOverlay`)}
-              />
+              <SettingsShowOverlay />
 
               <DialogContentText className={classes.bodyText}>
                 {`

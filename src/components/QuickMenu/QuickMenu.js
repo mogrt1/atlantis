@@ -90,6 +90,10 @@ class QuickMenu extends React.Component {
     };
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   render() {
     const { anchor } = this.state;
     const { classes } = this.props;
@@ -292,8 +296,12 @@ class QuickMenu extends React.Component {
 QuickMenu.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  kb: PropTypes.string.isRequired
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+};
+
+QuickMenu.defaultProps = {
+  children: null,
+  className: ``
 };
 
 export default styleQuickMenu(QuickMenu);

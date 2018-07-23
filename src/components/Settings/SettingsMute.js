@@ -1,13 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { shouldUpdate } from 'recompose';
 
-import { styleSettingsMute } from './SettingsStyles';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Switch from '@material-ui/core/Switch';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+
+import SettingsControlToggle from './SettingsControlToggle';
 
 import {
   gameboy,
@@ -16,67 +12,26 @@ import {
 
 const SOUND = 0;
 
-class SettingsMute extends React.Component {
-  constructor(props) {
-    super(props);
+const onChange = (muted, actions)=> {
+  settings[SOUND] = !muted;
 
-    this.state = { mute: props.toggle === false ? props.toggle : true };
-
-    this.toggleMute = ()=> {
-      this.setState(
-        (prevState)=> ({ mute: !prevState.mute }),
-
-        ()=> {
-          props.updateSetting(this.state.mute);
-
-          settings[SOUND] = !this.state.mute;
-
-          if(gameboy) {
-            if(this.state.mute) {
-              gameboy.stopSound();
-            } else {
-              gameboy.initSound();
-              props.enableAudio();
-            }
-          }
-        }
-      );
-    };
+  if(gameboy) {
+    if(muted) {
+      gameboy.stopSound();
+    } else {
+      gameboy.initSound();
+      actions.enableAudio();
+    }
   }
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <ListItem
-        button className={classes.settingsItem}
-        onClick={this.toggleMute}
-      >
-        <ListItemIcon>
-          <VolumeOffIcon />
-        </ListItemIcon>
-        <ListItemText className={classes.itemText}>
-          {`Mute`}
-        </ListItemText>
-        <Switch
-          checked={this.state.mute}
-          classes={{
-            root: classes.toggleSwitch,
-            checked: classes.toggleSwitchChecked
-          }}
-        />
-      </ListItem>
-    );
-  }
-}
-
-SettingsMute.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  updateSetting: PropTypes.func.isRequired,
-  enableAudio: PropTypes.func.isRequired,
-  toggle: PropTypes.bool
 };
 
-SettingsMute.defaultProps = { toggle: null };
+const SettingsMute = ()=> (
+  <SettingsControlToggle
+    icon={<VolumeOffIcon />}
+    label="Mute"
+    onChange={onChange}
+    setting="mute"
+  />
+);
 
-export default styleSettingsMute(SettingsMute);
+export default shouldUpdate(()=> false)(SettingsMute);
