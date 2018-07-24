@@ -79,9 +79,11 @@ export default class GamepadButton extends React.Component {
         pointerCommands={this.props.turbo ? this.turboEvents : this.events}
       >
         {this.props.children}
-        {this.props.turbo && <sup>
-          {`τ`}
-        </sup>}
+        {this.props.turbo
+          && <sup>
+            {`τ`}
+          </sup>
+        }
       </Button>
     );
   }
