@@ -15,11 +15,13 @@ import {
   Select,
   Button as MaterialButton
 } from '@material-ui/core';
-import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
-import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import SaveIcon from './images/SaveStateIcon';
+import {
+  OpenInBrowser as OpenInBrowserIcon,
+  SaveAlt as SaveIcon,
+  VideogameAsset as VideogameAssetIcon,
+  Autorenew as AutorenewIcon,
+  AccessTime as AccessTimeIcon
+} from '@material-ui/icons';
 
 import Button from '../Button/Button';
 import KeyCommands from '../KeyCommands';
@@ -88,10 +90,6 @@ class QuickMenu extends React.Component {
     this.handleExitClock = ()=> {
       this.setState({ openClock: false });
     };
-  }
-
-  shouldComponentUpdate() {
-    return false;
   }
 
   render() {

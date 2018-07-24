@@ -11,7 +11,7 @@ import {
   DialogActions,
   Button
 } from '@material-ui/core';
-import { Settings as SettingsIcon } from '@material-ui/icons';
+import { SettingsRounded as SettingsIcon } from '@material-ui/icons';
 
 import SettingsShowOverlay from '../Settings/SettingsShowOverlay';
 import Link from '../Link/Link';
