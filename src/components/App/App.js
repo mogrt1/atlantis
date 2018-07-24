@@ -55,10 +55,8 @@ class App extends React.Component {
 
     root.addEventListener(`touchstart`, (e)=> {
       if(
-        e.target.className.includes(`GamepadView`)
-        || e.target.parentNode.className.includes(`GamepadView`)
-        || e.target.className.includes(`PrimaryButtons`)
-        || e.target.tagName === `CANVAS`
+        e.target.closest(`[class*="GamepadView"]`)
+        || e.target.closest(`canvas`)
       ) {
         e.preventDefault();
       }
