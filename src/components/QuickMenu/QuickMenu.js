@@ -6,8 +6,6 @@ import { styleQuickMenu } from './QuickMenuStyles';
 import {
   Menu,
   MenuItem,
-  ListItemIcon,
-  ListItemText,
   Snackbar,
   Drawer,
   FormControl,
@@ -25,6 +23,7 @@ import {
 
 import Button from '../Button/Button';
 import KeyCommands from '../KeyCommands';
+import QuickMenuItem from './QuickMenuItem';
 
 import { Consumer } from '../Context';
 
@@ -127,51 +126,33 @@ class QuickMenu extends React.Component {
                   horizontal: `center`
                 }}
               >
-                <MenuItem onClick={this.menuAction(actions.saveState)}>
-                  <ListItemIcon>
-                    <SaveIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    {`Save State`}
-                  </ListItemText>
-                </MenuItem>
-
-                <MenuItem onClick={this.menuAction(actions.loadState)}>
-                  <ListItemIcon>
-                    <OpenInBrowserIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    {`Load State`}
-                  </ListItemText>
-                </MenuItem>
-
+                <QuickMenuItem
+                  icon={<SaveIcon />}
+                  label="Save State"
+                  onClick={this.menuAction(actions.saveState)}
+                />
+                <QuickMenuItem
+                  icon={<OpenInBrowserIcon />}
+                  label="Load State"
+                  onClick={this.menuAction(actions.loadState)}
+                />
                 {gameboy && gameboy.cTIMER
-                  && <MenuItem onClick={this.menuAction(this.openClock)}>
-                    <ListItemIcon>
-                      <AccessTimeIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                      {`Change Internal Clock`}
-                    </ListItemText>
-                  </MenuItem>}
-
-                <MenuItem onClick={this.menuAction(actions.abss)}>
-                  <ListItemIcon>
-                    <VideogameAssetIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    {`A+B+Start+Select`}
-                  </ListItemText>
-                </MenuItem>
-
-                <MenuItem onClick={this.menuAction(actions.reset)}>
-                  <ListItemIcon>
-                    <AutorenewIcon />
-                  </ListItemIcon>
-                  <ListItemText>
-                    {`Reset`}
-                  </ListItemText>
-                </MenuItem>
+                  && <QuickMenuItem
+                    icon={<AccessTimeIcon />}
+                    label="Change Internal Clock"
+                    onClick={this.menuAction(this.openClock)}
+                  />
+                }
+                <QuickMenuItem
+                  icon={<VideogameAssetIcon />}
+                  label="A+B+Start+Select"
+                  onClick={this.menuAction(actions.abss)}
+                />
+                <QuickMenuItem
+                  icon={<AutorenewIcon />}
+                  label="Reset"
+                  onClick={this.menuAction(actions.reset)}
+                />
               </Menu>
 
               <Snackbar

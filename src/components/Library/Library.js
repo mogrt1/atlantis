@@ -51,25 +51,21 @@ class Library extends React.Component {
               onClose={actions.toggleDrawer(`library`)}
               open={state.libraryOpen}
             >
-              <div
+              <List
+                className={classes.drawer}
                 role="button"
+                subheader={
+                  <ListSubheader className={classes.heading}>
+                    {`Library`}
+                  </ListSubheader>
+                }
                 tabIndex={0}
               >
-                <div className={classes.drawer}>
-                  <List subheader={
-                    <ListSubheader className={classes.heading}>
-                      {`Library`}
-                    </ListSubheader>
-                  }>
-                    <div>
-                      <AddGame />
-                      <GameList />
-                    </div>
-                  </List>
+                <AddGame />
+                <GameList />
+              </List>
 
-                  <Homebrew />
-                </div>
-              </div>
+              <Homebrew />
             </Drawer>
           </React.Fragment>
         )}

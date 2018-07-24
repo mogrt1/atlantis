@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import { styleSettings } from './SettingsStyles';
 
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import {
+  IconButton,
+  Drawer,
+  List,
+  ListSubheader
+} from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/SettingsRounded';
 
 import SettingsMute from './SettingsMute';
@@ -43,43 +45,39 @@ class Settings extends React.Component {
             </IconButton>
 
             <Drawer onClose={actions.toggleDrawer(`settings`)} open={state.settingsOpen}>
-              <div
+              <List
+                className={classes.drawer}
                 role="button"
+                subheader={
+                  <ListSubheader className={classes.heading}>
+                    {`Settings`}
+                  </ListSubheader>
+                }
                 tabIndex={0}
               >
-                <div className={classes.drawer}>
-                  <List subheader={
-                    <ListSubheader className={classes.heading}>
-                      {`Settings`}
-                    </ListSubheader>
-                  }>
-                    <div>
-                      <SettingsMute />
-                      {`vibrate` in window.navigator && <SettingsHaptics />}
-                      <SettingsFFRate
-                        rate={state.settings.ffRate}
-                        updateSetting={actions.updateSetting(`ffRate`)}
-                      />
-                      <SettingsFFToggle />
-                      <SettingsRewind />
-                      <SettingsManageData
-                        deleteGame={actions.deleteGame}
-                        deleteSaveState={actions.deleteSaveState}
-                        deleteSRAM={actions.deleteSRAM}
-                        library={state.library}
-                      />
-                      <SettingsShowOverlay />
-                      <SettingsKeyBindings
-                        keyBindings={state.settings.keyBindings}
-                        updateSetting={actions.updateSetting(`keyBindings`)}
-                      />
-                      <Link error href="https://github.com/brianblakely/atlantis/issues/new?template=bug-report.md">
-                        {`Report a Bug`}
-                      </Link>
-                    </div>
-                  </List>
-                </div>
-              </div>
+                <SettingsMute />
+                {`vibrate` in window.navigator && <SettingsHaptics />}
+                <SettingsFFRate
+                  rate={state.settings.ffRate}
+                  updateSetting={actions.updateSetting(`ffRate`)}
+                />
+                <SettingsFFToggle />
+                <SettingsRewind />
+                <SettingsManageData
+                  deleteGame={actions.deleteGame}
+                  deleteSaveState={actions.deleteSaveState}
+                  deleteSRAM={actions.deleteSRAM}
+                  library={state.library}
+                />
+                <SettingsShowOverlay />
+                <SettingsKeyBindings
+                  keyBindings={state.settings.keyBindings}
+                  updateSetting={actions.updateSetting(`keyBindings`)}
+                />
+                <Link error href="https://github.com/brianblakely/atlantis/issues/new?template=bug-report.md">
+                  {`Report a Bug`}
+                </Link>
+              </List>
             </Drawer>
           </React.Fragment>
         )}
