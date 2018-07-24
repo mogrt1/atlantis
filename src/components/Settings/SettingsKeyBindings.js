@@ -42,11 +42,11 @@ class SettingsKeyBindings extends React.Component {
       'reset': `Reset`
     };
 
-    this.toggleBindings = ()=> {
+    this.handleBindingsToggle = ()=> {
       this.setState((prevState)=> ({ open: !prevState.open }));
     };
 
-    this.assignKey = (e)=> {
+    this.handleAssignKey = (e)=> {
       e.stopPropagation();
       e.preventDefault();
 
@@ -73,7 +73,7 @@ class SettingsKeyBindings extends React.Component {
       <React.Fragment>
         <ListItem
           button className={classes.settingsItem}
-          onClick={this.toggleBindings}
+          onClick={this.handleBindingsToggle}
         >
           <ListItemIcon>
             <KeyboardIcon />
@@ -102,7 +102,7 @@ class SettingsKeyBindings extends React.Component {
                   }}
                   label={label}
                   margin="normal"
-                  onKeyDown={this.assignKey}
+                  onKeyDown={this.handleAssignKey}
                   value={this.state[`settings-kb-${id}`]}
                 />
               </ListItem>
