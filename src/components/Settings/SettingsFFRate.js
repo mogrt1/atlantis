@@ -19,24 +19,20 @@ class SettingsFFRate extends React.Component {
 
     this.state = { rate: props.rate || this.firstRate };
 
-    this.changeRate = (e)=> {
+    this.handleChangeRate = (e)=> {
       this.setState({ rate: e.target.value });
-      this.closeMenu();
+      this.handleCloseMenu();
 
       props.updateSetting(e.target.value);
     };
 
-    this.openMenu = (e)=> {
+    this.handleOpenMenu = (e)=> {
       this.setState({ anchorEl: e.currentTarget });
     };
 
-    this.closeMenu = ()=> {
+    this.handleCloseMenu = ()=> {
       this.setState({ anchorEl: null });
     };
-  }
-
-  shouldComponentUpdate() {
-    return false;
   }
 
   render() {
@@ -51,7 +47,7 @@ class SettingsFFRate extends React.Component {
           aria-owns={anchorEl ? `settings-ff-rate` : null}
           button
           className={classes.settingsItem}
-          onClick={this.openMenu}
+          onClick={this.handleOpenMenu}
         >
           <ListItemIcon>
             <FastForwardIcon />
@@ -72,7 +68,7 @@ class SettingsFFRate extends React.Component {
             horizontal: `right`
           }}
           id="settings-ff-rate"
-          onClose={this.closeMenu}
+          onClose={this.handleCloseMenu}
           open={Boolean(anchorEl)}
           transformOrigin={{
             vertical: `top`,
@@ -82,7 +78,7 @@ class SettingsFFRate extends React.Component {
           {Array(this.rateLevels).fill(`0`).map((el, index)=> (
             <MenuItem
               key={String(el + index)}
-              onClick={this.changeRate}
+              onClick={this.handleChangeRate}
               value={index + this.firstRate}
             >
               {`${index + this.firstRate}x`}
