@@ -16,20 +16,12 @@ class SettingsControlToggle extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { toggle: props.toggle === false ? props.toggle : true };
+    this.handleToggle = (updateSetting, value, actions)=> ()=> {
+      updateSetting(!value);
 
-    this.handleToggle = (updateSetting, actions)=> ()=> {
-      this.setState(
-        (prevState)=> ({ toggle: !prevState.toggle }),
-
-        ()=> {
-          updateSetting(this.state.toggle);
-
-          if(props.onChange) {
-            props.onChange(this.state.toggle, actions);
-          }
-        }
-      );
+      if(props.onChange) {
+        props.onChange(!value, actions);
+      }
     };
   }
 
@@ -46,7 +38,7 @@ class SettingsControlToggle extends React.Component {
           <ListItem
             button
             className={classes.settingsItem}
-            onClick={this.handleToggle(actions.updateSetting(setting), actions)}
+            onClick={this.handleToggle(actions.updateSetting(setting), state.settings[setting], actions)}
           >
             <ListItemIcon>
               {icon}
@@ -73,13 +65,9 @@ SettingsControlToggle.propTypes = {
   setting: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
-  toggle: PropTypes.bool,
   onChange: PropTypes.func
 };
 
-SettingsControlToggle.defaultProps = {
-  toggle: null,
-  onChange: null
-};
+SettingsControlToggle.defaultProps = { onChange: null };
 
 export default styleSettingsToggle(SettingsControlToggle);
