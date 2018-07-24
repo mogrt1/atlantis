@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shouldUpdate } from 'recompose';
 
 import ButtonView from './ButtonView';
 import PointerCommands from '../PointerCommands';
@@ -42,4 +41,4 @@ Button.defaultProps = {
   className: ``
 };
 
-export default shouldUpdate(()=> false)(Button);
+export default Button;

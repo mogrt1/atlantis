@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shouldUpdate } from 'recompose';
 
 const ButtonView = (props)=> (
   <div
@@ -25,4 +24,4 @@ ButtonView.defaultProps = {
   className: ``
 };
 
-export default shouldUpdate(()=> false)(ButtonView);
+export default ButtonView;
