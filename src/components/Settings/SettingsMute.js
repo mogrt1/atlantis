@@ -20,8 +20,9 @@ const onChange = (muted, actions)=> {
       gameboy.stopSound();
     } else {
       gameboy.initSound();
-      actions.enableAudio();
     }
+
+    actions.enableAudio();
   }
 };
 

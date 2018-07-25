@@ -62,6 +62,7 @@ const GamepadView = (props)=> {
               className={classes.rewind}
               kb={keyBindings[`settings-kb-rw`]}
               rewindQueue={state.rewindQueue}
+              showMessage={actions.showMessage}
             >
               <RewindIcon className={classes.icon} />
             </RewindButton>}

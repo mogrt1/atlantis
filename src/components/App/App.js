@@ -14,6 +14,7 @@ import Emulator from '../Emulator/Emulator';
 import Sound from '../Sound';
 import Settings from '../Settings/Settings';
 import Library from '../Library/Library';
+import Notification from '../Notification/Notification';
 
 import { persistValues, saveValue } from '../../cores/GameBoy-Online/index';
 
@@ -50,6 +51,14 @@ saveValue.subscribe((key, value)=> {
 });
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleNotificationClose = (action)=> (e)=> {
+      action(e);
+    };
+  }
+
   componentDidMount() {
     const root = document.getElementById(`root`);
 
@@ -84,6 +93,13 @@ class App extends React.Component {
                 <Gamepad />
                 <Settings />
                 <Library addToLibrary={actions.addToLibrary} />
+                <Notification
+                  autoHide={1000}
+                  onClose={this.handleNotificationClose(actions.hideMessage)}
+                  open={Boolean(state.message)}
+                >
+                  {state.message}
+                </Notification>
               </React.Fragment>
             )}
           </Consumer>
