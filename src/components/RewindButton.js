@@ -46,6 +46,7 @@ export default class RewindButton extends React.Component {
       } else {
         clearTimeout(rewindTimeout);
         run();
+        this.props.showMessage(`No more rewind history.`);
       }
     };
 
@@ -89,7 +90,8 @@ RewindButton.propTypes = {
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  rewindQueue: PropTypes.arrayOf(PropTypes.array).isRequired
+  rewindQueue: PropTypes.arrayOf(PropTypes.array).isRequired,
+  showMessage: PropTypes.func.isRequired
 };
 
 RewindButton.defaultProps = {
