@@ -179,7 +179,7 @@ export default class Context extends React.Component {
       },
 
       enableAudio: ()=> {
-        if(audioContext && audioContext.state === `suspended`) {
+        if(!this.state.mute && audioContext && audioContext.state === `suspended`) {
           audioContext.resume();
 
           const CHECK_AUDIO_WAIT = 1000;
