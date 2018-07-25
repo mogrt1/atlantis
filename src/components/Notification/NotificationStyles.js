@@ -7,6 +7,7 @@ export const styleNotification = withStyles({
     right: `auto`,
     left: `50%`,
     width: `360px`,
+    minWidth: `275px`,
     maxWidth: `calc(100vw - 48px * 2)`,
     transform: `translateX(-50%)`
   },
