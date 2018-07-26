@@ -38,7 +38,7 @@ class SettingsManageData extends React.Component {
       currentlyDeleting: {}
     };
 
-    this.toggleManager = ()=> {
+    this.handleToggleManager = ()=> {
       this.setState((prevState)=> ({ open: !prevState.open }));
     };
 
@@ -66,24 +66,24 @@ class SettingsManageData extends React.Component {
       cleanUpRemoveUI(rom, `game`);
 
       props.deleteGame(rom);
-      this.dismissDelete();
+      this.handleDismissDelete();
     };
 
     this.deleteSRAM = (name)=> ()=> {
       cleanUpRemoveUI(name, `sram`);
 
       props.deleteSRAM(name);
-      this.dismissDelete();
+      this.handleDismissDelete();
     };
 
     this.deleteSaveState = (name, slot)=> ()=> {
       cleanUpRemoveUI(name, slot);
 
       props.deleteSaveState(name, slot);
-      this.dismissDelete();
+      this.handleDismissDelete();
     };
 
-    this.requestPermission = ({ action, type, name })=> ()=> {
+    this.handleRequestPermission = ({ action, type, name })=> ()=> {
       this.setState({
         currentlyDeleting: {
           action,
@@ -93,7 +93,7 @@ class SettingsManageData extends React.Component {
       });
     };
 
-    this.dismissDelete = ()=> {
+    this.handleDismissDelete = ()=> {
       this.setState({ currentlyDeleting: {} });
     };
 
@@ -203,7 +203,7 @@ class SettingsManageData extends React.Component {
           <React.Fragment>
             <ListItem
               button className={classes.settingsItem}
-              onClick={this.toggleManager}>
+              onClick={this.handleToggleManager}>
               <ListItemIcon>
                 <StorageIcon />
               </ListItemIcon>
@@ -224,8 +224,8 @@ class SettingsManageData extends React.Component {
                     <React.Fragment key={md5}>
                       <ListItem
                         button className={classes.nested}
-                        dense onClick={this.requestPermission({
-                          action: this.deleteGame(rom),
+                        dense onClick={this.handleRequestPermission({
+                          handleAction: this.deleteGame(rom),
                           type: `game`,
                           name: title
                         })}>
@@ -261,7 +261,7 @@ class SettingsManageData extends React.Component {
                             button
                             className={`${classes.nested} ${classes.save}`}
                             dense
-                            onClick={this.requestPermission({
+                            onClick={this.handleRequestPermission({
                               action,
                               type: key,
                               name: title
@@ -332,12 +332,12 @@ class SettingsManageData extends React.Component {
                 }
               </DialogContent>
               <DialogActions>
-                <Button color="primary" onClick={this.dismissDelete}>
+                <Button color="primary" onClick={this.handleDismissDelete}>
                   {`Cancel`}
                 </Button>
                 <Button
                   className={classes.confirmButton}
-                  onClick={currentlyDeleting.action}
+                  onClick={currentlyDeleting.handleAction}
                   variant="contained"
                 >
                   {`Delete`}
