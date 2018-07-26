@@ -43,7 +43,7 @@ class InternalClock extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { time: {} };
 
     this.changeClock = (unit)=> (e)=> {
       const time = {
@@ -55,6 +55,8 @@ class InternalClock extends React.Component {
       };
 
       gameboy.clockUpdate(time);
+
+      this.setState({ time });
     };
   }
 
@@ -82,7 +84,7 @@ class InternalClock extends React.Component {
                 id: `quick-menu-clock-${field.name}`
               }}
               onChange={this.changeClock(field.name)}
-              value={gameboy[`RTC${field.label}`] | ZERO || ZERO}
+              value={this.state.time[field.name] || gameboy[`RTC${field.label}`] | ZERO || ZERO}
             >
               {Array(field.value).fill(ZERO).map((zero, val)=>
                 (<MenuItem key={`${field.name}${zero + val}`} value={val}>
