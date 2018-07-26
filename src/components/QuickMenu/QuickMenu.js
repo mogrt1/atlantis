@@ -1,18 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { styleQuickMenu } from './QuickMenuStyles';
-
-import {
-  Menu,
-  MenuItem,
-  Snackbar,
-  Drawer,
-  FormControl,
-  InputLabel,
-  Select,
-  Button as MaterialButton
-} from '@material-ui/core';
+import { Menu } from '@material-ui/core';
 import {
   OpenInBrowser as OpenInBrowserIcon,
   SaveAlt as SaveIcon,
@@ -24,30 +13,19 @@ import {
 import Button from '../Button/Button';
 import KeyCommands from '../KeyCommands';
 import QuickMenuItem from './QuickMenuItem';
-
-import { Consumer } from '../Context';
+import InternalClock from '../InternalClock/InternalClock';
 
 import { gameboy } from '../../cores/GameBoy-Online/index';
 
-// Internal clock parameters.
+import { Consumer } from '../Context';
 
-const DAYS = 512,
-      HOURS = 24,
-      MINUTES = 60,
-      SECONDS = 60,
-      ZERO = 0;
-
-class QuickMenu extends React.Component {
+export default class QuickMenu extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       anchor: null,
-      openClock: false,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0
+      openClock: false
     };
 
     this.events = {
@@ -68,32 +46,16 @@ class QuickMenu extends React.Component {
     };
 
     this.openClock = ()=> {
-      this.setState({
-        openClock: true,
-        days: gameboy.RTCDays | ZERO || ZERO,
-        hours: gameboy.RTCHours | ZERO || ZERO,
-        minutes: gameboy.RTCMinutes | ZERO || ZERO,
-        seconds: gameboy.RTCSeconds | ZERO || ZERO
-      });
+      this.setState({ openClock: true });
     };
 
-    this.changeClock = (unit)=> (e)=> {
-      this.setState(
-        { [unit]: e.target.value },
-        ()=> {
-          gameboy.clockUpdate(this.state);
-        }
-      );
-    };
-
-    this.handleExitClock = ()=> {
+    this.closeClock = ()=> {
       this.setState({ openClock: false });
     };
   }
 
   render() {
     const { anchor } = this.state;
-    const { classes } = this.props;
 
     return (
       <Consumer>
@@ -155,106 +117,12 @@ class QuickMenu extends React.Component {
                 />
               </Menu>
 
-              <Snackbar
-                anchorOrigin={{
-                  vertical: `top`,
-                  horizontal: `center`
-                }}
-                autoHideDuration={750}
-                ContentProps={{
-                  'className': classes.snackbar,
-                  'aria-describedby': `message`
-                }}
-                message={<span id="message">
-                  {state.message}
-                </span>}
-                onClose={actions.hideMessage}
-                open={Boolean(state.message)}
-              />
-
-              <Drawer
-                anchor="bottom" classes={{ paper: classes.clock }}
-                open={this.state.openClock}>
-                <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-days">
-                    {`Days`}
-                  </InputLabel>
-                  <Select
-                    inputProps={{
-                      name: `quick-menu-clock-days`,
-                      id: `quick-menu-clock-days`
-                    }}
-                    onChange={this.changeClock(`days`)}
-                    value={this.state.days}
-                  >
-                    {Array(DAYS).fill(ZERO).map((zero, val)=>
-                      (<MenuItem key={String(zero + val)} value={val}>
-                        {val}
-                      </MenuItem>)
-                    )}
-                  </Select>
-                </FormControl>
-                <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-hours">
-                    {`Hours`}
-                  </InputLabel>
-                  <Select
-                    inputProps={{
-                      name: `quick-menu-clock-hours`,
-                      id: `quick-menu-clock-hours`
-                    }}
-                    onChange={this.changeClock(`hours`)}
-                    value={this.state.hours}
-                  >
-                    {Array(HOURS).fill(ZERO).map((zero, val)=>
-                      (<MenuItem key={String(zero + val)} value={val}>
-                        {val}
-                      </MenuItem>)
-                    )}
-                  </Select>
-                </FormControl>
-                <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-minutes">
-                    {`Minutes`}
-                  </InputLabel>
-                  <Select
-                    inputProps={{
-                      name: `quick-menu-clock-minutes`,
-                      id: `quick-menu-clock-minutes`
-                    }}
-                    onChange={this.changeClock(`minutes`)}
-                    value={this.state.minutes}
-                  >
-                    {Array(MINUTES).fill(ZERO).map((zero, val)=>
-                      (<MenuItem key={String(zero + val)} value={val}>
-                        {val}
-                      </MenuItem>)
-                    )}
-                  </Select>
-                </FormControl>
-                <FormControl className={classes.time}>
-                  <InputLabel htmlFor="quick-menu-clock-seconds">
-                    {`Seconds`}
-                  </InputLabel>
-                  <Select
-                    inputProps={{
-                      name: `quick-menu-clock-seconds`,
-                      id: `quick-menu-clock-seconds`
-                    }}
-                    onChange={this.changeClock(`seconds`)}
-                    value={this.state.seconds}
-                  >
-                    {Array(SECONDS).fill(ZERO).map((zero, val)=>
-                      (<MenuItem key={String(zero + val)} value={val}>
-                        {val}
-                      </MenuItem>)
-                    )}
-                  </Select>
-                </FormControl>
-                <MaterialButton className={classes.clockDone} onClick={this.handleExitClock}>
-                  {`Done`}
-                </MaterialButton>
-              </Drawer>
+              {gameboy && gameboy.cTIMER
+                && <InternalClock
+                  handleDone={this.closeClock}
+                  open={this.state.openClock}
+                />
+              }
 
               <KeyCommands>
                 {{
@@ -274,13 +142,10 @@ class QuickMenu extends React.Component {
 
 QuickMenu.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
+  className: PropTypes.string
 };
 
 QuickMenu.defaultProps = {
   children: null,
   className: ``
 };
-
-export default styleQuickMenu(QuickMenu);
