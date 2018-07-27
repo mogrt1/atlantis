@@ -15,6 +15,7 @@ import Sound from '../Sound';
 import Settings from '../Settings/Settings';
 import Library from '../Library/Library';
 import Notification from '../Notification/Notification';
+import Upgrade from '../Upgrade';
 
 import { persistValues, saveValue } from '../../cores/GameBoy-Online/index';
 
@@ -103,6 +104,8 @@ class App extends React.Component {
               </React.Fragment>
             )}
           </Consumer>
+
+          <Upgrade />
         </MuiThemeProvider>
       </Context>
     );
