@@ -104,6 +104,7 @@
     "lines-around-comment": "off",
     "max-len": "off",
     "max-lines": "off",
+    "max-lines-per-function": "off",
     "max-params": "off",
     "max-statements": "off",
     "max-statements-per-line": "off",

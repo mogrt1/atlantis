@@ -1,16 +1,19 @@
 // This component tracks and modifies application data.
 // It uses the React Context API.
 
-import React, { createContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
+import Provider from 'react-redux';
+import store from './store.js';
 
 import Spark from 'spark-md5';
 import { set, get, del, keys } from 'idb-keyval';
 import JSZip from 'jszip';
 
-import { thumbs, games } from '../db/gameboy.js';
+import { thumbs, games } from '../../db/gameboy.js';
 
-import { getDataUri, buffersEqual } from '../utils';
+import { getDataUri, buffersEqual } from '../../utils.js';
 
 import {
   gameboy,
@@ -27,7 +30,7 @@ import {
   persistValues
 } from '../cores/GameBoy-Online/index';
 
-const { Provider, Consumer } = createContext();
+// const { Provider, Consumer } = createContext();
 
 const getThumbUri = async (title)=> {
   const processUri = (uri)=> {
@@ -119,20 +122,20 @@ export default class Context extends React.Component {
         reader.readAsBinaryString(new Blob([arrayBuffer]));
       }),
 
-      unzip: (arrayBuffer)=> new Promise(async (resolve)=> {
+      unzip: (arrayBuffer)=> async ()=> {
         const zip = new JSZip();
 
         try {
           const result = await zip.loadAsync(arrayBuffer);
           const [filename] = Object.keys(result.files);
 
-          resolve(await zip.file(filename).async(`arraybuffer`));
+          return await zip.file(filename).async(`arraybuffer`);
         } catch(error) {
           console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
         }
 
-        resolve(arrayBuffer);
-      }),
+        return arrayBuffer;
+      },
 
       setCurrentROM: async (arrayBuffer)=> {
         const unzippedROM = arrayBuffer;
@@ -259,7 +262,7 @@ export default class Context extends React.Component {
                 }
 
                 const romData = {
-                  title: games[md5] || file.name.replace(/\.zip/g, ``),
+                  title: games[md5] || file.name.replace(/\.zip/gu, ``),
                   md5,
                   rom: reader.result
                 };
@@ -501,10 +504,11 @@ export default class Context extends React.Component {
 
   render() {
     return (
-      <Provider value={{
-        state: this.state,
-        actions: this.actions
-      }}>
+      // <Provider value={{
+      //   state: this.state,
+      //   actions: this.actions
+      // }}>
+      <Provider store={store}>
         {this.props.children}
       </Provider>
     );
@@ -516,4 +520,4 @@ Context.propTypes = {
   restoreCoreData: PropTypes.func.isRequired
 };
 
-export { Consumer };
+// export { Consumer };
