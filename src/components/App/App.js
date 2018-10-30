@@ -96,8 +96,8 @@ class App extends React.Component {
                 <Library addToLibrary={actions.addToLibrary} />
                 <Notification
                   autoHide={1000}
-                  onClose={this.handleNotificationClose(actions.hideMessage)}
                   open={Boolean(state.message)}
+                  onClose={this.handleNotificationClose(actions.hideMessage)}
                 >
                   {state.message}
                 </Notification>
