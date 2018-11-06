@@ -44,7 +44,7 @@ const useDimensions = ()=> {
   const dim = React.useRef({});
 
   React.useEffect(()=> {
-    const handleNewOrigin = ()=> {
+    const handleNewOrigin = ()=> setTimeout(()=> {
       const {
         top,
         left,
@@ -61,14 +61,15 @@ const useDimensions = ()=> {
         x: width * BREADTH_VERTICAL / HALF,
         y: height * BREADTH_HORIZONTAL / HALF
       };
-    };
+    }, RESIZE_DEBOUNCE);
 
     handleNewOrigin();
 
-    window.addEventListener(`resize`, ()=> setTimeout(
-      handleNewOrigin,
-      RESIZE_DEBOUNCE
-    ));
+    window.addEventListener(`resize`, handleNewOrigin);
+
+    return ()=> {
+      window.removeEventListener(`resize`, handleNewOrigin);
+    };
   }, []);
 
   return [ref, dim];
