@@ -39,41 +39,43 @@ const arraysEqual = (arr1, arr2)=> {
 
 const RESIZE_DEBOUNCE = 500;
 
-const updateDpadDim = (dpadRef, dpadDim)=> {
-  if(!dpadRef.current) {
-    return false;
-  }
+const useDimensions = ()=> {
+  const ref = React.useRef();
+  const dim = React.useRef({});
 
-  const {
-    top,
-    left,
-    width,
-    height
-  } = dpadRef.current.getBoundingClientRect();
+  React.useEffect(()=> {
+    const handleNewOrigin = ()=> {
+      const {
+        top,
+        left,
+        width,
+        height
+      } = ref.current.getBoundingClientRect();
 
-  dpadDim.current.origin = {
-    x: left + (width / HALF),
-    y: top + (height / HALF)
-  };
+      dim.current.origin = {
+        x: left + (width / HALF),
+        y: top + (height / HALF)
+      };
 
-  dpadDim.current.offset = {
-    x: width * BREADTH_VERTICAL / HALF,
-    y: height * BREADTH_HORIZONTAL / HALF
-  };
-};
+      dim.current.offset = {
+        x: width * BREADTH_VERTICAL / HALF,
+        y: height * BREADTH_HORIZONTAL / HALF
+      };
+    };
 
-const updateDimensions = (dpadDim, dpadRef)=> {
-  updateDpadDim(dpadDim, dpadRef);
+    handleNewOrigin();
 
-  window.addEventListener(`resize`, ()=> setTimeout(()=> {
-    updateDpadDim(dpadDim, dpadRef);
-  }, RESIZE_DEBOUNCE));
+    window.addEventListener(`resize`, ()=> setTimeout(
+      handleNewOrigin,
+      RESIZE_DEBOUNCE
+    ));
+  }, []);
+
+  return [ref, dim];
 };
 
 const Dpad = (props)=> {
-  const dpadRef = React.useRef();
-
-  const dpadDim = React.useRef({});
+  const [dpadRef, dpadDim] = useDimensions();
 
   let prevPressed = [];
 
@@ -138,10 +140,6 @@ const Dpad = (props)=> {
       }
     }
   };
-
-  React.useEffect(()=> {
-    updateDimensions(dpadDim, dpadRef);
-  }, []);
 
   const { kb } = props;
 
