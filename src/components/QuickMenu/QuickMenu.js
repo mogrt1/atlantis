@@ -17,7 +17,7 @@ import InternalClock from '../InternalClock/InternalClock';
 
 import { gameboy } from '../../cores/GameBoy-Online/index';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 export default class QuickMenu extends React.Component {
   constructor(props) {
@@ -81,12 +81,12 @@ export default class QuickMenu extends React.Component {
                   horizontal: `center`
                 }}
                 id="quick-menu"
-                onClose={this.handleClose}
                 open={Boolean(anchor)}
                 transformOrigin={{
                   vertical: `top`,
                   horizontal: `center`
                 }}
+                onClose={this.handleClose}
               >
                 <QuickMenuItem
                   icon={<SaveIcon />}

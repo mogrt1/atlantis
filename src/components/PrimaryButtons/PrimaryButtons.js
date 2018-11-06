@@ -6,7 +6,7 @@ import { stylePrimaryButtons } from './PrimaryButtonsStyles';
 import PointerCommands from '../PointerCommands';
 import GamepadButton from '../GamepadButton';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/index';
 

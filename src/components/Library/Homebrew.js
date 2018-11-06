@@ -8,7 +8,7 @@ import {
   ListSubheader
 } from '@material-ui/core';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 import GameList from './GameList';
 import Game from './Game';

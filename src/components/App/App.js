@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../../theme';
 import { styleApp } from './AppStyles';
 
-import Context, { Consumer } from '../Context';
+import Context, { Consumer } from '../Context/Context';
 import FirstUse from '../FirstUse/FirstUse';
 import Gamepad from '../Gamepad/GamepadView';
 import Emulator from '../Emulator/Emulator';
@@ -112,4 +112,4 @@ class App extends React.Component {
   }
 }
 
-export default styleApp(App);
+export default styleApp(React.memo(App));

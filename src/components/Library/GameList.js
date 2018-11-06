@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shouldUpdate } from 'recompose';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 import { styleGameList, libraryWidth, libraryCols } from './LibraryStyles';
 

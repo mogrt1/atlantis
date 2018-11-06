@@ -8,7 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 class AddGame extends React.Component {
   constructor(props) {
@@ -41,10 +41,10 @@ class AddGame extends React.Component {
               <label className={classes.addGameLabel} htmlFor="library-add-game"></label>
               <input
                 id="library-add-game"
-                multiple
-                onChange={this.handleUpload(actions.uploadGame)}
                 style={{ display: `none` }}
                 type="file"
+                multiple
+                onChange={this.handleUpload(actions.uploadGame)}
               />
             </ListItemText>
           </ListItem>

@@ -5,28 +5,28 @@ import ButtonView from './ButtonView';
 import PointerCommands from '../PointerCommands';
 import KeyCommands from '../KeyCommands';
 
-import { Consumer } from '../Context';
+import { appContext } from '../Context/Context';
 
-const Button = (props)=> (
-  <Consumer>
-    {({ state })=> (
-      <React.Fragment>
-        <PointerCommands {...props.pointerCommands}>
-          <ButtonView className={props.className}>
-            {props.children}
-          </ButtonView>
-        </PointerCommands>
+const Button = (props)=> {
+  const { state } = React.useContext(appContext);
 
-        {
-          !state.settingsOpen && props.keyCommands
-              && <KeyCommands>
-                {props.keyCommands}
-              </KeyCommands>
-        }
-      </React.Fragment>
-    )}
-  </Consumer>
-);
+  return (
+    <>
+      <PointerCommands {...props.pointerCommands}>
+        <ButtonView className={props.className}>
+          {props.children}
+        </ButtonView>
+      </PointerCommands>
+
+      {
+        !state.settingsOpen && props.keyCommands
+          && <KeyCommands>
+            {props.keyCommands}
+          </KeyCommands>
+      }
+    </>
+  );
+};
 
 Button.propTypes = {
   children: PropTypes.node,

@@ -17,7 +17,7 @@ import AddGame from './AddGame';
 import GameList from './GameList';
 import Homebrew from './Homebrew';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 class Library extends React.Component {
   componentDidMount() {
@@ -48,8 +48,8 @@ class Library extends React.Component {
 
             <Drawer
               anchor="right"
-              onClose={actions.toggleDrawer(`library`)}
               open={state.libraryOpen}
+              onClose={actions.toggleDrawer(`library`)}
             >
               <List
                 className={classes.drawer}

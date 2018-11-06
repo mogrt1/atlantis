@@ -21,7 +21,7 @@ import SettingsShowOverlay from './SettingsShowOverlay';
 import SettingsKeyBindings from './SettingsKeyBindings';
 import Link from '../Link/Link';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 class Settings extends React.Component {
   shouldComponentUpdate() {

@@ -10,7 +10,7 @@ import {
   Switch
 } from '@material-ui/core';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 class SettingsControlToggle extends React.Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Notification from './Notification/Notification';
 
-import { Consumer } from './Context';
+import { Consumer } from './Context/Context';
 
 const Sound = ()=> (
   <Consumer>

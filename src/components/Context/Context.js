@@ -4,9 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Provider from 'react-redux';
-import store from './store.js';
-
 import Spark from 'spark-md5';
 import { set, get, del, keys } from 'idb-keyval';
 import JSZip from 'jszip';
@@ -28,9 +25,10 @@ import {
   GameBoyEmulatorInitialized as gameBoyEmulatorInitialized,
   XAudioJSWebAudioContextHandle as audioContext,
   persistValues
-} from '../cores/GameBoy-Online/index';
+} from '../../cores/GameBoy-Online/index';
 
-// const { Provider, Consumer } = createContext();
+const appContext = React.createContext();
+const { Provider, Consumer } = appContext;
 
 const getThumbUri = async (title)=> {
   const processUri = (uri)=> {
@@ -504,11 +502,10 @@ export default class Context extends React.Component {
 
   render() {
     return (
-      // <Provider value={{
-      //   state: this.state,
-      //   actions: this.actions
-      // }}>
-      <Provider store={store}>
+      <Provider value={{
+        state: this.state,
+        actions: this.actions
+      }}>
         {this.props.children}
       </Provider>
     );
@@ -520,4 +517,4 @@ Context.propTypes = {
   restoreCoreData: PropTypes.func.isRequired
 };
 
-// export { Consumer };
+export { Consumer, appContext };

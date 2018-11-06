@@ -16,7 +16,7 @@ import { SettingsRounded as SettingsIcon } from '@material-ui/icons';
 import SettingsShowOverlay from '../Settings/SettingsShowOverlay';
 import Link from '../Link/Link';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 class FirstUse extends React.Component {
   constructor(props) {
@@ -81,8 +81,8 @@ class FirstUse extends React.Component {
             <DialogActions>
               <Button
                 className={classes.button}
-                onClick={this.handleDone(actions.firstUseComplete)}
                 variant="contained"
+                onClick={this.handleDone(actions.firstUseComplete)}
               >
                 {`Thanks`}
               </Button>

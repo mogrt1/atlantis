@@ -7,6 +7,9 @@ const theme = createMuiTheme({
     primary: grey,
     secondary: amber,
     type: `dark`
+  },
+  typography: {
+    useNextVariants: true
   }
 });
 

@@ -24,7 +24,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ExportIcon from '@material-ui/icons/Save';
 import ImportIcon from '@material-ui/icons/Publish';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 
 import { gameboy, persistValues, pause } from '../../cores/GameBoy-Online/index';
 

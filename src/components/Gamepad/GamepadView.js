@@ -15,7 +15,7 @@ import FastForwardButton from '../FastForwardButton';
 import QuickMenu from '../QuickMenu/QuickMenu';
 import TurboToggleButton from '../TurboToggleButton';
 
-import { Consumer } from '../Context';
+import { Consumer } from '../Context/Context';
 import PrimaryButtons from '../PrimaryButtons/PrimaryButtons';
 
 const GamepadView = (props)=> {
