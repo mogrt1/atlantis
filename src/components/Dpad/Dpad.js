@@ -9,6 +9,8 @@ import { appContext } from '../Context/Context';
 
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/index';
 
+// Constants.
+
 const HALF = 2;
 
 const BREADTH_VERTICAL = 0.165;
@@ -39,9 +41,11 @@ const arraysEqual = (arr1, arr2)=> {
 
 const RESIZE_DEBOUNCE = 500;
 
+// Hooks.
+
 const useDimensions = ()=> {
   const ref = React.useRef();
-  const dim = React.useRef({});
+  const dim = {};
 
   React.useEffect(()=> {
     const handleNewOrigin = ()=> setTimeout(()=> {
@@ -52,12 +56,12 @@ const useDimensions = ()=> {
         height
       } = ref.current.getBoundingClientRect();
 
-      dim.current.origin = {
+      dim.origin = {
         x: left + (width / HALF),
         y: top + (height / HALF)
       };
 
-      dim.current.offset = {
+      dim.offset = {
         x: width * BREADTH_VERTICAL / HALF,
         y: height * BREADTH_HORIZONTAL / HALF
       };
@@ -75,10 +79,9 @@ const useDimensions = ()=> {
   return [ref, dim];
 };
 
-const Dpad = (props)=> {
-  const [dpadRef, dpadDim] = useDimensions();
-
+const useDpadEvents = (props, dpadDim)=> {
   let prevPressed = [];
+  let isDpadPressed = false;
 
   const detectDirection = (e)=> {
     const x = e.clientX || e.targetTouches[0].clientX,
@@ -113,22 +116,20 @@ const Dpad = (props)=> {
     }
   };
 
-  let dpadPressed = false;
-
   const dpadEvents = {
     down: (e)=> {
-      dpadPressed = true;
+      isDpadPressed = true;
       detectDirection(e);
     },
 
     move: (e)=> {
-      if(dpadPressed) {
+      if(isDpadPressed) {
         detectDirection(e);
       }
     },
 
     up: ()=> {
-      dpadPressed = false;
+      isDpadPressed = false;
 
       for(const [, value] of Object.entries(buttonCodes)) {
         gameBoyJoyPadEvent(value);
@@ -142,8 +143,10 @@ const Dpad = (props)=> {
     }
   };
 
-  const { kb } = props;
+  return dpadEvents;
+};
 
+const useKeyEvents = (kb)=> {
   const keyEvents = {
     [kb[`settings-kb-up`]]: {
       down: ()=> gameBoyJoyPadEvent(buttonCodes.UP, `pressed`),
@@ -162,6 +165,16 @@ const Dpad = (props)=> {
       up: ()=> gameBoyJoyPadEvent(buttonCodes.RIGHT)
     }
   };
+
+  return keyEvents;
+};
+
+const Dpad = (props)=> {
+  const [dpadRef, dpadDim] = useDimensions();
+  const dpadEvents = useDpadEvents(props, dpadDim);
+
+  const { kb } = props;
+  const keyEvents = useKeyEvents(kb);
 
   const { state } = React.useContext(appContext);
 
