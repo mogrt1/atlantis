@@ -112,4 +112,4 @@ class App extends React.Component {
   }
 }
 
-export default styleApp(React.memo(App));
+export default React.memo(styleApp(App));

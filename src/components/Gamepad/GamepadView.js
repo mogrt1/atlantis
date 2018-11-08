@@ -88,4 +88,4 @@ const GamepadView = (props)=> {
 
 GamepadView.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
 
-export default React.memo(styleGamepad(GamepadView), ()=> false);
+export default React.memo(styleGamepad(GamepadView), ()=> true);

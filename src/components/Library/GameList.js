@@ -40,4 +40,4 @@ GameList.propTypes = {
 
 GameList.defaultProps = { children: null };
 
-export default React.memo(styleGameList(GameList), ()=> false);
+export default React.memo(styleGameList(GameList), ()=> true);
