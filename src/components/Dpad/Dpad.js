@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import DpadView from './DpadView';
-import PointerCommands from '../PointerCommands';
-import KeyCommands from '../KeyCommands';
+import usePointerHandlers from '../hooks/usePointerHandlers';
+import useKeyHandlers from '../hooks/useKeyHandlers';
 
 import { appContext } from '../Context/Context';
 
@@ -79,7 +79,7 @@ const useDimensions = ()=> {
   return [ref, dim];
 };
 
-const useDpadEvents = (props, dpadDim)=> {
+const useDpadEvents = (dpadDim, haptics)=> {
   let prevPressed = [];
   let isDpadPressed = false;
 
@@ -108,7 +108,7 @@ const useDpadEvents = (props, dpadDim)=> {
         gameBoyJoyPadEvent(value, pressed.includes(value));
       }
 
-      if(props.haptics && `vibrate` in window.navigator) {
+      if(haptics && `vibrate` in window.navigator) {
         window.navigator.vibrate(HAPTIC_DURATION);
       }
 
@@ -137,7 +137,7 @@ const useDpadEvents = (props, dpadDim)=> {
 
       prevPressed = [];
 
-      if(props.haptics && `vibrate` in window.navigator) {
+      if(haptics && `vibrate` in window.navigator) {
         window.navigator.vibrate(HAPTIC_DURATION);
       }
     }
@@ -170,27 +170,25 @@ const useKeyEvents = (kb)=> {
 };
 
 const Dpad = (props)=> {
-  const [dpadRef, dpadDim] = useDimensions();
-  const dpadEvents = useDpadEvents(props, dpadDim);
+  const { state } = React.useContext(appContext);
+  const { haptics, kb, className } = props;
 
-  const { kb } = props;
+  const [dpadRef, dpadDim] = useDimensions();
+  const dpadEvents = useDpadEvents(dpadDim, haptics);
+  const pointerHandlers = usePointerHandlers(dpadEvents);
+
   const keyEvents = useKeyEvents(kb);
 
-  const { state } = React.useContext(appContext);
+  if(!state.settingsOpen) {
+    useKeyHandlers(keyEvents);
+  }
 
   return (
-    <>
-      <PointerCommands {...dpadEvents}>
-        <DpadView className={props.className} dpadRef={dpadRef} />
-      </PointerCommands>
-
-      {
-        !state.settingsOpen
-        && <KeyCommands>
-          {keyEvents}
-        </KeyCommands>
-      }
-    </>
+    <DpadView
+      className={className}
+      dpadRef={dpadRef}
+      pointerHandlers={pointerHandlers}
+    />
   );
 };
 

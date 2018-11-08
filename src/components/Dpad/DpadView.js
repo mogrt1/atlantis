@@ -11,7 +11,7 @@ const DpadView = (props)=> {
     <div
       ref={props.dpadRef}
       className={`${classes.dpad} ${props.className || ``}`}
-      {...props.pointerEvents}
+      {...props.pointerHandlers}
     >
       <div className={classes.vertical}></div>
       <div className={classes.horizontal}></div>
