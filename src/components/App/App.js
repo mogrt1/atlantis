@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../../theme';
 import { styleApp } from './AppStyles';
 
-import Context, { Consumer } from '../Context/Context';
+import Context, { appContext } from '../Context/Context';
 import FirstUse from '../FirstUse/FirstUse';
 import Gamepad from '../Gamepad/GamepadView';
 import Emulator from '../Emulator/Emulator';
@@ -51,16 +51,12 @@ saveValue.subscribe((key, value)=> {
   }
 });
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const handleNotificationClose = (action)=> (e)=> {
+  action(e);
+};
 
-    this.handleNotificationClose = (action)=> (e)=> {
-      action(e);
-    };
-  }
-
-  componentDidMount() {
+const useCustomTouchBehavior = ()=> {
+  React.useEffect(()=> {
     const root = document.getElementById(`root`);
 
     root.addEventListener(`touchstart`, (e)=> {
@@ -73,43 +69,37 @@ class App extends React.Component {
     }, { passive: false });
 
     root.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
-  }
+  }, []);
+};
 
-  shouldComponentUpdate() {
-    return false;
-  }
+const App = ()=> {
+  useCustomTouchBehavior();
 
-  render() {
-    return (
-      <Context restoreCoreData={restoreCoreData}>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
+  const { state, actions } = React.useContext(appContext);
 
-          <Consumer>
-            {({ state, actions })=> (
-              <React.Fragment>
-                {state.hydrated && state.settings.firstUse && <FirstUse />}
-                <Emulator setCanvas={actions.setCanvas} />
-                <Sound />
-                <Gamepad />
-                <Settings />
-                <Library addToLibrary={actions.addToLibrary} />
-                <Notification
-                  autoHide={1000}
-                  open={Boolean(state.message)}
-                  onClose={this.handleNotificationClose(actions.hideMessage)}
-                >
-                  {state.message}
-                </Notification>
-              </React.Fragment>
-            )}
-          </Consumer>
+  return (
+    <Context restoreCoreData={restoreCoreData}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
 
-          <Upgrade />
-        </MuiThemeProvider>
-      </Context>
-    );
-  }
-}
+        {state.hydrated && state.settings.firstUse && <FirstUse />}
+        <Emulator setCanvas={actions.setCanvas} />
+        <Sound />
+        <Gamepad />
+        <Settings />
+        <Library addToLibrary={actions.addToLibrary} />
+        <Notification
+          autoHide={1000}
+          open={Boolean(state.message)}
+          onClose={handleNotificationClose(actions.hideMessage)}
+        >
+          {state.message}
+        </Notification>
 
-export default React.memo(styleApp(App));
+        <Upgrade />
+      </MuiThemeProvider>
+    </Context>
+  );
+};
+
+export default React.memo(styleApp(App), ()=> true);
