@@ -2,29 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ButtonView from './ButtonView';
-import PointerCommands from '../PointerCommands';
-import KeyCommands from '../KeyCommands';
+import usePointerHandlers from '../hooks/usePointerHandlers';
+import useKeyHandlers from '../hooks/useKeyHandlers';
 
 import { appContext } from '../Context/Context';
 
 const Button = (props)=> {
   const { state } = React.useContext(appContext);
 
-  return (
-    <>
-      <PointerCommands {...props.pointerCommands}>
-        <ButtonView className={props.className}>
-          {props.children}
-        </ButtonView>
-      </PointerCommands>
+  const pointerHandlers = usePointerHandlers(props.pointerCommands);
 
-      {
-        !state.settingsOpen && props.keyCommands
-          && <KeyCommands>
-            {props.keyCommands}
-          </KeyCommands>
-      }
-    </>
+  if(!state.settingsOpen && props.keyCommands) {
+    useKeyHandlers(props.keyCommands);
+  }
+
+  return (
+    <ButtonView className={props.className} pointerHandlers={pointerHandlers}>
+      {props.children}
+    </ButtonView>
   );
 };
 

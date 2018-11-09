@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const ButtonView = (props)=> (
   <div
     className={`Button ${props.className}`}
-    {...props.pointerEvents}
+    {...props.pointerHandlers}
   >
     <div className="Button-label">
       {props.children}
@@ -13,13 +13,13 @@ const ButtonView = (props)=> (
 );
 
 ButtonView.propTypes = {
-  pointerEvents: PropTypes.objectOf(PropTypes.func),
+  pointerHandlers: PropTypes.objectOf(PropTypes.func),
   children: PropTypes.node,
   className: PropTypes.string
 };
 
 ButtonView.defaultProps = {
-  pointerEvents: {},
+  pointerHandlers: {},
   children: ``,
   className: ``
 };
