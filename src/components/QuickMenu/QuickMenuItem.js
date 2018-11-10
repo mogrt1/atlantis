@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { shouldUpdate } from "recompose";
 
 import { MenuItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
@@ -17,4 +16,4 @@ QuickMenuItem.propTypes = {
   label: PropTypes.string.isRequired
 };
 
-export default shouldUpdate(() => false)(QuickMenuItem);
+export default React.memo(QuickMenuItem, () => true);

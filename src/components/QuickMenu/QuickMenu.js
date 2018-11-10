@@ -11,138 +11,119 @@ import {
 } from "@material-ui/icons";
 
 import Button from "../Button/Button";
-import KeyCommands from "../KeyCommands";
+import useKeyHandlers from "../hooks/useKeyHandlers";
 import QuickMenuItem from "./QuickMenuItem";
 import InternalClock from "../InternalClock/InternalClock";
 
 import { gameboy } from "../../cores/GameBoy-Online/index";
 
-import { Consumer } from "../Context/Context";
+import { appContext } from "../Context/Context";
 
-export default class QuickMenu extends React.Component {
-  constructor(props) {
-    super(props);
+const QuickMenu = props => {
+  const { state, actions } = React.useContext(appContext);
+  const [anchor, setAnchor] = React.useState(null);
+  const [openClock, setOpenClock] = React.useState(false);
 
-    this.state = {
-      anchor: null,
-      openClock: false
-    };
+  const { keyBindings } = state.settings;
 
-    this.events = {
-      up: e => {
-        this.setState({ anchor: e.currentTarget });
-      }
-    };
+  useKeyHandlers({
+    [keyBindings[`settings-kb-save-state`]]: {
+      up: actions.saveState
+    },
+    [keyBindings[`settings-kb-load-state`]]: {
+      up: actions.loadState
+    },
+    [keyBindings[`settings-kb-abss`]]: {
+      up: actions.abss
+    },
+    [keyBindings[`settings-kb-reset`]]: {
+      up: actions.reset
+    }
+  });
 
-    this.keyEvents = {};
+  const events = {
+    up: e => {
+      setAnchor(e.currentTarget);
+    }
+  };
 
-    this.menuAction = action => () => {
-      action();
-      this.handleClose();
-    };
+  const menuAction = action => () => {
+    action();
+    handleClose();
+  };
 
-    this.handleClose = () => {
-      this.setState({ anchor: null });
-    };
+  const handleClose = () => {
+    setAnchor(null);
+  };
 
-    this.openClock = () => {
-      this.setState({ openClock: true });
-    };
+  const clockOpen = () => {
+    setOpenClock(true);
+  };
 
-    this.closeClock = () => {
-      this.setState({ openClock: false });
-    };
-  }
+  const clockClose = () => {
+    setOpenClock(false);
+  };
 
-  render() {
-    const { anchor } = this.state;
+  return (
+    <>
+      <Button
+        aria-haspopup="true"
+        aria-owns={anchor ? `quick-menu` : null}
+        className={props.className}
+        pointerCommands={events}
+      >
+        {props.children}
+      </Button>
 
-    return (
-      <Consumer>
-        {({ state, actions }) => {
-          const { keyBindings } = state.settings;
-
-          return (
-            <React.Fragment>
-              <Button
-                aria-haspopup="true"
-                aria-owns={anchor ? `quick-menu` : null}
-                className={this.props.className}
-                keyCommands={this.keyEvents}
-                pointerCommands={this.events}
-              >
-                {this.props.children}
-              </Button>
-
-              <Menu
-                anchorEl={anchor}
-                anchorOrigin={{
-                  vertical: `top`,
-                  horizontal: `center`
-                }}
-                id="quick-menu"
-                open={Boolean(anchor)}
-                transformOrigin={{
-                  vertical: `top`,
-                  horizontal: `center`
-                }}
-                onClose={this.handleClose}
-              >
-                <QuickMenuItem
-                  icon={<SaveIcon />}
-                  label="Save State"
-                  onClick={this.menuAction(actions.saveState)}
-                />
-                <QuickMenuItem
-                  icon={<OpenInBrowserIcon />}
-                  label="Load State"
-                  onClick={this.menuAction(actions.loadState)}
-                />
-                {gameboy && gameboy.cTIMER && (
-                  <QuickMenuItem
-                    icon={<AccessTimeIcon />}
-                    label="Change Internal Clock"
-                    onClick={this.menuAction(this.openClock)}
-                  />
-                )}
-                <QuickMenuItem
-                  icon={<VideogameAssetIcon />}
-                  label="A+B+Start+Select"
-                  onClick={this.menuAction(actions.abss)}
-                />
-                <QuickMenuItem
-                  icon={<AutorenewIcon />}
-                  label="Reset"
-                  onClick={this.menuAction(actions.reset)}
-                />
-              </Menu>
-
-              {gameboy && gameboy.cTIMER && (
-                <InternalClock
-                  handleDone={this.closeClock}
-                  open={this.state.openClock}
-                />
-              )}
-
-              <KeyCommands>
-                {{
-                  [keyBindings[`settings-kb-save-state`]]: {
-                    up: actions.saveState
-                  },
-                  [keyBindings[`settings-kb-load-state`]]: {
-                    up: actions.loadState
-                  },
-                  [keyBindings[`settings-kb-abss`]]: { up: actions.abss },
-                  [keyBindings[`settings-kb-reset`]]: { up: actions.reset }
-                }}
-              </KeyCommands>
-            </React.Fragment>
-          );
+      <Menu
+        anchorEl={anchor}
+        anchorOrigin={{
+          vertical: `top`,
+          horizontal: `center`
         }}
-      </Consumer>
-    );
-  }
-}
+        id="quick-menu"
+        open={Boolean(anchor)}
+        transformOrigin={{
+          vertical: `top`,
+          horizontal: `center`
+        }}
+        onClose={handleClose}
+      >
+        <QuickMenuItem
+          icon={<SaveIcon />}
+          label="Save State"
+          onClick={menuAction(actions.saveState)}
+        />
+        <QuickMenuItem
+          icon={<OpenInBrowserIcon />}
+          label="Load State"
+          onClick={menuAction(actions.loadState)}
+        />
+        {gameboy && gameboy.cTIMER && (
+          <QuickMenuItem
+            icon={<AccessTimeIcon />}
+            label="Change Internal Clock"
+            onClick={menuAction(clockOpen)}
+          />
+        )}
+        <QuickMenuItem
+          icon={<VideogameAssetIcon />}
+          label="A+B+Start+Select"
+          onClick={menuAction(actions.abss)}
+        />
+        <QuickMenuItem
+          icon={<AutorenewIcon />}
+          label="Reset"
+          onClick={menuAction(actions.reset)}
+        />
+      </Menu>
+
+      {gameboy && gameboy.cTIMER && (
+        <InternalClock handleDone={clockClose} open={openClock} />
+      )}
+    </>
+  );
+};
 
 QuickMenu.propTypes = {
   children: PropTypes.node,
@@ -153,3 +134,5 @@ QuickMenu.defaultProps = {
   children: null,
   className: ``
 };
+
+export default QuickMenu;
