@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { Menu } from '@material-ui/core';
+import { Menu } from "@material-ui/core";
 import {
   OpenInBrowser as OpenInBrowserIcon,
   SaveAlt as SaveIcon,
   VideogameAsset as VideogameAssetIcon,
   Autorenew as AutorenewIcon,
   AccessTime as AccessTimeIcon
-} from '@material-ui/icons';
+} from "@material-ui/icons";
 
-import Button from '../Button/Button';
-import KeyCommands from '../KeyCommands';
-import QuickMenuItem from './QuickMenuItem';
-import InternalClock from '../InternalClock/InternalClock';
+import Button from "../Button/Button";
+import KeyCommands from "../KeyCommands";
+import QuickMenuItem from "./QuickMenuItem";
+import InternalClock from "../InternalClock/InternalClock";
 
-import { gameboy } from '../../cores/GameBoy-Online/index';
+import { gameboy } from "../../cores/GameBoy-Online/index";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
 export default class QuickMenu extends React.Component {
   constructor(props) {
@@ -29,27 +29,27 @@ export default class QuickMenu extends React.Component {
     };
 
     this.events = {
-      up: (e)=> {
+      up: e => {
         this.setState({ anchor: e.currentTarget });
       }
     };
 
     this.keyEvents = {};
 
-    this.menuAction = (action)=> ()=> {
+    this.menuAction = action => () => {
       action();
       this.handleClose();
     };
 
-    this.handleClose = ()=> {
+    this.handleClose = () => {
       this.setState({ anchor: null });
     };
 
-    this.openClock = ()=> {
+    this.openClock = () => {
       this.setState({ openClock: true });
     };
 
-    this.closeClock = ()=> {
+    this.closeClock = () => {
       this.setState({ openClock: false });
     };
   }
@@ -59,7 +59,7 @@ export default class QuickMenu extends React.Component {
 
     return (
       <Consumer>
-        {({ state, actions })=> {
+        {({ state, actions }) => {
           const { keyBindings } = state.settings;
 
           return (
@@ -98,13 +98,13 @@ export default class QuickMenu extends React.Component {
                   label="Load State"
                   onClick={this.menuAction(actions.loadState)}
                 />
-                {gameboy && gameboy.cTIMER
-                  && <QuickMenuItem
+                {gameboy && gameboy.cTIMER && (
+                  <QuickMenuItem
                     icon={<AccessTimeIcon />}
                     label="Change Internal Clock"
                     onClick={this.menuAction(this.openClock)}
                   />
-                }
+                )}
                 <QuickMenuItem
                   icon={<VideogameAssetIcon />}
                   label="A+B+Start+Select"
@@ -117,17 +117,21 @@ export default class QuickMenu extends React.Component {
                 />
               </Menu>
 
-              {gameboy && gameboy.cTIMER
-                && <InternalClock
+              {gameboy && gameboy.cTIMER && (
+                <InternalClock
                   handleDone={this.closeClock}
                   open={this.state.openClock}
                 />
-              }
+              )}
 
               <KeyCommands>
                 {{
-                  [keyBindings[`settings-kb-save-state`]]: { up: actions.saveState },
-                  [keyBindings[`settings-kb-load-state`]]: { up: actions.loadState },
+                  [keyBindings[`settings-kb-save-state`]]: {
+                    up: actions.saveState
+                  },
+                  [keyBindings[`settings-kb-load-state`]]: {
+                    up: actions.loadState
+                  },
                   [keyBindings[`settings-kb-abss`]]: { up: actions.abss },
                   [keyBindings[`settings-kb-reset`]]: { up: actions.reset }
                 }}

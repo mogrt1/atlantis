@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Button from './Button/Button';
+import Button from "./Button/Button";
 
-import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../cores/GameBoy-Online/index';
+import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from "../cores/GameBoy-Online/index";
 
 export default class GamepadButton extends React.Component {
   constructor(props) {
@@ -19,17 +19,17 @@ export default class GamepadButton extends React.Component {
     const HAPTIC_DURATION = 50;
 
     this.events = {
-      down: ()=> {
+      down: () => {
         gameBoyJoyPadEvent(buttonCodes[props.type], `pressed`);
 
-        if(this.props.haptics && `vibrate` in window.navigator) {
+        if (this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
       },
-      up: ()=> {
+      up: () => {
         gameBoyJoyPadEvent(buttonCodes[props.type]);
 
-        if(this.props.haptics && `vibrate` in window.navigator) {
+        if (this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
       },
@@ -40,7 +40,7 @@ export default class GamepadButton extends React.Component {
     let turboPressed = false;
     let turboTimeout = null;
 
-    const turbo = ()=> {
+    const turbo = () => {
       turboPressed = !turboPressed;
       gameBoyJoyPadEvent(buttonCodes[props.type], turboPressed);
 
@@ -48,18 +48,22 @@ export default class GamepadButton extends React.Component {
     };
 
     this.turboEvents = {
-      down: ()=> {
+      down: () => {
         turboTimeout = setTimeout(turbo, TURBO_INTERVAL);
 
-        if(this.props.haptics && `vibrate` in window.navigator) {
-          window.navigator.vibrate(HAPTIC_DURATION, TURBO_INTERVAL, HAPTIC_DURATION);
+        if (this.props.haptics && `vibrate` in window.navigator) {
+          window.navigator.vibrate(
+            HAPTIC_DURATION,
+            TURBO_INTERVAL,
+            HAPTIC_DURATION
+          );
         }
       },
-      up: ()=> {
+      up: () => {
         clearTimeout(turboTimeout);
         gameBoyJoyPadEvent(buttonCodes[props.type]);
 
-        if(this.props.haptics && `vibrate` in window.navigator) {
+        if (this.props.haptics && `vibrate` in window.navigator) {
           window.navigator.vibrate(HAPTIC_DURATION);
         }
       }
@@ -79,11 +83,7 @@ export default class GamepadButton extends React.Component {
         pointerCommands={this.props.turbo ? this.turboEvents : this.events}
       >
         {this.props.children}
-        {this.props.turbo
-          && <sup>
-            {`τ`}
-          </sup>
-        }
+        {this.props.turbo && <sup>{`τ`}</sup>}
       </Button>
     );
   }

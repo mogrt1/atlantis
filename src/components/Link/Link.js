@@ -1,20 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { shouldUpdate } from 'recompose';
+import React from "react";
+import PropTypes from "prop-types";
+import { shouldUpdate } from "recompose";
 
-import { styleLink } from './LinkStyles';
+import { styleLink } from "./LinkStyles";
 
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText
-} from '@material-ui/core';
-import { Link as LinkIcon } from '@material-ui/icons';
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { Link as LinkIcon } from "@material-ui/icons";
 
-const Link = (props)=> (
+const Link = props => (
   <ListItem
     button
-    className={`${props.classes.link} ${props.error ? props.classes.error : ``}`}
+    className={`${props.classes.link} ${
+      props.error ? props.classes.error : ``
+    }`}
     component="a"
     href={props.href}
     rel="noopener noreferrer"
@@ -38,4 +36,4 @@ Link.propTypes = {
 
 Link.defaultProps = { error: false };
 
-export default shouldUpdate(()=> false)(styleLink(Link));
+export default shouldUpdate(() => false)(styleLink(Link));

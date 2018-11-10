@@ -1,32 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { set, get, keys } from 'idb-keyval';
+import { set, get, keys } from "idb-keyval";
 
-import { styleSettingsManageData } from './SettingsStyles';
+import { styleSettingsManageData } from "./SettingsStyles";
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StorageIcon from '@material-ui/icons/Storage';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExportIcon from '@material-ui/icons/Save';
-import ImportIcon from '@material-ui/icons/Publish';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import Collapse from "@material-ui/core/Collapse";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StorageIcon from "@material-ui/icons/Storage";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ExportIcon from "@material-ui/icons/Save";
+import ImportIcon from "@material-ui/icons/Publish";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
-import { gameboy, persistValues, pause } from '../../cores/GameBoy-Online/index';
+import {
+  gameboy,
+  persistValues,
+  pause
+} from "../../cores/GameBoy-Online/index";
 
 class SettingsManageData extends React.Component {
   constructor(props) {
@@ -38,52 +42,53 @@ class SettingsManageData extends React.Component {
       currentlyDeleting: {}
     };
 
-    this.handleToggleManager = ()=> {
-      this.setState((prevState)=> ({ open: !prevState.open }));
+    this.handleToggleManager = () => {
+      this.setState(prevState => ({ open: !prevState.open }));
     };
 
-    const cleanUpRemoveUI = (id, type)=> {
-      this.setState((prevState)=> ({
-        games: prevState.games.filter((game)=>
-          (type === `game` && game.rom !== id)
-        || type !== `game`
-        ).map((game)=> {
-          const rGame = { ...game };
+    const cleanUpRemoveUI = (id, type) => {
+      this.setState(prevState => ({
+        games: prevState.games
+          .filter(
+            game => (type === `game` && game.rom !== id) || type !== `game`
+          )
+          .map(game => {
+            const rGame = { ...game };
 
-          if(rGame.name === id) {
-            const saves = { ...rGame.saves };
-            delete saves[type];
+            if (rGame.name === id) {
+              const saves = { ...rGame.saves };
+              delete saves[type];
 
-            rGame.saves = saves;
-          }
+              rGame.saves = saves;
+            }
 
-          return rGame;
-        })
+            return rGame;
+          })
       }));
     };
 
-    this.deleteGame = (rom)=> ()=> {
+    this.deleteGame = rom => () => {
       cleanUpRemoveUI(rom, `game`);
 
       props.deleteGame(rom);
       this.handleDismissDelete();
     };
 
-    this.deleteSRAM = (name)=> ()=> {
+    this.deleteSRAM = name => () => {
       cleanUpRemoveUI(name, `sram`);
 
       props.deleteSRAM(name);
       this.handleDismissDelete();
     };
 
-    this.deleteSaveState = (name, slot)=> ()=> {
+    this.deleteSaveState = (name, slot) => () => {
       cleanUpRemoveUI(name, slot);
 
       props.deleteSaveState(name, slot);
       this.handleDismissDelete();
     };
 
-    this.handleRequestPermission = ({ action, type, name })=> ()=> {
+    this.handleRequestPermission = ({ action, type, name }) => () => {
       this.setState({
         currentlyDeleting: {
           action,
@@ -93,7 +98,7 @@ class SettingsManageData extends React.Component {
       });
     };
 
-    this.handleDismissDelete = ()=> {
+    this.handleDismissDelete = () => {
       this.setState({ currentlyDeleting: {} });
     };
 
@@ -103,10 +108,10 @@ class SettingsManageData extends React.Component {
       [`auto`, `autosave data for`]
     ]);
 
-    const modifySaveState = async (key, index, value)=> {
+    const modifySaveState = async (key, index, value) => {
       const state = await get(key);
 
-      if(!state) {
+      if (!state) {
         return false;
       }
 
@@ -115,22 +120,22 @@ class SettingsManageData extends React.Component {
       set(key, state);
     };
 
-    this.importSRAM = (name, key, reset)=> (e)=> {
+    this.importSRAM = (name, key, reset) => e => {
       const [file] = e.target.files;
 
-      if(!file) {
+      if (!file) {
         return false;
       }
 
       const reader = new FileReader();
 
-      reader.onload = (re)=> {
+      reader.onload = re => {
         const sram = new Uint8Array(re.target.result);
 
         persistValues[key] = sram;
         set(key, sram);
 
-        if(name === gameboy.name) {
+        if (name === gameboy.name) {
           gameboy.MBCRam = sram;
           reset();
           pause();
@@ -142,7 +147,7 @@ class SettingsManageData extends React.Component {
         modifySaveState(`FREEZE_${name}_auto`, SRAM_INDEX, sram);
       };
 
-      reader.onerror = (err)=> {
+      reader.onerror = err => {
         console.error(`Could not upload SRAM file!`, err);
       };
 
@@ -153,19 +158,19 @@ class SettingsManageData extends React.Component {
   componentDidMount() {
     const games = [...this.props.library];
 
-    for(const game of games) {
+    for (const game of games) {
       game.saves = {};
     }
 
-    keys().then((dataKeys)=> {
-      for(const key of dataKeys) {
-        for(const game of games) {
-          if(!(`name` in game)) {
+    keys().then(dataKeys => {
+      for (const key of dataKeys) {
+        for (const game of games) {
+          if (!(`name` in game)) {
             continue;
           }
 
-          if(key === `SRAM_${game.name}`) {
-            get(key).then((sram)=> {
+          if (key === `SRAM_${game.name}`) {
+            get(key).then(sram => {
               const blob = new Blob(sram);
               const url = URL.createObjectURL(blob);
               game.saves.sram = {
@@ -176,9 +181,9 @@ class SettingsManageData extends React.Component {
               this.setState({ games });
             });
             game.saves.sram = key;
-          } else if(key === `FREEZE_${game.name}_main`) {
+          } else if (key === `FREEZE_${game.name}_main`) {
             game.saves.main = key;
-          } else if(key === `FREEZE_${game.name}_auto`) {
+          } else if (key === `FREEZE_${game.name}_auto`) {
             game.saves.auto = key;
           }
         }
@@ -199,15 +204,20 @@ class SettingsManageData extends React.Component {
 
     return (
       <Consumer>
-        {({ actions })=> (
+        {({ actions }) => (
           <React.Fragment>
             <ListItem
-              button className={classes.settingsItem}
-              onClick={this.handleToggleManager}>
+              button
+              className={classes.settingsItem}
+              onClick={this.handleToggleManager}
+            >
               <ListItemIcon>
                 <StorageIcon />
               </ListItemIcon>
-              <ListItemText className={classes.itemText} primary="Data Management" />
+              <ListItemText
+                className={classes.itemText}
+                primary="Data Management"
+              />
               <Expand className={classes.expand} />
             </ListItem>
             <Collapse
@@ -217,18 +227,21 @@ class SettingsManageData extends React.Component {
               unmountOnExit
             >
               <List component="div" disablePadding>
-                {this.state.games.map((game)=> {
+                {this.state.games.map(game => {
                   const { title, md5, rom, name, saves } = game;
 
                   return (
                     <React.Fragment key={md5}>
                       <ListItem
-                        button className={classes.nested}
-                        dense onClick={this.handleRequestPermission({
+                        button
+                        className={classes.nested}
+                        dense
+                        onClick={this.handleRequestPermission({
                           handleAction: this.deleteGame(rom),
                           type: `game`,
                           name: title
-                        })}>
+                        })}
+                      >
                         <ListItemIcon>
                           <DeleteIcon />
                         </ListItemIcon>
@@ -240,76 +253,80 @@ class SettingsManageData extends React.Component {
                           primary={title}
                         />
                       </ListItem>
-                      {name && Object.entries(saves).map(([key, saveValue])=> {
-                        let label = ``,
+                      {name &&
+                        Object.entries(saves).map(([key, saveValue]) => {
+                          let label = ``,
                             action = null;
 
-                        if(key === `sram`) {
-                          label = `SRAM`;
-                          action = this.deleteSRAM(name);
-                        } else if(key === `main`) {
-                          label = `Save State`;
-                          action = this.deleteSaveState(name, `main`);
-                        } else if(key === `auto`) {
-                          label = `Autosave`;
-                          action = this.deleteSaveState(name, `auto`);
-                        }
+                          if (key === `sram`) {
+                            label = `SRAM`;
+                            action = this.deleteSRAM(name);
+                          } else if (key === `main`) {
+                            label = `Save State`;
+                            action = this.deleteSaveState(name, `main`);
+                          } else if (key === `auto`) {
+                            label = `Autosave`;
+                            action = this.deleteSaveState(name, `auto`);
+                          }
 
-                        return (
-                          <ListItem
-                            key={key}
-                            button
-                            className={`${classes.nested} ${classes.save}`}
-                            dense
-                            onClick={this.handleRequestPermission({
-                              action,
-                              type: key,
-                              name: title
-                            })}
-                          >
-                            <ListItemIcon>
-                              <DeleteIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                              classes={{
-                                root: classes.itemRoot,
-                                primary: classes.itemPrimary
-                              }}
-                              primary={label}
-                            />
-                            {key === `sram` && <ListItemSecondaryAction>
-                              <IconButton aria-label="Import">
-                                <label className={classes.addGameLabel} htmlFor={`library-add-game-${name}`}>
-                                  <ImportIcon />
-                                </label>
-                                <input
-                                  id={`library-add-game-${name}`}
-                                  onChange={
-                                    this.importSRAM(
-                                      name,
-                                      saveValue.key,
-                                      actions.reset
-                                    )
-                                  }
-                                  style={{ display: `none` }}
-                                  type="file"
-                                />
-                              </IconButton>
-                              <IconButton aria-label="Export">
-                                <a
-                                  className={classes.secondaryAction}
-                                  download={`${title.split(`.`)[0]}.srm`}
-                                  href={saveValue.url}
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                >
-                                  <ExportIcon />
-                                </a>
-                              </IconButton>
-                            </ListItemSecondaryAction>}
-                          </ListItem>
-                        );
-                      })}
+                          return (
+                            <ListItem
+                              key={key}
+                              button
+                              className={`${classes.nested} ${classes.save}`}
+                              dense
+                              onClick={this.handleRequestPermission({
+                                action,
+                                type: key,
+                                name: title
+                              })}
+                            >
+                              <ListItemIcon>
+                                <DeleteIcon />
+                              </ListItemIcon>
+                              <ListItemText
+                                classes={{
+                                  root: classes.itemRoot,
+                                  primary: classes.itemPrimary
+                                }}
+                                primary={label}
+                              />
+                              {key === `sram` && (
+                                <ListItemSecondaryAction>
+                                  <IconButton aria-label="Import">
+                                    <label
+                                      className={classes.addGameLabel}
+                                      htmlFor={`library-add-game-${name}`}
+                                    >
+                                      <ImportIcon />
+                                    </label>
+                                    <input
+                                      id={`library-add-game-${name}`}
+                                      onChange={this.importSRAM(
+                                        name,
+                                        saveValue.key,
+                                        actions.reset
+                                      )}
+                                      style={{ display: `none` }}
+                                      type="file"
+                                    />
+                                  </IconButton>
+                                  <IconButton aria-label="Export">
+                                    <a
+                                      className={classes.secondaryAction}
+                                      download={`${title.split(`.`)[0]}.srm`}
+                                      href={saveValue.url}
+                                      rel="noopener noreferrer"
+                                      target="_blank"
+                                    >
+                                      <ExportIcon />
+                                    </a>
+                                  </IconButton>
+                                </ListItemSecondaryAction>
+                              )}
+                            </ListItem>
+                          );
+                        })}
                     </React.Fragment>
                   );
                 })}
@@ -325,11 +342,9 @@ class SettingsManageData extends React.Component {
                 {`Really delete?`}
               </DialogTitle>
               <DialogContent className={classes.confirmBody}>
-                {
-                  `You are about to delete ${
-                    this.confirmationMessages.get(currentlyDeleting.type) || ``
-                  } "${currentlyDeleting.name}"`
-                }
+                {`You are about to delete ${this.confirmationMessages.get(
+                  currentlyDeleting.type
+                ) || ``} "${currentlyDeleting.name}"`}
               </DialogContent>
               <DialogActions>
                 <Button color="primary" onClick={this.handleDismissDelete}>

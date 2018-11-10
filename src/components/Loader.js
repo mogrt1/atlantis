@@ -1,29 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class Loader extends React.Component {
   constructor(props) {
     super(props);
 
-    this.load = ()=> {
+    this.load = () => {
       const { uri } = this.props;
 
-      fetch(uri).then((response)=> {
-        if(response.ok) {
-          return response.blob();
-        }
-        throw new Error(`Network response was not ok.`);
-      }).then((blob)=> {
-        const reader = new FileReader();
+      fetch(uri)
+        .then(response => {
+          if (response.ok) {
+            return response.blob();
+          }
+          throw new Error(`Network response was not ok.`);
+        })
+        .then(blob => {
+          const reader = new FileReader();
 
-        reader.onloadend = ()=> {
-          this.props.setCurrentROM(reader.result);
-        };
+          reader.onloadend = () => {
+            this.props.setCurrentROM(reader.result);
+          };
 
-        reader.readAsArrayBuffer(blob);
-      }).catch((error)=> {
-        console.error(`There has been a problem with your fetch operation: `, error.message);
-      });
+          reader.readAsArrayBuffer(blob);
+        })
+        .catch(error => {
+          console.error(
+            `There has been a problem with your fetch operation: `,
+            error.message
+          );
+        });
     };
   }
 
@@ -43,7 +49,6 @@ export default class Loader extends React.Component {
     return null;
   }
 }
-
 
 Loader.propTypes = {
   uri: PropTypes.string.isRequired,

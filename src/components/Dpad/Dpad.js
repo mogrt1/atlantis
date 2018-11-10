@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import DpadView from './DpadView';
-import usePointerHandlers from '../hooks/usePointerHandlers';
-import useKeyHandlers from '../hooks/useKeyHandlers';
+import DpadView from "./DpadView";
+import usePointerHandlers from "../hooks/usePointerHandlers";
+import useKeyHandlers from "../hooks/useKeyHandlers";
 
-import { appContext } from '../Context/Context';
+import { appContext } from "../Context/Context";
 
-import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from '../../cores/GameBoy-Online/index';
+import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from "../../cores/GameBoy-Online/index";
 
 // Constants.
 
@@ -25,13 +25,13 @@ const buttonCodes = {
 
 const HAPTIC_DURATION = 50;
 
-const arraysEqual = (arr1, arr2)=> {
-  if(arr1.length !== arr2.length) {
+const arraysEqual = (arr1, arr2) => {
+  if (arr1.length !== arr2.length) {
     return false;
   }
 
-  for(const [i, el] of arr1.entries()) {
-    if(el !== arr2[i]) {
+  for (const [i, el] of arr1.entries()) {
+    if (el !== arr2[i]) {
       return false;
     }
   }
@@ -43,35 +43,36 @@ const RESIZE_DEBOUNCE = 500;
 
 // Hooks.
 
-const useDimensions = ()=> {
+const useDimensions = () => {
   const ref = React.useRef();
   const dim = {};
 
-  React.useEffect(()=> {
-    const handleNewOrigin = ()=> setTimeout(()=> {
-      const {
-        top,
-        left,
-        width,
-        height
-      } = ref.current.getBoundingClientRect();
+  React.useEffect(() => {
+    const handleNewOrigin = () =>
+      setTimeout(() => {
+        const {
+          top,
+          left,
+          width,
+          height
+        } = ref.current.getBoundingClientRect();
 
-      dim.origin = {
-        x: left + (width / HALF),
-        y: top + (height / HALF)
-      };
+        dim.origin = {
+          x: left + width / HALF,
+          y: top + height / HALF
+        };
 
-      dim.offset = {
-        x: width * BREADTH_VERTICAL / HALF,
-        y: height * BREADTH_HORIZONTAL / HALF
-      };
-    }, RESIZE_DEBOUNCE);
+        dim.offset = {
+          x: (width * BREADTH_VERTICAL) / HALF,
+          y: (height * BREADTH_HORIZONTAL) / HALF
+        };
+      }, RESIZE_DEBOUNCE);
 
     handleNewOrigin();
 
     window.addEventListener(`resize`, handleNewOrigin);
 
-    return ()=> {
+    return () => {
       window.removeEventListener(`resize`, handleNewOrigin);
     };
   }, []);
@@ -79,36 +80,36 @@ const useDimensions = ()=> {
   return [ref, dim];
 };
 
-const useDpadEvents = (dpadDim, haptics)=> {
+const useDpadEvents = (dpadDim, haptics) => {
   let prevPressed = [];
   let isDpadPressed = false;
 
-  const detectDirection = (e)=> {
+  const detectDirection = e => {
     const x = e.clientX || e.targetTouches[0].clientX,
-          y = e.clientY || e.targetTouches[0].clientY;
+      y = e.clientY || e.targetTouches[0].clientY;
 
     const pressed = [];
 
     const { origin, offset } = dpadDim;
 
-    if(x > origin.x + offset.x) {
+    if (x > origin.x + offset.x) {
       pressed.push(buttonCodes.RIGHT);
-    } else if(x < origin.x - offset.x) {
+    } else if (x < origin.x - offset.x) {
       pressed.push(buttonCodes.LEFT);
     }
 
-    if(y > origin.y + offset.y) {
+    if (y > origin.y + offset.y) {
       pressed.push(buttonCodes.DOWN);
-    } else if(y < origin.y - offset.y) {
+    } else if (y < origin.y - offset.y) {
       pressed.push(buttonCodes.UP);
     }
 
-    if(!arraysEqual(pressed, prevPressed)) {
-      for(const [, value] of Object.entries(buttonCodes)) {
+    if (!arraysEqual(pressed, prevPressed)) {
+      for (const [, value] of Object.entries(buttonCodes)) {
         gameBoyJoyPadEvent(value, pressed.includes(value));
       }
 
-      if(haptics && `vibrate` in window.navigator) {
+      if (haptics && `vibrate` in window.navigator) {
         window.navigator.vibrate(HAPTIC_DURATION);
       }
 
@@ -117,27 +118,27 @@ const useDpadEvents = (dpadDim, haptics)=> {
   };
 
   const dpadEvents = {
-    down: (e)=> {
+    down: e => {
       isDpadPressed = true;
       detectDirection(e);
     },
 
-    move: (e)=> {
-      if(isDpadPressed) {
+    move: e => {
+      if (isDpadPressed) {
         detectDirection(e);
       }
     },
 
-    up: ()=> {
+    up: () => {
       isDpadPressed = false;
 
-      for(const [, value] of Object.entries(buttonCodes)) {
+      for (const [, value] of Object.entries(buttonCodes)) {
         gameBoyJoyPadEvent(value);
       }
 
       prevPressed = [];
 
-      if(haptics && `vibrate` in window.navigator) {
+      if (haptics && `vibrate` in window.navigator) {
         window.navigator.vibrate(HAPTIC_DURATION);
       }
     }
@@ -146,30 +147,30 @@ const useDpadEvents = (dpadDim, haptics)=> {
   return dpadEvents;
 };
 
-const useKeyEvents = (kb)=> {
+const useKeyEvents = kb => {
   const keyEvents = {
     [kb[`settings-kb-up`]]: {
-      down: ()=> gameBoyJoyPadEvent(buttonCodes.UP, `pressed`),
-      up: ()=> gameBoyJoyPadEvent(buttonCodes.UP)
+      down: () => gameBoyJoyPadEvent(buttonCodes.UP, `pressed`),
+      up: () => gameBoyJoyPadEvent(buttonCodes.UP)
     },
     [kb[`settings-kb-down`]]: {
-      down: ()=> gameBoyJoyPadEvent(buttonCodes.DOWN, `pressed`),
-      up: ()=> gameBoyJoyPadEvent(buttonCodes.DOWN)
+      down: () => gameBoyJoyPadEvent(buttonCodes.DOWN, `pressed`),
+      up: () => gameBoyJoyPadEvent(buttonCodes.DOWN)
     },
     [kb[`settings-kb-left`]]: {
-      down: ()=> gameBoyJoyPadEvent(buttonCodes.LEFT, `pressed`),
-      up: ()=> gameBoyJoyPadEvent(buttonCodes.LEFT)
+      down: () => gameBoyJoyPadEvent(buttonCodes.LEFT, `pressed`),
+      up: () => gameBoyJoyPadEvent(buttonCodes.LEFT)
     },
     [kb[`settings-kb-right`]]: {
-      down: ()=> gameBoyJoyPadEvent(buttonCodes.RIGHT, `pressed`),
-      up: ()=> gameBoyJoyPadEvent(buttonCodes.RIGHT)
+      down: () => gameBoyJoyPadEvent(buttonCodes.RIGHT, `pressed`),
+      up: () => gameBoyJoyPadEvent(buttonCodes.RIGHT)
     }
   };
 
   return keyEvents;
 };
 
-const Dpad = (props)=> {
+const Dpad = props => {
   const { state } = React.useContext(appContext);
   const { haptics, kb, className } = props;
 
@@ -179,7 +180,7 @@ const Dpad = (props)=> {
 
   const keyEvents = useKeyEvents(kb);
 
-  if(!state.settingsOpen) {
+  if (!state.settingsOpen) {
     useKeyHandlers(keyEvents);
   }
 

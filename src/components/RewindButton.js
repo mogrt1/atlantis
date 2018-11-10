@@ -1,9 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Button from './Button/Button';
+import Button from "./Button/Button";
 
-import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying, autoSave, pause, run } from '../cores/GameBoy-Online/index';
+import {
+  gameboy,
+  GameBoyEmulatorPlaying as gameBoyEmulatorPlaying,
+  autoSave,
+  pause,
+  run
+} from "../cores/GameBoy-Online/index";
 
 export default class RewindButton extends React.Component {
   constructor(props) {
@@ -17,17 +23,15 @@ export default class RewindButton extends React.Component {
 
     this.recordTimeout = null;
 
-    this.record = ()=> {
-      if(!gameBoyEmulatorPlaying()) {
+    this.record = () => {
+      if (!gameBoyEmulatorPlaying()) {
         this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
         return;
       }
 
-      this.props.rewindQueue.push(
-        autoSave().state
-      );
+      this.props.rewindQueue.push(autoSave().state);
 
-      while(this.props.rewindQueue.length > BACKUPS) {
+      while (this.props.rewindQueue.length > BACKUPS) {
         this.props.rewindQueue.shift();
       }
 
@@ -36,8 +40,8 @@ export default class RewindButton extends React.Component {
 
     let rewindTimeout = null;
 
-    this.rewind = ()=> {
-      if(this.props.rewindQueue.length) {
+    this.rewind = () => {
+      if (this.props.rewindQueue.length) {
         gameboy.returnFromState(this.props.rewindQueue.pop(), `rewinding`);
         gameboy.run(`force`);
         gameboy.stopEmulator = 3;
@@ -51,14 +55,14 @@ export default class RewindButton extends React.Component {
     };
 
     this.events = {
-      down: ()=> {
+      down: () => {
         pause();
         rewindTimeout = setTimeout(this.rewind, REWIND_INTERVAL);
       },
-      up: ()=> {
+      up: () => {
         clearTimeout(rewindTimeout);
 
-        if(!gameBoyEmulatorPlaying()) {
+        if (!gameBoyEmulatorPlaying()) {
           run();
         }
       }

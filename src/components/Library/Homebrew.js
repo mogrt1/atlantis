@@ -1,27 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleHomebrew } from './LibraryStyles';
+import { styleHomebrew } from "./LibraryStyles";
 
-import {
-  List,
-  ListSubheader
-} from '@material-ui/core';
+import { List, ListSubheader } from "@material-ui/core";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
-import GameList from './GameList';
-import Game from './Game';
-import Loader from '../Loader';
+import GameList from "./GameList";
+import Game from "./Game";
+import Loader from "../Loader";
 
-import spaceInvasionUri from './homebrew/space-invasion/space-invasion.gb.zip';
-import spaceInvasionThumb from './homebrew/space-invasion/space-invasion.png';
-import flappyBoyUri from './homebrew/flappyboy/flappyboy.gb.zip';
-import flappyBoyThumb from './homebrew/flappyboy/flappyboy.png';
-import infinityUri from './homebrew/infinity/infinity.gb.zip';
-import infinityThumb from './homebrew/infinity/infinity.png';
-import postbotUri from './homebrew/postbot/postbot.gb.zip';
-import postbotThumb from './homebrew/postbot/postbot.png';
+import spaceInvasionUri from "./homebrew/space-invasion/space-invasion.gb.zip";
+import spaceInvasionThumb from "./homebrew/space-invasion/space-invasion.png";
+import flappyBoyUri from "./homebrew/flappyboy/flappyboy.gb.zip";
+import flappyBoyThumb from "./homebrew/flappyboy/flappyboy.png";
+import infinityUri from "./homebrew/infinity/infinity.gb.zip";
+import infinityThumb from "./homebrew/infinity/infinity.png";
+import postbotUri from "./homebrew/postbot/postbot.gb.zip";
+import postbotThumb from "./homebrew/postbot/postbot.png";
 
 class Homebrew extends React.Component {
   constructor(props) {
@@ -29,14 +26,17 @@ class Homebrew extends React.Component {
 
     this.state = { currentHomebrew: `` };
 
-    this.load = (uri)=> ()=> {
+    this.load = uri => () => {
       this.setState({ currentHomebrew: uri });
     };
   }
 
   shouldComponentUpdate(...next) {
     const [, nextState] = next;
-    return nextState.currentHomebrew && nextState.currentHomebrew !== this.state.currentHomebrew;
+    return (
+      nextState.currentHomebrew &&
+      nextState.currentHomebrew !== this.state.currentHomebrew
+    );
   }
 
   render() {
@@ -46,12 +46,14 @@ class Homebrew extends React.Component {
 
     return (
       <Consumer>
-        {({ actions })=> (
-          <List subheader={
-            <ListSubheader className={classes.heading}>
-              {`Free Homebrew Games`}
-            </ListSubheader>
-          }>
+        {({ actions }) => (
+          <List
+            subheader={
+              <ListSubheader className={classes.heading}>
+                {`Free Homebrew Games`}
+              </ListSubheader>
+            }
+          >
             <div>
               <GameList>
                 <Game
@@ -75,10 +77,12 @@ class Homebrew extends React.Component {
                   title="Post Bot"
                 />
               </GameList>
-              {currentHomebrew && <Loader
-                setCurrentROM={actions.setCurrentROM}
-                uri={currentHomebrew}
-              />}
+              {currentHomebrew && (
+                <Loader
+                  setCurrentROM={actions.setCurrentROM}
+                  uri={currentHomebrew}
+                />
+              )}
             </div>
           </List>
         )}
@@ -87,6 +91,8 @@ class Homebrew extends React.Component {
   }
 }
 
-Homebrew.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
+Homebrew.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+};
 
 export default styleHomebrew(Homebrew);

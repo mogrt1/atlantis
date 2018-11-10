@@ -1,7 +1,7 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 export const styleApp = withStyles({
-  '@global': {
+  "@global": {
     html: {
       touchCallout: `none`,
       tapHighlightColor: `transparent`,
@@ -13,7 +13,7 @@ export const styleApp = withStyles({
       overflow: `hidden`
     },
 
-    '#root': {
+    "#root": {
       position: `relative`,
       top: `env(safe-area-inset-top)`,
       width: `100vw`,

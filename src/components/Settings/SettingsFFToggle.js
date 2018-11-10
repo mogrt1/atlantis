@@ -1,11 +1,11 @@
-import React from 'react';
-import { shouldUpdate } from 'recompose';
+import React from "react";
+import { shouldUpdate } from "recompose";
 
-import FastForwardIcon from '@material-ui/icons/FastForward';
+import FastForwardIcon from "@material-ui/icons/FastForward";
 
-import SettingsControlToggle from './SettingsControlToggle';
+import SettingsControlToggle from "./SettingsControlToggle";
 
-const SettingsFFToggle = ()=> (
+const SettingsFFToggle = () => (
   <SettingsControlToggle
     icon={<FastForwardIcon />}
     label="FF Toggle"
@@ -13,4 +13,4 @@ const SettingsFFToggle = ()=> (
   />
 );
 
-export default shouldUpdate(()=> false)(SettingsFFToggle);
+export default shouldUpdate(() => false)(SettingsFFToggle);

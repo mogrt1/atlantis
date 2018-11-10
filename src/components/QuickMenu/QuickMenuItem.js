@@ -1,21 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { shouldUpdate } from 'recompose';
+import React from "react";
+import PropTypes from "prop-types";
+import { shouldUpdate } from "recompose";
 
-import {
-  MenuItem,
-  ListItemIcon,
-  ListItemText
-} from '@material-ui/core';
+import { MenuItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
-const QuickMenuItem = (props)=> (
+const QuickMenuItem = props => (
   <MenuItem onClick={props.onClick}>
-    <ListItemIcon>
-      {props.icon}
-    </ListItemIcon>
-    <ListItemText>
-      {props.label}
-    </ListItemText>
+    <ListItemIcon>{props.icon}</ListItemIcon>
+    <ListItemText>{props.label}</ListItemText>
   </MenuItem>
 );
 
@@ -25,4 +17,4 @@ QuickMenuItem.propTypes = {
   label: PropTypes.string.isRequired
 };
 
-export default shouldUpdate(()=> false)(QuickMenuItem);
+export default shouldUpdate(() => false)(QuickMenuItem);

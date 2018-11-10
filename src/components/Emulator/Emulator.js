@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import EmulatorView from './EmulatorView';
+import EmulatorView from "./EmulatorView";
 
-import { settings } from '../../cores/GameBoy-Online/index';
+import { settings } from "../../cores/GameBoy-Online/index";
 
 const SMOOTHING = 13;
 settings[SMOOTHING] = false;
@@ -24,9 +24,7 @@ export default class Emulator extends React.Component {
   }
 
   render() {
-    return (
-      <EmulatorView canvasRef={this.canvasRef} />
-    );
+    return <EmulatorView canvasRef={this.canvasRef} />;
   }
 }
 

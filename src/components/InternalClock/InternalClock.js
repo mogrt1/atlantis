@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleInternalClock } from './InternalClockStyles';
+import { styleInternalClock } from "./InternalClockStyles";
 
 import {
   Drawer,
@@ -10,9 +10,9 @@ import {
   Select,
   MenuItem,
   Button
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { gameboy } from '../../cores/GameBoy-Online/index';
+import { gameboy } from "../../cores/GameBoy-Online/index";
 
 const ZERO = 0;
 
@@ -45,7 +45,7 @@ class InternalClock extends React.Component {
 
     this.state = { time: {} };
 
-    this.changeClock = (unit)=> (e)=> {
+    this.changeClock = unit => e => {
       const time = {
         days: gameboy.RTCDays | ZERO || ZERO,
         hours: gameboy.RTCHours | ZERO || ZERO,
@@ -61,7 +61,7 @@ class InternalClock extends React.Component {
   }
 
   render() {
-    if(!gameboy) {
+    if (!gameboy) {
       return null;
     }
 
@@ -73,7 +73,7 @@ class InternalClock extends React.Component {
         classes={{ paper: classes.paper }}
         open={this.props.open}
       >
-        {fields.map((field)=> (
+        {fields.map(field => (
           <FormControl key={field.name}>
             <InputLabel htmlFor={`quick-menu-clock-${field.name}`}>
               {field.label}
@@ -84,13 +84,19 @@ class InternalClock extends React.Component {
                 id: `quick-menu-clock-${field.name}`
               }}
               onChange={this.changeClock(field.name)}
-              value={this.state.time[field.name] || gameboy[`RTC${field.label}`] | ZERO || ZERO}
+              value={
+                this.state.time[field.name] ||
+                gameboy[`RTC${field.label}`] | ZERO ||
+                ZERO
+              }
             >
-              {Array(field.value).fill(ZERO).map((zero, val)=>
-                (<MenuItem key={`${field.name}${zero + val}`} value={val}>
-                  {val}
-                </MenuItem>)
-              )}
+              {Array(field.value)
+                .fill(ZERO)
+                .map((zero, val) => (
+                  <MenuItem key={`${field.name}${zero + val}`} value={val}>
+                    {val}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         ))}

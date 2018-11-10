@@ -1,34 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import RewindIcon from '@material-ui/icons/FastRewind';
-import FastForwardIcon from '@material-ui/icons/FastForward';
-import MenuIcon from '@material-ui/icons/Menu';
+import RewindIcon from "@material-ui/icons/FastRewind";
+import FastForwardIcon from "@material-ui/icons/FastForward";
+import MenuIcon from "@material-ui/icons/Menu";
 
-import { styleGamepad } from './GamepadStyles';
+import { styleGamepad } from "./GamepadStyles";
 
-import Dpad from '../Dpad/Dpad';
-import GamepadButton from '../GamepadButton';
-import RewindButton from '../RewindButton';
-import FastForwardButton from '../FastForwardButton';
-import QuickMenu from '../QuickMenu/QuickMenu';
-import TurboToggleButton from '../TurboToggleButton';
+import Dpad from "../Dpad/Dpad";
+import GamepadButton from "../GamepadButton";
+import RewindButton from "../RewindButton";
+import FastForwardButton from "../FastForwardButton";
+import QuickMenu from "../QuickMenu/QuickMenu";
+import TurboToggleButton from "../TurboToggleButton";
 
-import { appContext } from '../Context/Context';
-import PrimaryButtons from '../PrimaryButtons/PrimaryButtons';
+import { appContext } from "../Context/Context";
+import PrimaryButtons from "../PrimaryButtons/PrimaryButtons";
 
-const GamepadView = (props)=> {
+const GamepadView = props => {
   const { state, actions } = React.useContext(appContext);
   const { classes } = props;
 
   const { ffToggle, ffRate, keyBindings } = state.settings;
 
   return (
-    <div className={`${classes.gamepad} ${(!state.settings.showOverlay && classes.hide) || ``}`}>
-      <Dpad
-        haptics={state.settings.haptics}
-        kb={keyBindings}
-      />
+    <div
+      className={`${classes.gamepad} ${(!state.settings.showOverlay &&
+        classes.hide) ||
+        ``}`}
+    >
+      <Dpad haptics={state.settings.haptics} kb={keyBindings} />
 
       <PrimaryButtons
         haptics={state.settings.haptics}
@@ -55,14 +56,16 @@ const GamepadView = (props)=> {
         {`Select`}
       </GamepadButton>
 
-      {state.settings.enableRewind && state.currentROM && <RewindButton
-        className={classes.rewind}
-        kb={keyBindings[`settings-kb-rw`]}
-        rewindQueue={state.rewindQueue}
-        showMessage={actions.showMessage}
-      >
-        <RewindIcon className={classes.icon} />
-      </RewindButton>}
+      {state.settings.enableRewind && state.currentROM && (
+        <RewindButton
+          className={classes.rewind}
+          kb={keyBindings[`settings-kb-rw`]}
+          rewindQueue={state.rewindQueue}
+          showMessage={actions.showMessage}
+        >
+          <RewindIcon className={classes.icon} />
+        </RewindButton>
+      )}
 
       <FastForwardButton
         className={classes.fastForward}
@@ -73,19 +76,24 @@ const GamepadView = (props)=> {
         <FastForwardIcon className={classes.icon} />
       </FastForwardButton>
 
-      {state.currentROM && <QuickMenu className={classes.quickMenu} kb="q">
-        <MenuIcon className={classes.icon} />
-      </QuickMenu>}
+      {state.currentROM && (
+        <QuickMenu className={classes.quickMenu} kb="q">
+          <MenuIcon className={classes.icon} />
+        </QuickMenu>
+      )}
 
-      <TurboToggleButton className={classes.turbo} toggleTurbo={actions.toggleTurbo}>
-        <sup>
-          {`τ`}
-        </sup>
+      <TurboToggleButton
+        className={classes.turbo}
+        toggleTurbo={actions.toggleTurbo}
+      >
+        <sup>{`τ`}</sup>
       </TurboToggleButton>
     </div>
   );
 };
 
-GamepadView.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
+GamepadView.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+};
 
-export default React.memo(styleGamepad(GamepadView), ()=> true);
+export default React.memo(styleGamepad(GamepadView), () => true);

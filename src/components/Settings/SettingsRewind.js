@@ -1,11 +1,11 @@
-import React from 'react';
-import { shouldUpdate } from 'recompose';
+import React from "react";
+import { shouldUpdate } from "recompose";
 
-import RewindIcon from '@material-ui/icons/FastRewind';
+import RewindIcon from "@material-ui/icons/FastRewind";
 
-import SettingsControlToggle from './SettingsControlToggle';
+import SettingsControlToggle from "./SettingsControlToggle";
 
-const SettingsRewind = ()=> (
+const SettingsRewind = () => (
   <SettingsControlToggle
     icon={<RewindIcon />}
     label="Enable Rewind"
@@ -13,4 +13,4 @@ const SettingsRewind = ()=> (
   />
 );
 
-export default shouldUpdate(()=> false)(SettingsRewind);
+export default shouldUpdate(() => false)(SettingsRewind);

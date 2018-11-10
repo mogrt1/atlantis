@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import { landscape } from '../../theme';
+import { landscape } from "../../theme";
 
 export const styleEmulator = withStyles({
   canvas: {

@@ -1,50 +1,50 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import { gamepadButton, landscape, largeDisplay, stubby } from '../../theme';
+import { gamepadButton, landscape, largeDisplay, stubby } from "../../theme";
 
 const rounded = { borderRadius: `25%` },
-      secondary = {
-        ...gamepadButton,
-        width: `15vmin`,
-        height: `5vmin`,
-        overflow: `visible`,
+  secondary = {
+    ...gamepadButton,
+    width: `15vmin`,
+    height: `5vmin`,
+    overflow: `visible`,
 
-        '& .Button-label': {
-          ...gamepadButton[`& .Button-label`],
-          left: 0,
-          bottom: `-120%`,
-          width: `100%`,
-          textAlign: `center`,
+    "& .Button-label": {
+      ...gamepadButton[`& .Button-label`],
+      left: 0,
+      bottom: `-120%`,
+      width: `100%`,
+      textAlign: `center`,
 
-          [landscape]: {
-            top: 0,
-            bottom: `auto`,
-            lineHeight: `5vmin`,
-            fontSize: `3vmin`
-          }
-        },
+      [landscape]: {
+        top: 0,
+        bottom: `auto`,
+        lineHeight: `5vmin`,
+        fontSize: `3vmin`
+      }
+    },
 
-        [landscape]: { transform: `rotate(-40deg)` }
-      },
-      option = {
-        ...gamepadButton,
-        ...rounded,
-        bottom: `32.3vh`,
-        width: `14vmin`,
-        height: `10vmin`,
+    [landscape]: { transform: `rotate(-40deg)` }
+  },
+  option = {
+    ...gamepadButton,
+    ...rounded,
+    bottom: `32.3vh`,
+    width: `14vmin`,
+    height: `10vmin`,
 
-        '& .Button-label': {
-          ...gamepadButton[`& .Button-label`],
-          bottom: `5%`,
-          left: `10%`
-        },
+    "& .Button-label": {
+      ...gamepadButton[`& .Button-label`],
+      bottom: `5%`,
+      left: `10%`
+    },
 
-        [landscape]: {
-          top: 0,
-          bottom: `auto`
-        },
-        [largeDisplay]: { [stubby]: { bottom: `35vh` } }
-      };
+    [landscape]: {
+      top: 0,
+      bottom: `auto`
+    },
+    [largeDisplay]: { [stubby]: { bottom: `35vh` } }
+  };
 
 export const styleGamepad = withStyles({
   gamepad: {
@@ -152,7 +152,7 @@ export const styleGamepad = withStyles({
       height: `10vmin`
     },
 
-    '& .Button-label': {
+    "& .Button-label": {
       ...gamepadButton[`& .Button-label`],
       bottom: `30%`,
       left: `15%`

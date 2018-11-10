@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { appContext } from '../Context/Context';
+import { appContext } from "../Context/Context";
 
-import { styleGameList, libraryWidth, libraryCols } from './LibraryStyles';
+import { styleGameList, libraryWidth, libraryCols } from "./LibraryStyles";
 
-import GridList from '@material-ui/core/GridList';
+import GridList from "@material-ui/core/GridList";
 
-import Game from './Game';
+import Game from "./Game";
 
-const GameList = (props)=> {
+const GameList = props => {
   const { state, actions } = React.useContext(appContext);
   const { classes } = props;
 
@@ -20,15 +20,16 @@ const GameList = (props)=> {
       cols={libraryCols}
       spacing={0}
     >
-      {props.children || state.library.map((data)=> (
-        <Game
-          key={data.md5}
-          rom={data.rom}
-          setCurrentROM={actions.setCurrentROM}
-          thumb={data.thumb}
-          title={data.title}
-        />
-      ))}
+      {props.children ||
+        state.library.map(data => (
+          <Game
+            key={data.md5}
+            rom={data.rom}
+            setCurrentROM={actions.setCurrentROM}
+            thumb={data.thumb}
+            title={data.title}
+          />
+        ))}
     </GridList>
   );
 };
@@ -40,4 +41,4 @@ GameList.propTypes = {
 
 GameList.defaultProps = { children: null };
 
-export default React.memo(styleGameList(GameList), ()=> true);
+export default React.memo(styleGameList(GameList), () => true);

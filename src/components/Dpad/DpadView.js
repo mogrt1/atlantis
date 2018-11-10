@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { shouldUpdate } from 'recompose';
+import React from "react";
+import PropTypes from "prop-types";
+import { shouldUpdate } from "recompose";
 
-import { styleDpad } from './DpadStyles';
+import { styleDpad } from "./DpadStyles";
 
-const DpadView = (props)=> {
+const DpadView = props => {
   const { classes } = props;
 
   return (
@@ -13,8 +13,8 @@ const DpadView = (props)=> {
       className={`${classes.dpad} ${props.className || ``}`}
       {...props.pointerHandlers}
     >
-      <div className={classes.vertical}></div>
-      <div className={classes.horizontal}></div>
+      <div className={classes.vertical} />
+      <div className={classes.horizontal} />
     </div>
   );
 };
@@ -31,4 +31,4 @@ DpadView.defaultProps = {
   className: ``
 };
 
-export default shouldUpdate(()=> false)(styleDpad(DpadView));
+export default shouldUpdate(() => false)(styleDpad(DpadView));

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Button from './Button/Button';
+import Button from "./Button/Button";
 
 export default class TurboToggleButton extends React.Component {
   constructor(props) {
@@ -12,8 +12,8 @@ export default class TurboToggleButton extends React.Component {
     let pressed = false;
 
     this.events = {
-      down: ()=> {
-        if(pressed) {
+      down: () => {
+        if (pressed) {
           return false;
         }
 
@@ -21,7 +21,7 @@ export default class TurboToggleButton extends React.Component {
 
         props.toggleTurbo();
       },
-      up: ()=> {
+      up: () => {
         pressed = false;
       }
     };
@@ -29,10 +29,7 @@ export default class TurboToggleButton extends React.Component {
 
   render() {
     return (
-      <Button
-        className={this.props.className}
-        pointerCommands={this.events}
-      >
+      <Button className={this.props.className} pointerCommands={this.events}>
         {this.props.children}
       </Button>
     );

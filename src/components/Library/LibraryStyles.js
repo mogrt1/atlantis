@@ -1,8 +1,8 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import theme from '../../theme';
+import theme from "../../theme";
 
-import gameboyCart from './images/gameboy.svg';
+import gameboyCart from "./images/gameboy.svg";
 
 const THUMB_WIDTH = 48;
 const maxWidth = window.innerWidth - THUMB_WIDTH;
@@ -46,8 +46,10 @@ export const styleAddGame = withStyles({
 });
 
 const tileDim = {
-  width: `calc(${libraryWidth / libraryCols}px - env(safe-area-inset-right) / 2)`,
-  height: `calc(${libraryWidth / libraryCols}px - env(safe-area-inset-right) / 2)`,
+  width: `calc(${libraryWidth /
+    libraryCols}px - env(safe-area-inset-right) / 2)`,
+  height: `calc(${libraryWidth /
+    libraryCols}px - env(safe-area-inset-right) / 2)`,
 
   fallbacks: {
     width: `${libraryWidth / libraryCols}px`,
@@ -60,7 +62,9 @@ export const styleGame = withStyles({
   gameImage: { ...tileDim },
   gameImageError: {
     ...tileDim,
-    background: `url(${gameboyCart}) 50% 50% no-repeat ${theme.palette.primary.light}`,
+    background: `url(${gameboyCart}) 50% 50% no-repeat ${
+      theme.palette.primary.light
+    }`,
     backgroundSize: `50%`
   },
   gameTitleRoot: { pointerEvents: `none` },
@@ -75,4 +79,6 @@ export const styleGame = withStyles({
   }
 });
 
-export const styleHomebrew = withStyles({ heading: { background: theme.palette.background.paper } });
+export const styleHomebrew = withStyles({
+  heading: { background: theme.palette.background.paper }
+});

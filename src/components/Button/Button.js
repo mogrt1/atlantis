@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import ButtonView from './ButtonView';
-import usePointerHandlers from '../hooks/usePointerHandlers';
-import useKeyHandlers from '../hooks/useKeyHandlers';
+import ButtonView from "./ButtonView";
+import usePointerHandlers from "../hooks/usePointerHandlers";
+import useKeyHandlers from "../hooks/useKeyHandlers";
 
-import { appContext } from '../Context/Context';
+import { appContext } from "../Context/Context";
 
-const Button = (props)=> {
+const Button = props => {
   const { state } = React.useContext(appContext);
 
   const pointerHandlers = usePointerHandlers(props.pointerCommands);
 
-  if(!state.settingsOpen && props.keyCommands) {
+  if (!state.settingsOpen && props.keyCommands) {
     useKeyHandlers(props.keyCommands);
   }
 

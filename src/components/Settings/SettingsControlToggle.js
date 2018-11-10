@@ -1,25 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleSettingsToggle } from './SettingsStyles';
+import { styleSettingsToggle } from "./SettingsStyles";
 
 import {
   ListItem,
   ListItemText,
   ListItemIcon,
   Switch
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
 class SettingsControlToggle extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleToggle = (updateSetting, value, actions)=> ()=> {
+    this.handleToggle = (updateSetting, value, actions) => () => {
       updateSetting(!value);
 
-      if(props.onChange) {
+      if (props.onChange) {
         props.onChange(!value, actions);
       }
     };
@@ -34,18 +34,18 @@ class SettingsControlToggle extends React.Component {
 
     return (
       <Consumer>
-        {({ state, actions })=> (
+        {({ state, actions }) => (
           <ListItem
             button
             className={classes.settingsItem}
-            onClick={this.handleToggle(actions.updateSetting(setting), state.settings[setting], actions)}
+            onClick={this.handleToggle(
+              actions.updateSetting(setting),
+              state.settings[setting],
+              actions
+            )}
           >
-            <ListItemIcon>
-              {icon}
-            </ListItemIcon>
-            <ListItemText className={classes.itemText}>
-              {label}
-            </ListItemText>
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText className={classes.itemText}>{label}</ListItemText>
             <Switch
               checked={state.settings[setting]}
               classes={{

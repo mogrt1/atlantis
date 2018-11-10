@@ -1,27 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleSettings } from './SettingsStyles';
+import { styleSettings } from "./SettingsStyles";
 
-import {
-  IconButton,
-  Drawer,
-  List,
-  ListSubheader
-} from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/SettingsRounded';
+import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
+import SettingsIcon from "@material-ui/icons/SettingsRounded";
 
-import SettingsMute from './SettingsMute';
-import SettingsHaptics from './SettingsHaptics';
-import SettingsFFRate from './SettingsFFRate';
-import SettingsFFToggle from './SettingsFFToggle';
-import SettingsRewind from './SettingsRewind';
-import SettingsManageData from './SettingsManageData';
-import SettingsShowOverlay from './SettingsShowOverlay';
-import SettingsKeyBindings from './SettingsKeyBindings';
-import Link from '../Link/Link';
+import SettingsMute from "./SettingsMute";
+import SettingsHaptics from "./SettingsHaptics";
+import SettingsFFRate from "./SettingsFFRate";
+import SettingsFFToggle from "./SettingsFFToggle";
+import SettingsRewind from "./SettingsRewind";
+import SettingsManageData from "./SettingsManageData";
+import SettingsShowOverlay from "./SettingsShowOverlay";
+import SettingsKeyBindings from "./SettingsKeyBindings";
+import Link from "../Link/Link";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
 class Settings extends React.Component {
   shouldComponentUpdate() {
@@ -33,7 +28,7 @@ class Settings extends React.Component {
 
     return (
       <Consumer>
-        {({ state, actions })=> (
+        {({ state, actions }) => (
           <React.Fragment>
             <IconButton
               aria-label="open settings"
@@ -44,7 +39,10 @@ class Settings extends React.Component {
               <SettingsIcon />
             </IconButton>
 
-            <Drawer onClose={actions.toggleDrawer(`settings`)} open={state.settingsOpen}>
+            <Drawer
+              onClose={actions.toggleDrawer(`settings`)}
+              open={state.settingsOpen}
+            >
               <List
                 className={classes.drawer}
                 role="button"
@@ -74,7 +72,10 @@ class Settings extends React.Component {
                   keyBindings={state.settings.keyBindings}
                   updateSetting={actions.updateSetting(`keyBindings`)}
                 />
-                <Link error href="https://github.com/brianblakely/atlantis/issues/new?template=bug-report.md">
+                <Link
+                  error
+                  href="https://github.com/brianblakely/atlantis/issues/new?template=bug-report.md"
+                >
                   {`Report a Bug`}
                 </Link>
               </List>
@@ -86,6 +87,8 @@ class Settings extends React.Component {
   }
 }
 
-Settings.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
+Settings.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+};
 
 export default styleSettings(Settings);

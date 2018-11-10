@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import { gamepadButton, landscape } from '../../theme';
+import { gamepadButton, landscape } from "../../theme";
 
 export const stylePrimaryButtons = withStyles({
   buttons: {

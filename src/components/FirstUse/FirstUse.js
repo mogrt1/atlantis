@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleFirstUse } from './FirstUseStyles';
+import { styleFirstUse } from "./FirstUseStyles";
 
 import {
   Dialog,
@@ -10,19 +10,19 @@ import {
   DialogContentText,
   DialogActions,
   Button
-} from '@material-ui/core';
-import { SettingsRounded as SettingsIcon } from '@material-ui/icons';
+} from "@material-ui/core";
+import { SettingsRounded as SettingsIcon } from "@material-ui/icons";
 
-import SettingsShowOverlay from '../Settings/SettingsShowOverlay';
-import Link from '../Link/Link';
+import SettingsShowOverlay from "../Settings/SettingsShowOverlay";
+import Link from "../Link/Link";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
 class FirstUse extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleDone = (action)=> (e)=> {
+    this.handleDone = action => e => {
       action(e);
     };
   }
@@ -36,7 +36,7 @@ class FirstUse extends React.Component {
 
     return (
       <Consumer>
-        {({ state, actions })=> (
+        {({ state, actions }) => (
           <Dialog
             aria-labelledby="first-use"
             className={classes.dialog}
@@ -44,9 +44,7 @@ class FirstUse extends React.Component {
             open={state.settings.firstUse}
             scroll="body"
           >
-            <DialogTitle id="first-use">
-              {`Welcome`}
-            </DialogTitle>
+            <DialogTitle id="first-use">{`Welcome`}</DialogTitle>
             <DialogContent>
               <DialogContentText className={classes.bodyText}>
                 {`
@@ -89,10 +87,13 @@ class FirstUse extends React.Component {
             </DialogActions>
           </Dialog>
         )}
-      </Consumer>);
+      </Consumer>
+    );
   }
 }
 
-FirstUse.propTypes = { classes: PropTypes.objectOf(PropTypes.string).isRequired };
+FirstUse.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+};
 
 export default styleFirstUse(FirstUse);

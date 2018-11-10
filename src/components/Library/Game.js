@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleGame } from './LibraryStyles';
+import { styleGame } from "./LibraryStyles";
 
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 class Game extends React.Component {
   constructor(props) {
@@ -13,30 +13,29 @@ class Game extends React.Component {
 
     this.state = { imageError: false };
 
-    this.handleImageError = ()=> {
+    this.handleImageError = () => {
       this.setState({ imageError: true });
     };
 
-    this.handleROMSelection = ()=> {
+    this.handleROMSelection = () => {
       props.setCurrentROM(props.rom);
     };
 
-    this.formattedTitle = ()=> {
+    this.formattedTitle = () => {
       const { title } = this.props;
 
       const START = 0,
-            TITLE_LENGTH = 50,
-            HALF = 2,
-            overflow = title.length - TITLE_LENGTH,
-            OVERFLOW_THRESHOLD = 0,
-            sliceLength = Math.trunc(TITLE_LENGTH / HALF);
+        TITLE_LENGTH = 50,
+        HALF = 2,
+        overflow = title.length - TITLE_LENGTH,
+        OVERFLOW_THRESHOLD = 0,
+        sliceLength = Math.trunc(TITLE_LENGTH / HALF);
 
-      if(overflow > OVERFLOW_THRESHOLD) {
-        return `${
-          title.substr(START, sliceLength)
-        }…${
-          title.substr(title.length - sliceLength, title.length)
-        }`;
+      if (overflow > OVERFLOW_THRESHOLD) {
+        return `${title.substr(START, sliceLength)}…${title.substr(
+          title.length - sliceLength,
+          title.length
+        )}`;
       }
 
       return title;
@@ -49,16 +48,16 @@ class Game extends React.Component {
     return (
       <GridListTile className={classes.game}>
         <ButtonBase onClick={this.handleROMSelection}>
-          {
-            !thumb || thumb === `reattempt` || this.state.imageError
-              ? <div aria-label={title} className={classes.gameImageError}></div>
-              : <img
-                alt={title}
-                className={classes.gameImage}
-                onError={this.handleImageError}
-                src={thumb}
-              />
-          }
+          {!thumb || thumb === `reattempt` || this.state.imageError ? (
+            <div aria-label={title} className={classes.gameImageError} />
+          ) : (
+            <img
+              alt={title}
+              className={classes.gameImage}
+              onError={this.handleImageError}
+              src={thumb}
+            />
+          )}
         </ButtonBase>
         <GridListTileBar
           classes={{

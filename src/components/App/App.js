@@ -1,23 +1,23 @@
-import React from 'react';
+import React from "react";
 
-import { get, set, del, keys } from 'idb-keyval';
+import { get, set, del, keys } from "idb-keyval";
 
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from '../../theme';
-import { styleApp } from './AppStyles';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import theme from "../../theme";
+import { styleApp } from "./AppStyles";
 
-import Context, { appContext } from '../Context/Context';
-import FirstUse from '../FirstUse/FirstUse';
-import Gamepad from '../Gamepad/GamepadView';
-import Emulator from '../Emulator/Emulator';
-import Sound from '../Sound';
-import Settings from '../Settings/Settings';
-import Library from '../Library/Library';
-import Notification from '../Notification/Notification';
-import Upgrade from '../Upgrade';
+import Context, { appContext } from "../Context/Context";
+import FirstUse from "../FirstUse/FirstUse";
+import Gamepad from "../Gamepad/GamepadView";
+import Emulator from "../Emulator/Emulator";
+import Sound from "../Sound";
+import Settings from "../Settings/Settings";
+import Library from "../Library/Library";
+import Notification from "../Notification/Notification";
+import Upgrade from "../Upgrade";
 
-import { persistValues, saveValue } from '../../cores/GameBoy-Online/index';
+import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
 
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 
@@ -26,14 +26,14 @@ const restoreCoreData = async function() {
 
   const valuesTx = [];
 
-  for(const key of dataKeys) {
+  for (const key of dataKeys) {
     valuesTx.push(get(key));
   }
 
   const values = await Promise.all(valuesTx);
 
-  for(const [index, key] of dataKeys.entries()) {
-    if(notCoreKeys.has(key)) {
+  for (const [index, key] of dataKeys.entries()) {
+    if (notCoreKeys.has(key)) {
       continue;
     }
 
@@ -43,36 +43,42 @@ const restoreCoreData = async function() {
   return true;
 };
 
-saveValue.subscribe((key, value)=> {
-  if(value === null) {
+saveValue.subscribe((key, value) => {
+  if (value === null) {
     del(key);
   } else {
     set(key, value);
   }
 });
 
-const handleNotificationClose = (action)=> (e)=> {
+const handleNotificationClose = action => e => {
   action(e);
 };
 
-const useCustomTouchBehavior = ()=> {
-  React.useEffect(()=> {
+const useCustomTouchBehavior = () => {
+  React.useEffect(() => {
     const root = document.getElementById(`root`);
 
-    root.addEventListener(`touchstart`, (e)=> {
-      if(
-        e.target.closest(`[class*="GamepadView"]`)
-        || e.target.closest(`canvas`)
-      ) {
-        e.preventDefault();
-      }
-    }, { passive: false });
+    root.addEventListener(
+      `touchstart`,
+      e => {
+        if (
+          e.target.closest(`[class*="GamepadView"]`) ||
+          e.target.closest(`canvas`)
+        ) {
+          e.preventDefault();
+        }
+      },
+      { passive: false }
+    );
 
-    root.addEventListener(`touchmove`, (e)=> e.preventDefault(), { passive: false });
+    root.addEventListener(`touchmove`, e => e.preventDefault(), {
+      passive: false
+    });
   }, []);
 };
 
-const App = ()=> {
+const App = () => {
   useCustomTouchBehavior();
 
   const { state, actions } = React.useContext(appContext);
@@ -102,4 +108,4 @@ const App = ()=> {
   );
 };
 
-export default React.memo(styleApp(App), ()=> true);
+export default React.memo(styleApp(App), () => true);

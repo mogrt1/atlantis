@@ -1,7 +1,6 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import theme from '../../theme';
-
+import theme from "../../theme";
 
 const THUMB_WIDTH = 48;
 const maxWidth = window.innerWidth - THUMB_WIDTH;
@@ -9,7 +8,7 @@ const nominalWidth = 320;
 const settingsWidth = Math.min(nominalWidth, maxWidth);
 
 const INDENT = 4,
-      DEEP_INDENT = 6;
+  DEEP_INDENT = 6;
 
 export const styleSettings = withStyles({
   open: {
@@ -49,9 +48,11 @@ export const styleSettingsToggle = withStyles({
 const collapsibleList = {
   itemText: { paddingLeft: 0 },
   nested: { paddingLeft: theme.spacing.unit * INDENT },
-  expand: { color: theme.palette.getContrastText(theme.palette.primary[`800`]) },
+  expand: {
+    color: theme.palette.getContrastText(theme.palette.primary[`800`])
+  },
   collapsibleList: {
-    '& $nested': {
+    "& $nested": {
       paddingTop: 0,
       paddingBottom: 0,
       height: 48
@@ -64,12 +65,12 @@ export const styleSettingsKeyBindings = withStyles({
   ...collapsibleList,
   input: { width: `100%` },
   collapsibleList: {
-    '& $nested': {
+    "& $nested": {
       paddingTop: 0,
       paddingBottom: 0,
       height: 64
     },
-    '& $input': { margin: 0 }
+    "& $input": { margin: 0 }
   }
 });
 

@@ -1,13 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const useKeyHandlers = (inputs)=> {
-  React.useEffect(()=> {
-    const eventDelegate = (eventType)=> (e)=> {
-      if(
-        e.repeat
-        || !(e.key in inputs)
-        || !(eventType in inputs[e.key])
-      ) {
+const useKeyHandlers = inputs => {
+  React.useEffect(() => {
+    const eventDelegate = eventType => e => {
+      if (e.repeat || !(e.key in inputs) || !(eventType in inputs[e.key])) {
         return false;
       }
 
@@ -22,7 +18,7 @@ const useKeyHandlers = (inputs)=> {
     document.addEventListener(`keydown`, eventDelegateDown);
     document.addEventListener(`keyup`, eventDelegateUp);
 
-    return ()=> {
+    return () => {
       document.removeEventListener(`keydown`, eventDelegateDown);
       document.removeEventListener(`keyup`, eventDelegateUp);
     };

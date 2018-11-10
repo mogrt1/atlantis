@@ -1,6 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import grey from '@material-ui/core/colors/grey';
-import amber from '@material-ui/core/colors/amber';
+import { createMuiTheme } from "@material-ui/core/styles";
+import grey from "@material-ui/core/colors/grey";
+import amber from "@material-ui/core/colors/amber";
 
 const theme = createMuiTheme({
   palette: {
@@ -26,14 +26,14 @@ export const gamepadButton = {
   `,
   overflow: `hidden`,
 
-  '& .Button-label': {
+  "& .Button-label": {
     position: `absolute`,
     bottom: `25%`,
     left: `25%`,
     fontSize: `5vmin`,
     color: `rgba(128, 128, 128, 0.5)`
   },
-  '& sup': { fontFamily: `'Times New Roman', Times, serif` }
+  "& sup": { fontFamily: `'Times New Roman', Times, serif` }
 };
 
 // Media queries.

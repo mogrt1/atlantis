@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import { landscape, largeDisplay } from '../../theme';
+import { landscape, largeDisplay } from "../../theme";
 
 const axis = {
   position: `absolute`,

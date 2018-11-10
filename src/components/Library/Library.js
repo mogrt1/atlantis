@@ -1,28 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { get } from 'idb-keyval';
+import { get } from "idb-keyval";
 
-import { styleLibrary } from './LibraryStyles';
+import { styleLibrary } from "./LibraryStyles";
 
-import {
-  IconButton,
-  Drawer,
-  List,
-  ListSubheader
-} from '@material-ui/core';
-import { VideoLibrary as LibraryIcon } from '@material-ui/icons';
+import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
+import { VideoLibrary as LibraryIcon } from "@material-ui/icons";
 
-import AddGame from './AddGame';
-import GameList from './GameList';
-import Homebrew from './Homebrew';
+import AddGame from "./AddGame";
+import GameList from "./GameList";
+import Homebrew from "./Homebrew";
 
-import { Consumer } from '../Context/Context';
+import { Consumer } from "../Context/Context";
 
 class Library extends React.Component {
   componentDidMount() {
-    get(`games`).then((games)=> {
-      if(!games) {
+    get(`games`).then(games => {
+      if (!games) {
         return;
       }
 
@@ -35,7 +30,7 @@ class Library extends React.Component {
 
     return (
       <Consumer>
-        {({ state, actions })=> (
+        {({ state, actions }) => (
           <React.Fragment>
             <IconButton
               aria-label="open settings"

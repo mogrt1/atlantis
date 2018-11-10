@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleSettingsFFRate } from './SettingsStyles';
+import { styleSettingsFFRate } from "./SettingsStyles";
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import FastForwardIcon from '@material-ui/icons/FastForward';
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import FastForwardIcon from "@material-ui/icons/FastForward";
 
 class SettingsFFRate extends React.Component {
   constructor(props) {
@@ -19,18 +19,18 @@ class SettingsFFRate extends React.Component {
 
     this.state = { rate: props.rate || this.firstRate };
 
-    this.handleChangeRate = (e)=> {
+    this.handleChangeRate = e => {
       this.setState({ rate: e.target.value });
       this.handleCloseMenu();
 
       props.updateSetting(e.target.value);
     };
 
-    this.handleOpenMenu = (e)=> {
+    this.handleOpenMenu = e => {
       this.setState({ anchorEl: e.currentTarget });
     };
 
-    this.handleCloseMenu = ()=> {
+    this.handleCloseMenu = () => {
       this.setState({ anchorEl: null });
     };
   }
@@ -56,9 +56,7 @@ class SettingsFFRate extends React.Component {
             {`Fast-Forward Rate`}
           </ListItemText>
 
-          <span className={classes.value}>
-            {`${this.state.rate}x`}
-          </span>
+          <span className={classes.value}>{`${this.state.rate}x`}</span>
         </ListItem>
 
         <Menu
@@ -75,15 +73,17 @@ class SettingsFFRate extends React.Component {
             horizontal: `right`
           }}
         >
-          {Array(this.rateLevels).fill(`0`).map((el, index)=> (
-            <MenuItem
-              key={String(el + index)}
-              onClick={this.handleChangeRate}
-              value={index + this.firstRate}
-            >
-              {`${index + this.firstRate}x`}
-            </MenuItem>
-          ))}
+          {Array(this.rateLevels)
+            .fill(`0`)
+            .map((el, index) => (
+              <MenuItem
+                key={String(el + index)}
+                onClick={this.handleChangeRate}
+                value={index + this.firstRate}
+              >
+                {`${index + this.firstRate}x`}
+              </MenuItem>
+            ))}
         </Menu>
       </React.Fragment>
     );

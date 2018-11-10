@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
+import Snackbar from "@material-ui/core/Snackbar";
+import Button from "@material-ui/core/Button";
 
-import { styleNotification } from './NotificationStyles';
+import { styleNotification } from "./NotificationStyles";
 
-const Notification = (props)=> {
+const Notification = props => {
   const {
     classes,
     open,
@@ -21,15 +21,15 @@ const Notification = (props)=> {
   return (
     <Snackbar
       action={
-        secondaryLabel
-          ? <Button
+        secondaryLabel ? (
+          <Button
             className={classes.button}
             onClick={handleButton}
             size="small"
           >
             {secondaryLabel}
           </Button>
-          : null
+        ) : null
       }
       anchorOrigin={{
         vertical: `top`,
@@ -39,11 +39,9 @@ const Notification = (props)=> {
       className={classes.snackbar}
       ContentProps={{
         className: classes.content,
-        'aria-describedby': `notification-content`
+        "aria-describedby": `notification-content`
       }}
-      message={<div id="notification-content">
-        {children}
-      </div>}
+      message={<div id="notification-content">{children}</div>}
       onClick={handleClick}
       onClose={handleClose}
       open={open}

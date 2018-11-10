@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { styleSettingsKeyBindings } from './SettingsStyles';
+import { styleSettingsKeyBindings } from "./SettingsStyles";
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import KeyboardIcon from '@material-ui/icons/Keyboard';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import KeyboardIcon from "@material-ui/icons/Keyboard";
 
 class SettingsKeyBindings extends React.Component {
   constructor(props) {
@@ -24,29 +24,29 @@ class SettingsKeyBindings extends React.Component {
     };
 
     this.bindings = {
-      'b': `B`,
-      'a': `A`,
-      'b-turbo': `B Turbo`,
-      'a-turbo': `A Turbo`,
-      'start': `Start`,
-      'select': `Select`,
-      'up': `Up`,
-      'down': `Down`,
-      'left': `Left`,
-      'right': `Right`,
-      'rw': `Rewind`,
-      'ff': `Fast-Forward`,
-      'save-state': `Save State`,
-      'load-state': `Load State`,
-      'abss': `A+B+Start+Select`,
-      'reset': `Reset`
+      b: `B`,
+      a: `A`,
+      "b-turbo": `B Turbo`,
+      "a-turbo": `A Turbo`,
+      start: `Start`,
+      select: `Select`,
+      up: `Up`,
+      down: `Down`,
+      left: `Left`,
+      right: `Right`,
+      rw: `Rewind`,
+      ff: `Fast-Forward`,
+      "save-state": `Save State`,
+      "load-state": `Load State`,
+      abss: `A+B+Start+Select`,
+      reset: `Reset`
     };
 
-    this.handleBindingsToggle = ()=> {
-      this.setState((prevState)=> ({ open: !prevState.open }));
+    this.handleBindingsToggle = () => {
+      this.setState(prevState => ({ open: !prevState.open }));
     };
 
-    this.handleAssignKey = (e)=> {
+    this.handleAssignKey = e => {
       e.stopPropagation();
       e.preventDefault();
 
@@ -55,7 +55,7 @@ class SettingsKeyBindings extends React.Component {
       this.setState(
         { [e.target.id]: value },
 
-        ()=> {
+        () => {
           const { open, ...bindings } = this.state;
 
           props.updateSetting(bindings);
@@ -72,13 +72,17 @@ class SettingsKeyBindings extends React.Component {
     return (
       <React.Fragment>
         <ListItem
-          button className={classes.settingsItem}
+          button
+          className={classes.settingsItem}
           onClick={this.handleBindingsToggle}
         >
           <ListItemIcon>
             <KeyboardIcon />
           </ListItemIcon>
-          <ListItemText className={classes.itemText} primary="Keyboard Bindings" />
+          <ListItemText
+            className={classes.itemText}
+            primary="Keyboard Bindings"
+          />
           <Expand className={classes.expand} />
         </ListItem>
         <Collapse
@@ -88,17 +92,15 @@ class SettingsKeyBindings extends React.Component {
           unmountOnExit
         >
           <List component="div" disablePadding>
-            {Object.entries(this.bindings).map(([id, label])=> (
-              <ListItem
-                key={id} className={classes.nested}
-                dense>
+            {Object.entries(this.bindings).map(([id, label]) => (
+              <ListItem key={id} className={classes.nested} dense>
                 <TextField
                   className={classes.input}
                   id={`settings-kb-${id}`}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">
-                      {`key:`}
-                    </InputAdornment>
+                    startAdornment: (
+                      <InputAdornment position="start">{`key:`}</InputAdornment>
+                    )
                   }}
                   label={label}
                   margin="normal"

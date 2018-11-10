@@ -1,6 +1,6 @@
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
-import theme from '../../theme';
+import theme from "../../theme";
 
 export const styleInternalClock = withStyles({
   paper: {

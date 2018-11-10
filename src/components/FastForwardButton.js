@@ -1,9 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import Button from './Button/Button';
+import Button from "./Button/Button";
 
-import { gameboy, GameBoyEmulatorPlaying as gameBoyEmulatorPlaying } from '../cores/GameBoy-Online/index';
+import {
+  gameboy,
+  GameBoyEmulatorPlaying as gameBoyEmulatorPlaying
+} from "../cores/GameBoy-Online/index";
 
 export default class FastForwardButton extends React.Component {
   constructor(props) {
@@ -18,36 +21,32 @@ export default class FastForwardButton extends React.Component {
     let pressed = false;
 
     this.toggleEvents = {
-      down: ()=> {
-        if(pressed) {
+      down: () => {
+        if (pressed) {
           return false;
         }
 
         pressed = true;
 
-        if(gameBoyEmulatorPlaying()) {
+        if (gameBoyEmulatorPlaying()) {
           fastforward = !fastforward;
 
-          gameboy.setSpeed(
-            fastforward
-              ? this.props.rate
-              : NORMAL
-          );
+          gameboy.setSpeed(fastforward ? this.props.rate : NORMAL);
         }
       },
-      up: ()=> {
+      up: () => {
         pressed = false;
       }
     };
 
     this.noToggleEvents = {
-      down: ()=> {
-        if(gameBoyEmulatorPlaying()) {
+      down: () => {
+        if (gameBoyEmulatorPlaying()) {
           gameboy.setSpeed(this.props.rate);
         }
       },
-      up: ()=> {
-        if(gameBoyEmulatorPlaying()) {
+      up: () => {
+        if (gameBoyEmulatorPlaying()) {
           gameboy.setSpeed(NORMAL);
         }
       }
@@ -58,8 +57,14 @@ export default class FastForwardButton extends React.Component {
     return (
       <Button
         className={this.props.className}
-        keyCommands={{ [this.props.kb]: this.props.toggle ? this.toggleEvents : this.noToggleEvents }}
-        pointerCommands={this.props.toggle ? this.toggleEvents : this.noToggleEvents}
+        keyCommands={{
+          [this.props.kb]: this.props.toggle
+            ? this.toggleEvents
+            : this.noToggleEvents
+        }}
+        pointerCommands={
+          this.props.toggle ? this.toggleEvents : this.noToggleEvents
+        }
       >
         {this.props.children}
       </Button>

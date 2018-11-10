@@ -1,11 +1,11 @@
-import React from 'react';
-import { shouldUpdate } from 'recompose';
+import React from "react";
+import { shouldUpdate } from "recompose";
 
-import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
+import VideogameAssetIcon from "@material-ui/icons/VideogameAsset";
 
-import SettingsControlToggle from './SettingsControlToggle';
+import SettingsControlToggle from "./SettingsControlToggle";
 
-const SettingsShowOverlay = ()=> (
+const SettingsShowOverlay = () => (
   <SettingsControlToggle
     icon={<VideogameAssetIcon />}
     label="Touch Overlay"
@@ -13,4 +13,4 @@ const SettingsShowOverlay = ()=> (
   />
 );
 
-export default shouldUpdate(()=> false)(SettingsShowOverlay);
+export default shouldUpdate(() => false)(SettingsShowOverlay);
