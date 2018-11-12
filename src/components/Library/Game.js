@@ -7,70 +7,61 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ButtonBase from "@material-ui/core/ButtonBase";
 
-class Game extends React.Component {
-  constructor(props) {
-    super(props);
+const Game = props => {
+  const { classes, thumb, title } = props;
+  const [imageError, setImageError] = React.useState(false);
 
-    this.state = { imageError: false };
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
-    this.handleImageError = () => {
-      this.setState({ imageError: true });
-    };
+  const handleROMSelection = () => {
+    props.setCurrentROM(props.rom);
+  };
 
-    this.handleROMSelection = () => {
-      props.setCurrentROM(props.rom);
-    };
+  const formattedTitle = () => {
+    const START = 0,
+      TITLE_LENGTH = 50,
+      HALF = 2,
+      overflow = title.length - TITLE_LENGTH,
+      OVERFLOW_THRESHOLD = 0,
+      sliceLength = Math.trunc(TITLE_LENGTH / HALF);
 
-    this.formattedTitle = () => {
-      const { title } = this.props;
+    if (overflow > OVERFLOW_THRESHOLD) {
+      return `${title.substr(START, sliceLength)}…${title.substr(
+        title.length - sliceLength,
+        title.length
+      )}`;
+    }
 
-      const START = 0,
-        TITLE_LENGTH = 50,
-        HALF = 2,
-        overflow = title.length - TITLE_LENGTH,
-        OVERFLOW_THRESHOLD = 0,
-        sliceLength = Math.trunc(TITLE_LENGTH / HALF);
+    return title;
+  };
 
-      if (overflow > OVERFLOW_THRESHOLD) {
-        return `${title.substr(START, sliceLength)}…${title.substr(
-          title.length - sliceLength,
-          title.length
-        )}`;
-      }
-
-      return title;
-    };
-  }
-
-  render() {
-    const { classes, thumb, title } = this.props;
-
-    return (
-      <GridListTile className={classes.game}>
-        <ButtonBase onClick={this.handleROMSelection}>
-          {!thumb || thumb === `reattempt` || this.state.imageError ? (
-            <div aria-label={title} className={classes.gameImageError} />
-          ) : (
-            <img
-              alt={title}
-              className={classes.gameImage}
-              onError={this.handleImageError}
-              src={thumb}
-            />
-          )}
-        </ButtonBase>
-        <GridListTileBar
-          classes={{
-            root: classes.gameTitleRoot,
-            titleWrap: classes.gameTitleWrap,
-            title: classes.gameTitleText
-          }}
-          title={this.formattedTitle()}
-        />
-      </GridListTile>
-    );
-  }
-}
+  return (
+    <GridListTile className={classes.game}>
+      <ButtonBase onClick={handleROMSelection}>
+        {!thumb || thumb === `reattempt` || imageError ? (
+          <div aria-label={title} className={classes.gameImageError} />
+        ) : (
+          <img
+            alt={title}
+            className={classes.gameImage}
+            onError={handleImageError}
+            src={thumb}
+          />
+        )}
+      </ButtonBase>
+      <GridListTileBar
+        classes={{
+          root: classes.gameTitleRoot,
+          titleWrap: classes.gameTitleWrap,
+          title: classes.gameTitleText
+        }}
+        title={formattedTitle()}
+      />
+    </GridListTile>
+  );
+};
 
 Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
