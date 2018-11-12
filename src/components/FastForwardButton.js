@@ -8,69 +8,62 @@ import {
   GameBoyEmulatorPlaying as gameBoyEmulatorPlaying
 } from "../cores/GameBoy-Online/index";
 
-export default class FastForwardButton extends React.Component {
-  constructor(props) {
-    super(props);
+const NORMAL = 1;
 
-    this.state = {};
+const useToggleEvents = ({ toggle, rate }) => {
+  const fastforward = React.useRef(false);
+  const pressed = React.useRef(false);
 
-    const NORMAL = 1;
-
-    let fastforward = false;
-
-    let pressed = false;
-
-    this.toggleEvents = {
-      down: () => {
-        if (pressed) {
-          return false;
-        }
-
-        pressed = true;
-
-        if (gameBoyEmulatorPlaying()) {
-          fastforward = !fastforward;
-
-          gameboy.setSpeed(fastforward ? this.props.rate : NORMAL);
-        }
-      },
-      up: () => {
-        pressed = false;
+  const toggleEvents = {
+    down: () => {
+      if (pressed.current) {
+        return false;
       }
-    };
 
-    this.noToggleEvents = {
-      down: () => {
-        if (gameBoyEmulatorPlaying()) {
-          gameboy.setSpeed(this.props.rate);
-        }
-      },
-      up: () => {
-        if (gameBoyEmulatorPlaying()) {
-          gameboy.setSpeed(NORMAL);
-        }
+      pressed.current = true;
+
+      if (gameBoyEmulatorPlaying()) {
+        fastforward.current = !fastforward.current;
+
+        gameboy.setSpeed(fastforward.current ? rate : NORMAL);
       }
-    };
-  }
+    },
+    up: () => {
+      pressed.current = false;
+    }
+  };
 
-  render() {
-    return (
-      <Button
-        className={this.props.className}
-        keyCommands={{
-          [this.props.kb]: this.props.toggle
-            ? this.toggleEvents
-            : this.noToggleEvents
-        }}
-        pointerCommands={
-          this.props.toggle ? this.toggleEvents : this.noToggleEvents
-        }
-      >
-        {this.props.children}
-      </Button>
-    );
-  }
-}
+  const noToggleEvents = {
+    down: () => {
+      if (gameBoyEmulatorPlaying()) {
+        gameboy.setSpeed(rate);
+      }
+    },
+    up: () => {
+      if (gameBoyEmulatorPlaying()) {
+        gameboy.setSpeed(NORMAL);
+      }
+    }
+  };
+
+  return toggle ? toggleEvents : noToggleEvents;
+};
+
+const FastForwardButton = props => {
+  const events = useToggleEvents(props);
+
+  return (
+    <Button
+      className={props.className}
+      keyCommands={{
+        [props.kb]: events
+      }}
+      pointerCommands={events}
+    >
+      {props.children}
+    </Button>
+  );
+};
 
 FastForwardButton.propTypes = {
   toggle: PropTypes.bool.isRequired,
@@ -84,3 +77,5 @@ FastForwardButton.defaultProps = {
   className: ``,
   children: null
 };
+
+export default FastForwardButton;
