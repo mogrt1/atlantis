@@ -16,84 +16,69 @@ import { SettingsRounded as SettingsIcon } from "@material-ui/icons";
 import SettingsShowOverlay from "../Settings/SettingsShowOverlay";
 import Link from "../Link/Link";
 
-import { Consumer } from "../Context/Context";
+import { appContext } from "../Context/Context";
 
-class FirstUse extends React.Component {
-  constructor(props) {
-    super(props);
+const handleDone = action => e => {
+  action(e);
+};
 
-    this.handleDone = action => e => {
-      action(e);
-    };
-  }
+const FirstUse = props => {
+  const { state, actions } = React.useContext(appContext);
+  const { classes } = props;
 
-  shouldComponentUpdate() {
-    return false;
-  }
+  return (
+    <Dialog
+      aria-labelledby="first-use"
+      className={classes.dialog}
+      maxWidth="xs"
+      open={state.settings.firstUse}
+      scroll="body"
+    >
+      <DialogTitle id="first-use">{`Welcome`}</DialogTitle>
+      <DialogContent>
+        <DialogContentText className={classes.bodyText}>
+          {`
+            The Atlantis emulator is made for all devices.
+            Before continuing, please choose whether you want to use the touch control
+            overlay (you can always change this in Settings
+          `}
+          {<SettingsIcon className={classes.inlineIcon} />}
+          {`).`}
+        </DialogContentText>
+        <SettingsShowOverlay />
 
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <Consumer>
-        {({ state, actions }) => (
-          <Dialog
-            aria-labelledby="first-use"
-            className={classes.dialog}
-            maxWidth="xs"
-            open={state.settings.firstUse}
-            scroll="body"
-          >
-            <DialogTitle id="first-use">{`Welcome`}</DialogTitle>
-            <DialogContent>
-              <DialogContentText className={classes.bodyText}>
-                {`
-                  The Atlantis emulator is made for all devices.
-                  Before continuing, please choose whether you want to use the touch control
-                  overlay (you can always change this in Settings
-                `}
-                {<SettingsIcon className={classes.inlineIcon} />}
-                {`).`}
-              </DialogContentText>
-              <SettingsShowOverlay />
-
-              <DialogContentText className={classes.bodyText}>
-                {`
-                  On many platforms, you can add Atlantis to the homescreen.
-                  It isn't necessary, but you might like it better.
-                `}
-              </DialogContentText>
-              <Link href="https://lifehacker.com/5809338/add-web-site-bookmarks-to-your-iphones-homescreen">
-                {`iOS Safari`}
-              </Link>
-              <Link href="https://youtu.be/t8vjwzMQad8">
-                {`Android Chrome`}
-              </Link>
-              <Link href="https://www.laptopmag.com/articles/pin-website-windows-10-start">
-                {`Windows Edge`}
-              </Link>
-              <Link href="https://support.google.com/chromebook/answer/3113576">
-                {`Chrome OS`}
-              </Link>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                className={classes.button}
-                variant="contained"
-                onClick={this.handleDone(actions.firstUseComplete)}
-              >
-                {`Thanks`}
-              </Button>
-            </DialogActions>
-          </Dialog>
-        )}
-      </Consumer>
-    );
-  }
-}
+        <DialogContentText className={classes.bodyText}>
+          {`
+            On many platforms, you can add Atlantis to the homescreen.
+            It isn't necessary, but you might like it better.
+          `}
+        </DialogContentText>
+        <Link href="https://lifehacker.com/5809338/add-web-site-bookmarks-to-your-iphones-homescreen">
+          {`iOS Safari`}
+        </Link>
+        <Link href="https://youtu.be/t8vjwzMQad8">{`Android Chrome`}</Link>
+        <Link href="https://www.laptopmag.com/articles/pin-website-windows-10-start">
+          {`Windows Edge`}
+        </Link>
+        <Link href="https://support.google.com/chromebook/answer/3113576">
+          {`Chrome OS`}
+        </Link>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          className={classes.button}
+          variant="contained"
+          onClick={handleDone(actions.firstUseComplete)}
+        >
+          {`Thanks`}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 FirstUse.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
-export default styleFirstUse(FirstUse);
+export default React.memo(styleFirstUse(FirstUse), () => true);
