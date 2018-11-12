@@ -8,55 +8,39 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 
-import { Consumer } from "../Context/Context";
+import { appContext } from "../Context/Context";
 
-class AddGame extends React.Component {
-  constructor(props) {
-    super(props);
+const handleUpload = action => e => {
+  action(e);
+};
 
-    this.handleUpload = action => e => {
-      action(e);
-    };
-  }
+const AddGame = props => {
+  const { actions } = React.useContext(appContext);
+  const { classes } = props;
 
-  shouldComponentUpdate() {
-    return false;
-  }
+  return (
+    <ListItem button>
+      <ListItemIcon>
+        <LibraryAddIcon />
+      </ListItemIcon>
+      <ListItemText>
+        <span>{`Add a Game`}</span>
 
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <Consumer>
-        {({ actions }) => (
-          <ListItem button>
-            <ListItemIcon>
-              <LibraryAddIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <span>{`Add a Game`}</span>
-
-              <label
-                className={classes.addGameLabel}
-                htmlFor="library-add-game"
-              />
-              <input
-                id="library-add-game"
-                style={{ display: `none` }}
-                type="file"
-                multiple
-                onChange={this.handleUpload(actions.uploadGame)}
-              />
-            </ListItemText>
-          </ListItem>
-        )}
-      </Consumer>
-    );
-  }
-}
+        <label className={classes.addGameLabel} htmlFor="library-add-game" />
+        <input
+          id="library-add-game"
+          style={{ display: `none` }}
+          type="file"
+          multiple
+          onChange={handleUpload(actions.uploadGame)}
+        />
+      </ListItemText>
+    </ListItem>
+  );
+};
 
 AddGame.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired
 };
 
-export default styleAddGame(AddGame);
+export default React.memo(styleAddGame(AddGame), () => true);
