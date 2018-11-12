@@ -5,7 +5,7 @@ import { styleHomebrew } from "./LibraryStyles";
 
 import { List, ListSubheader } from "@material-ui/core";
 
-import { Consumer } from "../Context/Context";
+import { appContext } from "../Context/Context";
 
 import GameList from "./GameList";
 import Game from "./Game";
@@ -20,76 +20,53 @@ import infinityThumb from "./homebrew/infinity/infinity.png";
 import postbotUri from "./homebrew/postbot/postbot.gb.zip";
 import postbotThumb from "./homebrew/postbot/postbot.png";
 
-class Homebrew extends React.Component {
-  constructor(props) {
-    super(props);
+const Homebrew = props => {
+  const { actions } = React.useContext(appContext);
+  const { classes } = props;
+  const [homebrew, setHomebrew] = React.useState(``);
 
-    this.state = { currentHomebrew: `` };
+  const load = uri => () => {
+    setHomebrew(uri);
+  };
 
-    this.load = uri => () => {
-      this.setState({ currentHomebrew: uri });
-    };
-  }
-
-  shouldComponentUpdate(...next) {
-    const [, nextState] = next;
-    return (
-      nextState.currentHomebrew &&
-      nextState.currentHomebrew !== this.state.currentHomebrew
-    );
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    const { currentHomebrew } = this.state;
-
-    return (
-      <Consumer>
-        {({ actions }) => (
-          <List
-            subheader={
-              <ListSubheader className={classes.heading}>
-                {`Free Homebrew Games`}
-              </ListSubheader>
-            }
-          >
-            <div>
-              <GameList>
-                <Game
-                  setCurrentROM={this.load(spaceInvasionUri)}
-                  thumb={spaceInvasionThumb}
-                  title="Space Invasion"
-                />
-                <Game
-                  setCurrentROM={this.load(flappyBoyUri)}
-                  thumb={flappyBoyThumb}
-                  title="FlappyBoy"
-                />
-                <Game
-                  setCurrentROM={this.load(infinityUri)}
-                  thumb={infinityThumb}
-                  title="Infinity Demo"
-                />
-                <Game
-                  setCurrentROM={this.load(postbotUri)}
-                  thumb={postbotThumb}
-                  title="Post Bot"
-                />
-              </GameList>
-              {currentHomebrew && (
-                <Loader
-                  setCurrentROM={actions.setCurrentROM}
-                  uri={currentHomebrew}
-                />
-              )}
-            </div>
-          </List>
+  return (
+    <List
+      subheader={
+        <ListSubheader className={classes.heading}>
+          {`Free Homebrew Games`}
+        </ListSubheader>
+      }
+    >
+      <div>
+        <GameList>
+          <Game
+            setCurrentROM={load(spaceInvasionUri)}
+            thumb={spaceInvasionThumb}
+            title="Space Invasion"
+          />
+          <Game
+            setCurrentROM={load(flappyBoyUri)}
+            thumb={flappyBoyThumb}
+            title="FlappyBoy"
+          />
+          <Game
+            setCurrentROM={load(infinityUri)}
+            thumb={infinityThumb}
+            title="Infinity Demo"
+          />
+          <Game
+            setCurrentROM={load(postbotUri)}
+            thumb={postbotThumb}
+            title="Post Bot"
+          />
+        </GameList>
+        {homebrew && (
+          <Loader setCurrentROM={actions.setCurrentROM} uri={homebrew} />
         )}
-      </Consumer>
-    );
-  }
-}
+      </div>
+    </List>
+  );
+};
 
 Homebrew.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired
