@@ -8,24 +8,16 @@ import { settings } from "../../cores/GameBoy-Online/index";
 const SMOOTHING = 13;
 settings[SMOOTHING] = false;
 
-export default class Emulator extends React.Component {
-  constructor(props) {
-    super(props);
+const Emulator = props => {
+  const canvasRef = React.useRef();
 
-    this.canvasRef = React.createRef();
-  }
+  React.useEffect(() => {
+    props.setCanvas(canvasRef);
+  });
 
-  componentDidMount() {
-    this.props.setCanvas(this.canvasRef);
-  }
-
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  render() {
-    return <EmulatorView canvasRef={this.canvasRef} />;
-  }
-}
+  return <EmulatorView canvasRef={this.canvasRef} />;
+};
 
 Emulator.propTypes = { setCanvas: PropTypes.func.isRequired };
+
+export default React.memo(Emulator, () => true);
