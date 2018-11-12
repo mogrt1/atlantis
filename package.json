@@ -28,7 +28,7 @@
       "prettier"
     ],
     "rules": {
-      "prettier/prettier": "error"
+      "prettier/prettier": "warn"
     }
   },
   "lint-staged": {
