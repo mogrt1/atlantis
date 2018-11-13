@@ -10,85 +10,77 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import FastForwardIcon from "@material-ui/icons/FastForward";
 
-class SettingsFFRate extends React.Component {
-  constructor(props) {
-    super(props);
+const rateLevels = 9;
+const firstRate = 2;
 
-    this.rateLevels = 9;
-    this.firstRate = 2;
+const SettingsFFRate = props => {
+  const { classes } = props;
+  const [rate, setRate] = React.useState(props.rate || firstRate);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-    this.state = { rate: props.rate || this.firstRate };
+  const handleChangeRate = e => {
+    setRate(e.target.value);
+    handleCloseMenu();
 
-    this.handleChangeRate = e => {
-      this.setState({ rate: e.target.value });
-      this.handleCloseMenu();
+    props.updateSetting(e.target.value);
+  };
 
-      props.updateSetting(e.target.value);
-    };
+  const handleOpenMenu = e => {
+    setAnchorEl(e.currentTarget);
+  };
 
-    this.handleOpenMenu = e => {
-      this.setState({ anchorEl: e.currentTarget });
-    };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
-    this.handleCloseMenu = () => {
-      this.setState({ anchorEl: null });
-    };
-  }
+  return (
+    <>
+      <ListItem
+        aria-haspopup="true"
+        aria-owns={anchorEl ? `settings-ff-rate` : null}
+        button
+        className={classes.settingsItem}
+        onClick={handleOpenMenu}
+      >
+        <ListItemIcon>
+          <FastForwardIcon />
+        </ListItemIcon>
+        <ListItemText className={classes.itemText}>
+          {`Fast-Forward Rate`}
+        </ListItemText>
 
-  render() {
-    const { classes } = this.props;
+        <span className={classes.value}>{`${rate}x`}</span>
+      </ListItem>
 
-    const { anchorEl } = this.state;
-
-    return (
-      <>
-        <ListItem
-          aria-haspopup="true"
-          aria-owns={anchorEl ? `settings-ff-rate` : null}
-          button
-          className={classes.settingsItem}
-          onClick={this.handleOpenMenu}
-        >
-          <ListItemIcon>
-            <FastForwardIcon />
-          </ListItemIcon>
-          <ListItemText className={classes.itemText}>
-            {`Fast-Forward Rate`}
-          </ListItemText>
-
-          <span className={classes.value}>{`${this.state.rate}x`}</span>
-        </ListItem>
-
-        <Menu
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: `top`,
-            horizontal: `right`
-          }}
-          id="settings-ff-rate"
-          onClose={this.handleCloseMenu}
-          open={Boolean(anchorEl)}
-          transformOrigin={{
-            vertical: `top`,
-            horizontal: `right`
-          }}
-        >
-          {Array(this.rateLevels)
-            .fill(`0`)
-            .map((el, index) => (
-              <MenuItem
-                key={String(el + index)}
-                onClick={this.handleChangeRate}
-                value={index + this.firstRate}
-              >
-                {`${index + this.firstRate}x`}
-              </MenuItem>
-            ))}
-        </Menu>
-      </>
-    );
-  }
-}
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: `top`,
+          horizontal: `right`
+        }}
+        id="settings-ff-rate"
+        onClose={handleCloseMenu}
+        open={Boolean(anchorEl)}
+        transformOrigin={{
+          vertical: `top`,
+          horizontal: `right`
+        }}
+      >
+        {Array(rateLevels)
+          .fill(`0`)
+          .map((el, index) => (
+            <MenuItem
+              key={String(el + index)}
+              onClick={handleChangeRate}
+              value={index + firstRate}
+            >
+              {`${index + firstRate}x`}
+            </MenuItem>
+          ))}
+      </Menu>
+    </>
+  );
+};
 
 SettingsFFRate.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
