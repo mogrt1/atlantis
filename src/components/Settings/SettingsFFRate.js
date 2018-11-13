@@ -41,7 +41,7 @@ class SettingsFFRate extends React.Component {
     const { anchorEl } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         <ListItem
           aria-haspopup="true"
           aria-owns={anchorEl ? `settings-ff-rate` : null}
@@ -85,7 +85,7 @@ class SettingsFFRate extends React.Component {
               </MenuItem>
             ))}
         </Menu>
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -205,7 +205,7 @@ class SettingsManageData extends React.Component {
     return (
       <Consumer>
         {({ actions }) => (
-          <React.Fragment>
+          <>
             <ListItem
               button
               className={classes.settingsItem}
@@ -359,7 +359,7 @@ class SettingsManageData extends React.Component {
                 </Button>
               </DialogActions>
             </Dialog>
-          </React.Fragment>
+          </>
         )}
       </Consumer>
     );

@@ -70,7 +70,7 @@ class SettingsKeyBindings extends React.Component {
     const Expand = this.state.open ? ExpandLess : ExpandMore;
 
     return (
-      <React.Fragment>
+      <>
         <ListItem
           button
           className={classes.settingsItem}
@@ -111,7 +111,7 @@ class SettingsKeyBindings extends React.Component {
             ))}
           </List>
         </Collapse>
-      </React.Fragment>
+      </>
     );
   }
 }
