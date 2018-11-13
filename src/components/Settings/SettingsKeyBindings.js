@@ -14,107 +14,94 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import KeyboardIcon from "@material-ui/icons/Keyboard";
 
-class SettingsKeyBindings extends React.Component {
-  constructor(props) {
-    super(props);
+const bindingsDict = {
+  b: `B`,
+  a: `A`,
+  "b-turbo": `B Turbo`,
+  "a-turbo": `A Turbo`,
+  start: `Start`,
+  select: `Select`,
+  up: `Up`,
+  down: `Down`,
+  left: `Left`,
+  right: `Right`,
+  rw: `Rewind`,
+  ff: `Fast-Forward`,
+  "save-state": `Save State`,
+  "load-state": `Load State`,
+  abss: `A+B+Start+Select`,
+  reset: `Reset`
+};
 
-    this.state = {
-      open: false,
-      ...props.keyBindings
-    };
+const SettingsKeyBindings = props => {
+  const { classes } = this.props;
+  const [open, setOpen] = React.useState(false);
+  const [bindings, setBindings] = React.useState({ ...props.keyBindings });
 
-    this.bindings = {
-      b: `B`,
-      a: `A`,
-      "b-turbo": `B Turbo`,
-      "a-turbo": `A Turbo`,
-      start: `Start`,
-      select: `Select`,
-      up: `Up`,
-      down: `Down`,
-      left: `Left`,
-      right: `Right`,
-      rw: `Rewind`,
-      ff: `Fast-Forward`,
-      "save-state": `Save State`,
-      "load-state": `Load State`,
-      abss: `A+B+Start+Select`,
-      reset: `Reset`
-    };
+  const handleBindingsToggle = () => {
+    setOpen(!open);
+  };
 
-    this.handleBindingsToggle = () => {
-      this.setState(prevState => ({ open: !prevState.open }));
-    };
+  const handleAssignKey = e => {
+    e.stopPropagation();
+    e.preventDefault();
 
-    this.handleAssignKey = e => {
-      e.stopPropagation();
-      e.preventDefault();
+    const value = e.key === ` ` ? `Spacebar` : e.key;
 
-      const value = e.key === ` ` ? `Spacebar` : e.key;
+    const updatedBindings = { ...bindings };
+    updatedBindings[e.target.id] = value;
 
-      this.setState(
-        { [e.target.id]: value },
+    setBindings(updatedBindings);
+    props.updateSetting(updatedBindings);
+  };
 
-        () => {
-          const { open, ...bindings } = this.state;
+  const Expand = open ? ExpandLess : ExpandMore;
 
-          props.updateSetting(bindings);
-        }
-      );
-    };
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    const Expand = this.state.open ? ExpandLess : ExpandMore;
-
-    return (
-      <>
-        <ListItem
-          button
-          className={classes.settingsItem}
-          onClick={this.handleBindingsToggle}
-        >
-          <ListItemIcon>
-            <KeyboardIcon />
-          </ListItemIcon>
-          <ListItemText
-            className={classes.itemText}
-            primary="Keyboard Bindings"
-          />
-          <Expand className={classes.expand} />
-        </ListItem>
-        <Collapse
-          className={classes.collapsibleList}
-          in={this.state.open}
-          timeout="auto"
-          unmountOnExit
-        >
-          <List component="div" disablePadding>
-            {Object.entries(this.bindings).map(([id, label]) => (
-              <ListItem key={id} className={classes.nested} dense>
-                <TextField
-                  className={classes.input}
-                  id={`settings-kb-${id}`}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">{`key:`}</InputAdornment>
-                    )
-                  }}
-                  label={label}
-                  margin="normal"
-                  onKeyDown={this.handleAssignKey}
-                  value={this.state[`settings-kb-${id}`]}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Collapse>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <ListItem
+        button
+        className={classes.settingsItem}
+        onClick={handleBindingsToggle}
+      >
+        <ListItemIcon>
+          <KeyboardIcon />
+        </ListItemIcon>
+        <ListItemText
+          className={classes.itemText}
+          primary="Keyboard Bindings"
+        />
+        <Expand className={classes.expand} />
+      </ListItem>
+      <Collapse
+        className={classes.collapsibleList}
+        in={open}
+        timeout="auto"
+        unmountOnExit
+      >
+        <List component="div" disablePadding>
+          {Object.entries(bindingsDict).map(([id, label]) => (
+            <ListItem key={id} className={classes.nested} dense>
+              <TextField
+                className={classes.input}
+                id={`settings-kb-${id}`}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">{`key:`}</InputAdornment>
+                  )
+                }}
+                label={label}
+                margin="normal"
+                onKeyDown={handleAssignKey}
+                value={bindings[`settings-kb-${id}`]}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Collapse>
+    </>
+  );
+};
 
 SettingsKeyBindings.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
