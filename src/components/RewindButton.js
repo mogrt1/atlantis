@@ -11,84 +11,85 @@ import {
   run
 } from "../cores/GameBoy-Online/index";
 
-export default class RewindButton extends React.Component {
-  constructor(props) {
-    super(props);
+const BACKUPS = 1024;
+const BACKUP_INTERVAL = 128;
+const REWIND_INTERVAL = 16;
 
-    this.state = {};
+const useRecording = ({ rewindQueue }) => {
+  let recordTimeout = null;
 
-    const BACKUPS = 1024;
-    this.BACKUP_INTERVAL = 128;
-    const REWIND_INTERVAL = 16;
+  const record = () => {
+    if (!gameBoyEmulatorPlaying()) {
+      recordTimeout = setTimeout(record, BACKUP_INTERVAL);
+      return;
+    }
 
-    this.recordTimeout = null;
+    rewindQueue.push(autoSave().state);
 
-    this.record = () => {
+    while (rewindQueue.length > BACKUPS) {
+      rewindQueue.shift();
+    }
+
+    recordTimeout = setTimeout(record, BACKUP_INTERVAL);
+  };
+
+  React.useEffect(() => {
+    recordTimeout = setTimeout(record, BACKUP_INTERVAL);
+
+    return () => {
+      clearTimeout(recordTimeout);
+    };
+  }, []);
+};
+
+const useRewindEvents = ({ rewindQueue, showMessage }) => {
+  let rewindTimeout = null;
+
+  const rewind = () => {
+    if (rewindQueue.length) {
+      gameboy.returnFromState(rewindQueue.pop(), `rewinding`);
+      gameboy.run(`force`);
+      gameboy.stopEmulator = 3;
+
+      rewindTimeout = setTimeout(rewind, REWIND_INTERVAL);
+    } else {
+      clearTimeout(rewindTimeout);
+      run();
+      showMessage(`No more rewind history.`);
+    }
+  };
+
+  const events = {
+    down: () => {
+      pause();
+      rewindTimeout = setTimeout(rewind, REWIND_INTERVAL);
+    },
+    up: () => {
+      clearTimeout(rewindTimeout);
+
       if (!gameBoyEmulatorPlaying()) {
-        this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
-        return;
-      }
-
-      this.props.rewindQueue.push(autoSave().state);
-
-      while (this.props.rewindQueue.length > BACKUPS) {
-        this.props.rewindQueue.shift();
-      }
-
-      this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
-    };
-
-    let rewindTimeout = null;
-
-    this.rewind = () => {
-      if (this.props.rewindQueue.length) {
-        gameboy.returnFromState(this.props.rewindQueue.pop(), `rewinding`);
-        gameboy.run(`force`);
-        gameboy.stopEmulator = 3;
-
-        rewindTimeout = setTimeout(this.rewind, REWIND_INTERVAL);
-      } else {
-        clearTimeout(rewindTimeout);
         run();
-        this.props.showMessage(`No more rewind history.`);
       }
-    };
+    }
+  };
 
-    this.events = {
-      down: () => {
-        pause();
-        rewindTimeout = setTimeout(this.rewind, REWIND_INTERVAL);
-      },
-      up: () => {
-        clearTimeout(rewindTimeout);
+  return events;
+};
 
-        if (!gameBoyEmulatorPlaying()) {
-          run();
-        }
-      }
-    };
-  }
+const RewindButton = props => {
+  useRecording(props);
+  const events = useRewindEvents(props);
 
-  componentDidMount() {
-    this.recordTimeout = setTimeout(this.record, this.BACKUP_INTERVAL);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.recordTimeout);
-  }
-
-  render() {
-    return (
-      <Button
-        className={this.props.className}
-        keyCommands={{ [this.props.kb]: this.events }}
-        pointerCommands={this.events}
-      >
-        {this.props.children}
-      </Button>
-    );
-  }
-}
+  return (
+    <Button
+      className={props.className}
+      keyCommands={{ [props.kb]: events }}
+      pointerCommands={events}
+    >
+      {props.children}
+    </Button>
+  );
+};
 
 RewindButton.propTypes = {
   kb: PropTypes.string.isRequired,
@@ -102,3 +103,5 @@ RewindButton.defaultProps = {
   className: ``,
   children: null
 };
+
+export default RewindButton;
