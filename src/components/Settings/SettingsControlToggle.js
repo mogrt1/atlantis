@@ -10,55 +10,42 @@ import {
   Switch
 } from "@material-ui/core";
 
-import { Consumer } from "../Context/Context";
+import { appContext } from "../Context/Context";
 
-class SettingsControlToggle extends React.Component {
-  constructor(props) {
-    super(props);
+const SettingsControlToggle = props => {
+  const { state, actions } = React.useContext(appContext);
+  const { classes, label, icon, setting } = props;
 
-    this.handleToggle = (updateSetting, value, actions) => () => {
-      updateSetting(!value);
+  const handleToggle = (updateSetting, value, actions) => () => {
+    updateSetting(!value);
 
-      if (props.onChange) {
-        props.onChange(!value, actions);
-      }
-    };
-  }
+    if (props.onChange) {
+      props.onChange(!value, actions);
+    }
+  };
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  render() {
-    const { classes, label, icon, setting } = this.props;
-
-    return (
-      <Consumer>
-        {({ state, actions }) => (
-          <ListItem
-            button
-            className={classes.settingsItem}
-            onClick={this.handleToggle(
-              actions.updateSetting(setting),
-              state.settings[setting],
-              actions
-            )}
-          >
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText className={classes.itemText}>{label}</ListItemText>
-            <Switch
-              checked={state.settings[setting]}
-              classes={{
-                root: classes.toggleSwitch,
-                checked: classes.toggleSwitchChecked
-              }}
-            />
-          </ListItem>
-        )}
-      </Consumer>
-    );
-  }
-}
+  return (
+    <ListItem
+      button
+      className={classes.settingsItem}
+      onClick={handleToggle(
+        actions.updateSetting(setting),
+        state.settings[setting],
+        actions
+      )}
+    >
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText className={classes.itemText}>{label}</ListItemText>
+      <Switch
+        checked={state.settings[setting]}
+        classes={{
+          root: classes.toggleSwitch,
+          checked: classes.toggleSwitchChecked
+        }}
+      />
+    </ListItem>
+  );
+};
 
 SettingsControlToggle.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -70,4 +57,7 @@ SettingsControlToggle.propTypes = {
 
 SettingsControlToggle.defaultProps = { onChange: null };
 
-export default styleSettingsToggle(SettingsControlToggle);
+export default React.memo(
+  styleSettingsToggle(SettingsControlToggle),
+  () => true
+);
