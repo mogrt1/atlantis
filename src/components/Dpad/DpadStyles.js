@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import { landscape, largeDisplay } from "../../theme";
 
@@ -12,7 +12,7 @@ const axis = {
   pointerEvents: `none`
 };
 
-export const styleDpad = withStyles({
+export const useDpadStyles = makeStyles({
   dpad: {
     position: `absolute`,
     bottom: `6.3vh`,

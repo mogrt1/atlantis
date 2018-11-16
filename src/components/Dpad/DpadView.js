@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { shouldUpdate } from "recompose";
 
-import { styleDpad } from "./DpadStyles";
+import { useDpadStyles } from "./DpadStyles";
 
 const DpadView = props => {
-  const { classes } = props;
+  const classes = useDpadStyles();
 
   return (
     <div
@@ -31,4 +30,4 @@ DpadView.defaultProps = {
   className: ``
 };
 
-export default shouldUpdate(() => false)(styleDpad(DpadView));
+export default React.memo(DpadView, () => true);

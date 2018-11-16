@@ -5,7 +5,7 @@ import { get, set, del, keys } from "idb-keyval";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../../theme";
-import { styleApp } from "./AppStyles";
+import { useAppStyles } from "./AppStyles";
 
 import Context, { appContext } from "../Context/Context";
 import FirstUse from "../FirstUse/FirstUse";
@@ -80,6 +80,7 @@ const useCustomTouchBehavior = () => {
 
 const App = () => {
   useCustomTouchBehavior();
+  useAppStyles();
 
   const { state, actions } = React.useContext(appContext);
 
@@ -108,4 +109,4 @@ const App = () => {
   );
 };
 
-export default React.memo(styleApp(App), () => true);
+export default React.memo(App, () => true);
