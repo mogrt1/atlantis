@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import { gamepadButton, landscape, largeDisplay, stubby } from "../../theme";
 
@@ -46,7 +46,7 @@ const rounded = { borderRadius: `25%` },
     [largeDisplay]: { [stubby]: { bottom: `35vh` } }
   };
 
-export const styleGamepad = withStyles({
+export const useGamepadStyles = makeStyles({
   gamepad: {
     position: `fixed`,
     top: `calc(48px + 90vw + env(safe-area-inset-top))`,

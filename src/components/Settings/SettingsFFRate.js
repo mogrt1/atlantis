@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { styleSettingsFFRate } from "./SettingsStyles";
+import { useSettingsFFRateStyles } from "./SettingsStyles";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -14,9 +14,9 @@ const rateLevels = 9;
 const firstRate = 2;
 
 const SettingsFFRate = props => {
-  const { classes } = props;
   const [rate, setRate] = React.useState(props.rate || firstRate);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const classes = useSettingsFFRateStyles();
 
   const handleChangeRate = e => {
     setRate(e.target.value);
@@ -83,11 +83,10 @@ const SettingsFFRate = props => {
 };
 
 SettingsFFRate.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   updateSetting: PropTypes.func.isRequired,
   rate: PropTypes.number
 };
 
 SettingsFFRate.defaultProps = { rate: null };
 
-export default styleSettingsFFRate(SettingsFFRate);
+export default SettingsFFRate;

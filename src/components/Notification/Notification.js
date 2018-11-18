@@ -4,11 +4,10 @@ import PropTypes from "prop-types";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 
-import { styleNotification } from "./NotificationStyles";
+import { useNotificationStyles } from "./NotificationStyles";
 
 const Notification = props => {
   const {
-    classes,
     open,
     autoHide,
     children,
@@ -17,6 +16,8 @@ const Notification = props => {
     secondaryLabel,
     onClose: handleClose
   } = props;
+
+  const classes = useNotificationStyles();
 
   return (
     <Snackbar
@@ -50,7 +51,6 @@ const Notification = props => {
 };
 
 Notification.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   open: PropTypes.bool,
   autoHide: PropTypes.number,
   children: PropTypes.node.isRequired,
@@ -69,4 +69,4 @@ Notification.defaultProps = {
   onClose: null
 };
 
-export default styleNotification(Notification);
+export default Notification;

@@ -1,8 +1,8 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import { gamepadButton, landscape } from "../../theme";
 
-export const stylePrimaryButtons = withStyles({
+export const usePrimaryButtonStyles = makeStyles({
   buttons: {
     position: `absolute`,
     right: `max(5vmin, env(safe-area-inset-right))`,

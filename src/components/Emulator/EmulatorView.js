@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { shouldUpdate } from "recompose";
 
-import { styleEmulator } from "./EmulatorStyles";
+import { useEmulatorStyles } from "./EmulatorStyles";
 
 const EmulatorView = props => {
-  const { classes } = props;
+  const classes = useEmulatorStyles();
 
   return (
     <canvas
@@ -20,8 +19,7 @@ const EmulatorView = props => {
 };
 
 EmulatorView.propTypes = {
-  canvasRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
+  canvasRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired
 };
 
-export default shouldUpdate(() => false)(styleEmulator(EmulatorView));
+export default React.memo(EmulatorView, () => true);

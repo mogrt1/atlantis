@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-import { styleAddGame } from "./LibraryStyles";
+import { useAddGameStyles } from "./LibraryStyles";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -16,7 +15,7 @@ const handleUpload = action => e => {
 
 const AddGame = props => {
   const { actions } = React.useContext(appContext);
-  const { classes } = props;
+  const classes = useAddGameStyles();
 
   return (
     <ListItem button>
@@ -39,8 +38,4 @@ const AddGame = props => {
   );
 };
 
-AddGame.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-export default React.memo(styleAddGame(AddGame), () => true);
+export default React.memo(AddGame, () => true);

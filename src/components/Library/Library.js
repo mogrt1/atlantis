@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { get } from "idb-keyval";
 
-import { styleLibrary } from "./LibraryStyles";
+import { useLibraryStyles } from "./LibraryStyles";
 
 import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
 import { VideoLibrary as LibraryIcon } from "@material-ui/icons";
@@ -16,7 +16,7 @@ import { appContext } from "../Context/Context";
 
 const Library = props => {
   const { state, actions } = React.useContext(appContext);
-  const { classes } = props;
+  const classes = useLibraryStyles();
 
   React.useEffect(() => {
     get(`games`).then(games => {
@@ -65,8 +65,7 @@ const Library = props => {
 };
 
 Library.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   addToLibrary: PropTypes.func.isRequired
 };
 
-export default styleLibrary(Library);
+export default Library;

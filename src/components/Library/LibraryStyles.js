@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import theme from "../../theme";
 
@@ -10,7 +10,7 @@ const nominalWidth = 320;
 export const libraryWidth = Math.min(nominalWidth, maxWidth);
 export const libraryCols = 2;
 
-export const styleLibrary = withStyles({
+export const useLibraryStyles = makeStyles({
   open: {
     position: `absolute`,
     top: 0,
@@ -27,14 +27,14 @@ export const styleLibrary = withStyles({
   }
 });
 
-export const styleGameList = withStyles({
+export const useGameListStyles = makeStyles({
   libraryList: {
     paddingRight: `env(safe-area-inset-right)`,
     width: libraryWidth
   }
 });
 
-export const styleAddGame = withStyles({
+export const useAddGameStyles = makeStyles({
   addGameLabel: {
     position: `absolute`,
     top: 0,
@@ -57,7 +57,7 @@ const tileDim = {
   }
 };
 
-export const styleGame = withStyles({
+export const useGameStyles = makeStyles({
   game: { ...tileDim },
   gameImage: { ...tileDim },
   gameImageError: {
@@ -79,6 +79,6 @@ export const styleGame = withStyles({
   }
 });
 
-export const styleHomebrew = withStyles({
+export const useHomebrewStyles = makeStyles({
   heading: { background: theme.palette.background.paper }
 });

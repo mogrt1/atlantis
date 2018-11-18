@@ -1,15 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { styleGame } from "./LibraryStyles";
+import { useGameStyles } from "./LibraryStyles";
 
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ButtonBase from "@material-ui/core/ButtonBase";
 
 const Game = props => {
-  const { classes, thumb, title } = props;
+  const { thumb, title } = props;
   const [imageError, setImageError] = React.useState(false);
+  const classes = useGameStyles();
 
   const handleImageError = () => {
     setImageError(true);
@@ -67,10 +68,9 @@ Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  rom: PropTypes.string,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
+  rom: PropTypes.string
 };
 
 Game.defaultProps = { rom: `` };
 
-export default styleGame(Game);
+export default Game;

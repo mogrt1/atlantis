@@ -1,11 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import RewindIcon from "@material-ui/icons/FastRewind";
 import FastForwardIcon from "@material-ui/icons/FastForward";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import { styleGamepad } from "./GamepadStyles";
+import { useGamepadStyles } from "./GamepadStyles";
 
 import Dpad from "../Dpad/Dpad";
 import GamepadButton from "../GamepadButton";
@@ -19,7 +18,7 @@ import PrimaryButtons from "../PrimaryButtons/PrimaryButtons";
 
 const GamepadView = props => {
   const { state, actions } = React.useContext(appContext);
-  const { classes } = props;
+  const classes = useGamepadStyles();
 
   const { ffToggle, ffRate, keyBindings } = state.settings;
 
@@ -92,8 +91,4 @@ const GamepadView = props => {
   );
 };
 
-GamepadView.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-export default React.memo(styleGamepad(GamepadView), () => true);
+export default React.memo(GamepadView, () => true);

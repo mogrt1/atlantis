@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-import { styleHomebrew } from "./LibraryStyles";
+import { useHomebrewStyles } from "./LibraryStyles";
 
 import { List, ListSubheader } from "@material-ui/core";
 
@@ -22,8 +21,8 @@ import postbotThumb from "./homebrew/postbot/postbot.png";
 
 const Homebrew = props => {
   const { actions } = React.useContext(appContext);
-  const { classes } = props;
   const [homebrew, setHomebrew] = React.useState(``);
+  const classes = useHomebrewStyles();
 
   const load = uri => () => {
     setHomebrew(uri);
@@ -68,8 +67,4 @@ const Homebrew = props => {
   );
 };
 
-Homebrew.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-export default styleHomebrew(Homebrew);
+export default Homebrew;

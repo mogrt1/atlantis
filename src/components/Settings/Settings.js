@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-import { styleSettings } from "./SettingsStyles";
+import { useSettingsStyles } from "./SettingsStyles";
 
 import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/SettingsRounded";
@@ -20,7 +19,7 @@ import { appContext } from "../Context/Context";
 
 const Settings = props => {
   const { state, actions } = React.useContext(appContext);
-  const { classes } = props;
+  const classes = useSettingsStyles();
 
   return (
     <>
@@ -78,8 +77,4 @@ const Settings = props => {
   );
 };
 
-Settings.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-export default React.memo(styleSettings(Settings), () => true);
+export default React.memo(Settings, () => true);

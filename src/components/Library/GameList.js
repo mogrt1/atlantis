@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { appContext } from "../Context/Context";
 
-import { styleGameList, libraryWidth, libraryCols } from "./LibraryStyles";
+import { useGameListStyles, libraryWidth, libraryCols } from "./LibraryStyles";
 
 import GridList from "@material-ui/core/GridList";
 
@@ -11,7 +11,7 @@ import Game from "./Game";
 
 const GameList = props => {
   const { state, actions } = React.useContext(appContext);
-  const { classes } = props;
+  const classes = useGameListStyles();
 
   return (
     <GridList
@@ -35,10 +35,9 @@ const GameList = props => {
 };
 
 GameList.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   children: PropTypes.node
 };
 
 GameList.defaultProps = { children: null };
 
-export default React.memo(styleGameList(GameList), () => true);
+export default React.memo(GameList, () => true);

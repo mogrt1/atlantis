@@ -21,8 +21,7 @@ const DpadView = props => {
 DpadView.propTypes = {
   dpadRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
   pointerHandlers: PropTypes.objectOf(PropTypes.func),
-  className: PropTypes.string,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
+  className: PropTypes.string
 };
 
 DpadView.defaultProps = {

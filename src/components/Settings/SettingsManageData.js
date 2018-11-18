@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { set, get, keys } from "idb-keyval";
 
-import { styleSettingsManageData } from "./SettingsStyles";
+import { useSettingsManageDataStyles } from "./SettingsStyles";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -194,13 +194,12 @@ class SettingsManageData extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-
     const isOpen = this.state.open && Boolean(this.props.library.length);
 
     const Expand = isOpen ? ExpandLess : ExpandMore;
 
     const { currentlyDeleting } = this.state;
+    const classes = useSettingsManageDataStyles();
 
     return (
       <Consumer>
@@ -367,7 +366,6 @@ class SettingsManageData extends React.Component {
 }
 
 SettingsManageData.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   library: PropTypes.arrayOf(PropTypes.object),
   deleteGame: PropTypes.func.isRequired,
   deleteSRAM: PropTypes.func.isRequired,
@@ -376,4 +374,4 @@ SettingsManageData.propTypes = {
 
 SettingsManageData.defaultProps = { library: [] };
 
-export default styleSettingsManageData(SettingsManageData);
+export default SettingsManageData;

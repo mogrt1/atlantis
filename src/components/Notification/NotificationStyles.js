@@ -1,8 +1,8 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import theme from "../../theme";
 
-export const styleNotification = withStyles({
+export const useNotificationStyles = makeStyles({
   snackbar: {
     right: `auto`,
     left: `50%`,

@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-import { styleFirstUse } from "./FirstUseStyles";
+import { useFirstUseStyles } from "./FirstUseStyles";
 
 import {
   Dialog,
@@ -24,7 +23,7 @@ const handleDone = action => e => {
 
 const FirstUse = props => {
   const { state, actions } = React.useContext(appContext);
-  const { classes } = props;
+  const classes = useFirstUseStyles();
 
   return (
     <Dialog
@@ -77,8 +76,4 @@ const FirstUse = props => {
   );
 };
 
-FirstUse.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired
-};
-
-export default React.memo(styleFirstUse(FirstUse), () => true);
+export default React.memo(FirstUse, () => true);

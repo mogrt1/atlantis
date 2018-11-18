@@ -1,8 +1,8 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import theme from "../../theme";
 
-export const styleInternalClock = withStyles({
+export const useInternalClockStyles = makeStyles({
   paper: {
     flexDirection: `row`,
     justifyContent: `space-around`,

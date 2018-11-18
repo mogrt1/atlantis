@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { stylePrimaryButtons } from "./PrimaryButtonsStyles";
+import { usePrimaryButtonStyles } from "./PrimaryButtonsStyles";
 
 import PointerCommands from "../PointerCommands";
 import GamepadButton from "../GamepadButton";
@@ -163,7 +163,7 @@ class PrimaryButtons extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const classes = usePrimaryButtonStyles();
 
     return (
       <Consumer>
@@ -200,7 +200,6 @@ class PrimaryButtons extends React.Component {
 }
 
 PrimaryButtons.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   kbB: PropTypes.string.isRequired,
   kbA: PropTypes.string.isRequired,
   turboKbB: PropTypes.string.isRequired,
@@ -208,4 +207,4 @@ PrimaryButtons.propTypes = {
   haptics: PropTypes.bool.isRequired
 };
 
-export default stylePrimaryButtons(PrimaryButtons);
+export default PrimaryButtons;

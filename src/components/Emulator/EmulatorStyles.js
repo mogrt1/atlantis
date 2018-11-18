@@ -1,8 +1,8 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import { landscape } from "../../theme";
 
-export const styleEmulator = withStyles({
+export const useEmulatorStyles = makeStyles({
   canvas: {
     position: `absolute`,
     top: `48px`,

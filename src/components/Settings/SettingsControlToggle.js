@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { styleSettingsToggle } from "./SettingsStyles";
+import { useSettingsToggleStyles } from "./SettingsStyles";
 
 import {
   ListItem,
@@ -14,7 +14,8 @@ import { appContext } from "../Context/Context";
 
 const SettingsControlToggle = props => {
   const { state, actions } = React.useContext(appContext);
-  const { classes, label, icon, setting } = props;
+  const { label, icon, setting } = props;
+  const classes = useSettingsToggleStyles();
 
   const handleToggle = (updateSetting, value, actions) => () => {
     updateSetting(!value);
@@ -48,7 +49,6 @@ const SettingsControlToggle = props => {
 };
 
 SettingsControlToggle.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   setting: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
@@ -57,7 +57,4 @@ SettingsControlToggle.propTypes = {
 
 SettingsControlToggle.defaultProps = { onChange: null };
 
-export default React.memo(
-  styleSettingsToggle(SettingsControlToggle),
-  () => true
-);
+export default React.memo(SettingsControlToggle, () => true);

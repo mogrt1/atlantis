@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { styleSettingsKeyBindings } from "./SettingsStyles";
+import { useSettingsKeyBindingsStyles } from "./SettingsStyles";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -34,9 +34,9 @@ const bindingsDict = {
 };
 
 const SettingsKeyBindings = props => {
-  const { classes } = this.props;
   const [open, setOpen] = React.useState(false);
   const [bindings, setBindings] = React.useState({ ...props.keyBindings });
+  const classes = useSettingsKeyBindingsStyles();
 
   const handleBindingsToggle = () => {
     setOpen(!open);
@@ -104,11 +104,10 @@ const SettingsKeyBindings = props => {
 };
 
 SettingsKeyBindings.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   keyBindings: PropTypes.objectOf(PropTypes.string),
   updateSetting: PropTypes.func.isRequired
 };
 
 SettingsKeyBindings.defaultProps = { keyBindings: {} };
 
-export default styleSettingsKeyBindings(SettingsKeyBindings);
+export default SettingsKeyBindings;

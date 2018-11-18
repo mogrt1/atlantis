@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { styleInternalClock } from "./InternalClockStyles";
+import { useInternalClockStyles } from "./InternalClockStyles";
 
 import {
   Drawer,
@@ -60,7 +60,8 @@ const InternalClock = props => {
     return null;
   }
 
-  const { classes, handleDone } = props;
+  const { handleDone } = props;
+  const classes = useInternalClockStyles();
 
   return (
     <Drawer
@@ -101,11 +102,10 @@ const InternalClock = props => {
 };
 
 InternalClock.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   open: PropTypes.bool,
   handleDone: PropTypes.func.isRequired
 };
 
 InternalClock.defaultProps = { open: false };
 
-export default styleInternalClock(InternalClock);
+export default InternalClock;

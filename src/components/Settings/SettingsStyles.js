@@ -1,4 +1,4 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import theme from "../../theme";
 
@@ -10,7 +10,7 @@ const settingsWidth = Math.min(nominalWidth, maxWidth);
 const INDENT = 4,
   DEEP_INDENT = 6;
 
-export const styleSettings = withStyles({
+export const useSettingsStyles = makeStyles({
   open: {
     position: `absolute`,
     top: 0,
@@ -32,13 +32,13 @@ const settingsItem = {
   height: 72
 };
 
-export const styleSettingsFFRate = withStyles({
+export const useSettingsFFRateStyles = makeStyles({
   settingsItem,
   itemText: { paddingLeft: 0 },
   value: { color: theme.palette.getContrastText(theme.palette.primary[`800`]) }
 });
 
-export const styleSettingsToggle = withStyles({
+export const useSettingsToggleStyles = makeStyles({
   settingsItem,
   itemText: { paddingLeft: 0 },
   toggleSwitch: { right: `-12px` },
@@ -60,7 +60,7 @@ const collapsibleList = {
   }
 };
 
-export const styleSettingsKeyBindings = withStyles({
+export const useSettingsKeyBindingsStyles = makeStyles({
   settingsItem,
   ...collapsibleList,
   input: { width: `100%` },
@@ -74,7 +74,7 @@ export const styleSettingsKeyBindings = withStyles({
   }
 });
 
-export const styleSettingsManageData = withStyles({
+export const useSettingsManageDataStyles = makeStyles({
   settingsItem,
   ...collapsibleList,
   itemRoot: { padding: 0 },

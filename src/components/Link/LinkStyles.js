@@ -1,8 +1,8 @@
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 import theme from "../../theme";
 
-export const styleLink = withStyles({
+export const useLinkStyles = makeStyles({
   link: { height: 48 },
   textRoot: { paddingLeft: 0 },
   error: {
