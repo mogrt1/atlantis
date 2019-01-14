@@ -27,6 +27,8 @@ import {
   persistValues
 } from "../../cores/GameBoy-Online/index";
 
+import useActions from "./actions";
+
 const appContext = React.createContext();
 const { Provider, Consumer } = appContext;
 
@@ -54,456 +56,404 @@ const getThumbUri = async title => {
 
 const thumbIsUri = thumb => thumb !== false && thumb !== `reattempt`;
 
-export const defaultSettings = {
-  firstUse: true,
-  mute: false,
-  haptics: `vibrate` in window.navigator,
-  ffRate: 3,
-  ffToggle: true,
-  enableRewind: true,
-  showOverlay: true,
-  keyBindings: {
-    "settings-kb-b": `z`,
-    "settings-kb-a": `x`,
-    "settings-kb-b-turbo": `a`,
-    "settings-kb-a-turbo": `s`,
-    "settings-kb-start": `Enter`,
-    "settings-kb-select": `Shift`,
-    "settings-kb-up": `ArrowUp`,
-    "settings-kb-down": `ArrowDown`,
-    "settings-kb-left": `ArrowLeft`,
-    "settings-kb-right": `ArrowRight`,
-    "settings-kb-rw": `Backspace`,
-    "settings-kb-ff": `\``,
-    "settings-kb-save-state": `1`,
-    "settings-kb-load-state": `3`,
-    "settings-kb-abss": `0`,
-    "settings-kb-reset": `r`
-  }
-};
-
 const SOUND = 0;
 
-export default class Context extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hydrated: false,
-      canvas: null,
-      settingsOpen: false,
-      libraryOpen: false,
-      library: [],
-      currentROM: null,
-      settings: JSON.parse(JSON.stringify(defaultSettings)),
-      turbo: false,
-      message: ``,
-      rewindQueue: [],
-      audioNeedsConfirmation: false
-    };
-
-    this.actions = {
-      firstUseComplete: () => {
-        this.actions.updateSetting(`firstUse`)(false);
-        this.setState({ libraryOpen: true });
-      },
-
-      setCanvas: canvas => {
-        this.setState({ canvas });
-      },
-
-      getBinaryString: arrayBuffer =>
-        new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onload = function() {
-            resolve(reader.result);
-          };
-          reader.readAsBinaryString(new Blob([arrayBuffer]));
-        }),
-
-      unzip: arrayBuffer => async () => {
-        const zip = new JSZip();
-
-        try {
-          const result = await zip.loadAsync(arrayBuffer);
-          const [filename] = Object.keys(result.files);
-
-          return await zip.file(filename).async(`arraybuffer`);
-        } catch (error) {
-          console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
-        }
-
-        return arrayBuffer;
-      },
-
-      setCurrentROM: async arrayBuffer => {
-        const unzippedROM = arrayBuffer;
-
-        const currentROM = await this.actions.unzip(unzippedROM);
-
-        const stringROM = await this.actions.getBinaryString(currentROM);
-
-        this.setState(
-          {
-            currentROM,
-            libraryOpen: false,
-            rewindQueue: []
-          },
-
-          () => {
-            settings[SOUND] = !this.state.settings.mute;
-            start(
-              this.state.canvas.current,
-              new Uint8Array(this.state.currentROM),
-              stringROM
-            );
-
-            this.actions.enableAudio();
-
-            const library = [...this.state.library];
-
-            for (const game of library) {
-              if (buffersEqual(game.rom, unzippedROM)) {
-                if (!(`name` in game)) {
-                  game.name = gameboy.name;
-
-                  set(`games`, library);
-
-                  this.setState({ library });
-                }
-
-                break;
-              }
-            }
-
-            // Load autosave.
-            openState(`auto`, this.state.canvas.current, stringROM);
-
-            set(`currentROM`, this.state.currentROM);
-          }
-        );
-      },
-
-      enableAudio: () => {
-        if (
-          !this.state.mute &&
-          audioContext &&
-          audioContext.state === `suspended`
-        ) {
-          audioContext.resume();
-
-          const CHECK_AUDIO_WAIT = 1000;
-
-          setTimeout(() => {
-            if (audioContext.state === `suspended`) {
-              this.setState({ audioNeedsConfirmation: true });
-            } else {
-              this.setState({ audioNeedsConfirmation: false });
-            }
-          }, CHECK_AUDIO_WAIT);
-        } else {
-          this.setState({ audioNeedsConfirmation: false });
-        }
-      },
-
-      toggleDrawer: drawerName => () => {
-        this.setState(
-          prevState => ({
-            [`${drawerName}Open`]: !prevState[`${drawerName}Open`]
-          }),
-
-          () => {
-            if (!gameBoyEmulatorInitialized()) {
-              return;
-            }
-
-            if (this.state[`${drawerName}Open`]) {
-              pause();
-            } else {
-              run();
-            }
-          }
-        );
-      },
-
-      addToLibrary: (ROM, callback) => {
-        if (!ROM.length) {
-          return;
-        }
-
-        const roms = Array.isArray(ROM) ? ROM : [ROM];
-
-        for (const rom of roms) {
-          const { md5 } = rom;
-
-          for (const { md5: libMd5 } of this.state.library) {
-            if (md5 === libMd5) {
-              return;
-            }
-          }
-        }
-
-        this.setState(
-          prevState => ({
-            library: [...prevState.library, ...roms]
-          }),
-          callback
-        );
-      },
-
-      uploadGame: e => {
-        const getROM = file =>
-          new Promise((resolve, reject) => {
-            const reader = new FileReader();
-
-            const buffer = new Spark.ArrayBuffer();
-
-            reader.onload = () => {
-              this.actions.unzip(reader.result).then(rom => {
-                buffer.append(rom);
-
-                if (buffer._length && rom.byteLength) {
-                  const md5 = buffer.end().toUpperCase();
-
-                  for (const { md5: libMd5 } of this.state.library) {
-                    if (md5 === libMd5) {
-                      return;
-                    }
-                  }
-
-                  const romData = {
-                    title: games[md5] || file.name.replace(/\.zip/gu, ``),
-                    md5,
-                    rom: reader.result
-                  };
-
-                  getThumbUri(romData.title).then(uri => {
-                    romData.thumb = uri;
-
-                    resolve(romData);
-                  });
-                }
-              });
-            };
-
-            reader.onerror = err => {
-              reject(err);
-            };
-
-            reader.readAsArrayBuffer(file);
-          });
-
-        const roms = [];
-
-        for (const file of e.target.files) {
-          roms.push(getROM(file));
-        }
-
-        Promise.all(roms).then(results => {
-          this.actions.addToLibrary(results, () => {
-            set(`games`, this.state.library);
-          });
-        });
-      },
-
-      deleteGame: rom => {
-        let deletedGame = null;
-
-        let { currentROM } = this.state;
-
-        if (buffersEqual(currentROM, rom)) {
-          currentROM = null;
-          stop();
-        }
-
-        this.setState(
-          prevState => ({
-            library: prevState.library.filter(game => {
-              if (buffersEqual(game.rom, rom)) {
-                deletedGame = game;
-                return false;
-              }
-
-              return true;
-            }),
-            currentROM
-          }),
-
-          () => {
-            if (this.state.library.length) {
-              set(`games`, this.state.library);
-            } else {
-              del(`games`);
-            }
-
-            if (!this.state.currentROM) {
-              del(`currentROM`);
-            }
-          }
-        );
-
-        this.actions.deleteSRAM(deletedGame.name);
-        this.actions.deleteSaveState(deletedGame.name, `main`);
-        this.actions.deleteSaveState(deletedGame.name, `auto`);
-      },
-
-      deleteSRAM: async name => {
-        const dataKeys = await keys();
-
-        for (const key of dataKeys) {
-          if (key === `SRAM_${name}`) {
-            del(key);
-            delete persistValues[key];
-          }
-        }
-      },
-
-      deleteSaveState: async (name, slot) => {
-        const dataKeys = await keys();
-
-        for (const key of dataKeys) {
-          if (key === `FREEZE_${name}_${slot}`) {
-            del(key);
-            delete persistValues[key];
-          }
-        }
-      },
-
-      updateSetting: key => value => {
-        this.setState(
-          prevState => ({
-            settings: {
-              ...prevState.settings,
-              [key]: value
-            }
-          }),
-
-          () => {
-            set(`settings`, this.state.settings);
-          }
-        );
-      },
-
-      retryThumbs: (library, force) => {
-        // If we aren't forcing an update and don't need to do one, then don't.
-        if (!force && !library.some(game => game.thumb === `reattempt`)) {
-          return false;
-        }
-
-        // Create retries from given library.
-        const retries = library.map(
-          game =>
-            new Promise(resolve => {
-              // If we're forcing an update or game is marked for it.
-              if (force || game.thumb === `reattempt`) {
-                getThumbUri(game.title).then(thumb => {
-                  // If game's thumb is valid, but the network's isn't, don't update.
-                  if (thumbIsUri(game.thumb) && !thumbIsUri(thumb)) {
-                    resolve(game);
-                    return;
-                  }
-
-                  // If the game's thumb isn't valid or the network has a valid
-                  // replacement, update the thumb.
-                  if (
-                    !thumbIsUri(game.thumb) ||
-                    (thumbIsUri(game.thumb) && thumbIsUri(thumb))
-                  ) {
-                    game.thumb = thumb;
-                  }
-
-                  resolve(game);
-                });
-              } else {
-                resolve(game);
-              }
-            })
-        );
-
-        // Fetch all applicable thumbs, then replace library in context and IDB.
-        Promise.all(retries).then(updatedLibrary => {
-          this.setState(
-            { library: updatedLibrary },
-
-            () => {
-              set(`games`, this.state.library);
-            }
-          );
-        });
-      },
-
-      toggleTurbo: () => {
-        this.setState(prevState => ({ turbo: !prevState.turbo }));
-      },
-
-      saveState: () => {
-        saveState(`main`);
-        this.actions.showMessage(`Saved state.`);
-      },
-
-      loadState: async () => {
-        const stringROM = await this.actions.getBinaryString(
-          this.state.currentROM
-        );
-        openState(`main`, this.state.canvas.current, stringROM);
-        this.actions.showMessage(`Loaded state.`);
-      },
-
-      abss: () => {
-        const buttonCodes = {
-          START: 7,
-          SELECT: 6,
-          A: 4,
-          B: 5
+const Context = ({ children, restoreCoreData }) => {
+  const [state, actions] = useActions();
+
+  this.actions = {
+    firstUseComplete: () => {
+      this.actions.updateSetting(`firstUse`)(false);
+      this.setState({ libraryOpen: true });
+    },
+
+    setCanvas: canvas => {
+      this.setState({ canvas });
+    },
+
+    getBinaryString: arrayBuffer =>
+      new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = function() {
+          resolve(reader.result);
         };
+        reader.readAsBinaryString(new Blob([arrayBuffer]));
+      }),
 
-        for (const [, code] of Object.entries(buttonCodes)) {
-          gameBoyJoyPadEvent(code, `pressed`);
-        }
+    unzip: arrayBuffer => async () => {
+      const zip = new JSZip();
 
-        const PRESSTIME = 500;
-        setTimeout(() => {
-          for (const [, code] of Object.entries(buttonCodes)) {
-            gameBoyJoyPadEvent(code);
-          }
-        }, PRESSTIME);
-      },
+      try {
+        const result = await zip.loadAsync(arrayBuffer);
+        const [filename] = Object.keys(result.files);
 
-      reset: async () => {
-        const stringROM = await this.actions.getBinaryString(
-          this.state.currentROM
-        );
-        start(
-          this.state.canvas.current,
-          new Uint8Array(this.state.currentROM),
-          stringROM
-        );
-      },
-
-      showMessage: message => {
-        this.setState({ message });
-      },
-
-      hideMessage: () => {
-        this.setState({ message: `` });
+        return await zip.file(filename).async(`arraybuffer`);
+      } catch (error) {
+        console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
       }
-    };
-  }
 
-  componentDidMount() {
-    this.props.restoreCoreData().then(() => {
-      // Hydrate settings.
-      get(`settings`).then(
-        (savedSettings = JSON.parse(JSON.stringify(defaultSettings))) => {
-          this.setState(prevState => ({
-            hydrated: true,
-            settings: {
-              ...prevState.settings,
-              ...savedSettings
+      return arrayBuffer;
+    },
+
+    setCurrentROM: async arrayBuffer => {
+      const unzippedROM = arrayBuffer;
+
+      const currentROM = await this.actions.unzip(unzippedROM);
+
+      const stringROM = await this.actions.getBinaryString(currentROM);
+
+      this.setState(
+        {
+          currentROM,
+          libraryOpen: false,
+          rewindQueue: []
+        },
+
+        () => {
+          settings[SOUND] = !this.state.settings.mute;
+          start(
+            this.state.canvas.current,
+            new Uint8Array(this.state.currentROM),
+            stringROM
+          );
+
+          this.actions.enableAudio();
+
+          const library = [...this.state.library];
+
+          for (const game of library) {
+            if (buffersEqual(game.rom, unzippedROM)) {
+              if (!(`name` in game)) {
+                game.name = gameboy.name;
+
+                set(`games`, library);
+
+                this.setState({ library });
+              }
+
+              break;
             }
-          }));
+          }
+
+          // Load autosave.
+          openState(`auto`, this.state.canvas.current, stringROM);
+
+          set(`currentROM`, this.state.currentROM);
         }
       );
+    },
+
+    enableAudio: () => {
+      if (
+        !this.state.mute &&
+        audioContext &&
+        audioContext.state === `suspended`
+      ) {
+        audioContext.resume();
+
+        const CHECK_AUDIO_WAIT = 1000;
+
+        setTimeout(() => {
+          if (audioContext.state === `suspended`) {
+            this.setState({ audioNeedsConfirmation: true });
+          } else {
+            this.setState({ audioNeedsConfirmation: false });
+          }
+        }, CHECK_AUDIO_WAIT);
+      } else {
+        this.setState({ audioNeedsConfirmation: false });
+      }
+    },
+
+    toggleDrawer: drawerName => () => {
+      this.setState(
+        prevState => ({
+          [`${drawerName}Open`]: !prevState[`${drawerName}Open`]
+        }),
+
+        () => {
+          if (!gameBoyEmulatorInitialized()) {
+            return;
+          }
+
+          if (this.state[`${drawerName}Open`]) {
+            pause();
+          } else {
+            run();
+          }
+        }
+      );
+    },
+
+    addToLibrary: (ROM, callback) => {
+      if (!ROM.length) {
+        return;
+      }
+
+      const roms = Array.isArray(ROM) ? ROM : [ROM];
+
+      for (const rom of roms) {
+        const { md5 } = rom;
+
+        for (const { md5: libMd5 } of this.state.library) {
+          if (md5 === libMd5) {
+            return;
+          }
+        }
+      }
+
+      this.setState(
+        prevState => ({
+          library: [...prevState.library, ...roms]
+        }),
+        callback
+      );
+    },
+
+    uploadGame: e => {
+      const getROM = file =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+
+          const buffer = new Spark.ArrayBuffer();
+
+          reader.onload = () => {
+            this.actions.unzip(reader.result).then(rom => {
+              buffer.append(rom);
+
+              if (buffer._length && rom.byteLength) {
+                const md5 = buffer.end().toUpperCase();
+
+                for (const { md5: libMd5 } of this.state.library) {
+                  if (md5 === libMd5) {
+                    return;
+                  }
+                }
+
+                const romData = {
+                  title: games[md5] || file.name.replace(/\.zip/gu, ``),
+                  md5,
+                  rom: reader.result
+                };
+
+                getThumbUri(romData.title).then(uri => {
+                  romData.thumb = uri;
+
+                  resolve(romData);
+                });
+              }
+            });
+          };
+
+          reader.onerror = err => {
+            reject(err);
+          };
+
+          reader.readAsArrayBuffer(file);
+        });
+
+      const roms = [];
+
+      for (const file of e.target.files) {
+        roms.push(getROM(file));
+      }
+
+      Promise.all(roms).then(results => {
+        this.actions.addToLibrary(results, () => {
+          set(`games`, this.state.library);
+        });
+      });
+    },
+
+    deleteGame: rom => {
+      let deletedGame = null;
+
+      let { currentROM } = this.state;
+
+      if (buffersEqual(currentROM, rom)) {
+        currentROM = null;
+        stop();
+      }
+
+      this.setState(
+        prevState => ({
+          library: prevState.library.filter(game => {
+            if (buffersEqual(game.rom, rom)) {
+              deletedGame = game;
+              return false;
+            }
+
+            return true;
+          }),
+          currentROM
+        }),
+
+        () => {
+          if (this.state.library.length) {
+            set(`games`, this.state.library);
+          } else {
+            del(`games`);
+          }
+
+          if (!this.state.currentROM) {
+            del(`currentROM`);
+          }
+        }
+      );
+
+      this.actions.deleteSRAM(deletedGame.name);
+      this.actions.deleteSaveState(deletedGame.name, `main`);
+      this.actions.deleteSaveState(deletedGame.name, `auto`);
+    },
+
+    deleteSRAM: async name => {
+      const dataKeys = await keys();
+
+      for (const key of dataKeys) {
+        if (key === `SRAM_${name}`) {
+          del(key);
+          delete persistValues[key];
+        }
+      }
+    },
+
+    deleteSaveState: async (name, slot) => {
+      const dataKeys = await keys();
+
+      for (const key of dataKeys) {
+        if (key === `FREEZE_${name}_${slot}`) {
+          del(key);
+          delete persistValues[key];
+        }
+      }
+    },
+
+    updateSetting: key => value => {
+      this.setState(
+        prevState => ({
+          settings: {
+            ...prevState.settings,
+            [key]: value
+          }
+        }),
+
+        () => {
+          set(`settings`, this.state.settings);
+        }
+      );
+    },
+
+    retryThumbs: (library, force) => {
+      // If we aren't forcing an update and don't need to do one, then don't.
+      if (!force && !library.some(game => game.thumb === `reattempt`)) {
+        return false;
+      }
+
+      // Create retries from given library.
+      const retries = library.map(
+        game =>
+          new Promise(resolve => {
+            // If we're forcing an update or game is marked for it.
+            if (force || game.thumb === `reattempt`) {
+              getThumbUri(game.title).then(thumb => {
+                // If game's thumb is valid, but the network's isn't, don't update.
+                if (thumbIsUri(game.thumb) && !thumbIsUri(thumb)) {
+                  resolve(game);
+                  return;
+                }
+
+                // If the game's thumb isn't valid or the network has a valid
+                // replacement, update the thumb.
+                if (
+                  !thumbIsUri(game.thumb) ||
+                  (thumbIsUri(game.thumb) && thumbIsUri(thumb))
+                ) {
+                  game.thumb = thumb;
+                }
+
+                resolve(game);
+              });
+            } else {
+              resolve(game);
+            }
+          })
+      );
+
+      // Fetch all applicable thumbs, then replace library in context and IDB.
+      Promise.all(retries).then(updatedLibrary => {
+        this.setState(
+          { library: updatedLibrary },
+
+          () => {
+            set(`games`, this.state.library);
+          }
+        );
+      });
+    },
+
+    toggleTurbo: () => {
+      this.setState(prevState => ({ turbo: !prevState.turbo }));
+    },
+
+    saveState: () => {
+      saveState(`main`);
+      this.actions.showMessage(`Saved state.`);
+    },
+
+    loadState: async () => {
+      const stringROM = await this.actions.getBinaryString(
+        this.state.currentROM
+      );
+      openState(`main`, this.state.canvas.current, stringROM);
+      this.actions.showMessage(`Loaded state.`);
+    },
+
+    abss: () => {
+      const buttonCodes = {
+        START: 7,
+        SELECT: 6,
+        A: 4,
+        B: 5
+      };
+
+      for (const [, code] of Object.entries(buttonCodes)) {
+        gameBoyJoyPadEvent(code, `pressed`);
+      }
+
+      const PRESSTIME = 500;
+      setTimeout(() => {
+        for (const [, code] of Object.entries(buttonCodes)) {
+          gameBoyJoyPadEvent(code);
+        }
+      }, PRESSTIME);
+    },
+
+    reset: async () => {
+      const stringROM = await this.actions.getBinaryString(
+        this.state.currentROM
+      );
+      start(
+        this.state.canvas.current,
+        new Uint8Array(this.state.currentROM),
+        stringROM
+      );
+    },
+
+    showMessage: message => {
+      this.setState({ message });
+    },
+
+    hideMessage: () => {
+      this.setState({ message: `` });
+    }
+  };
+
+  React.useEffect(() => {
+    restoreCoreData().then(() => {
+      // Hydrate settings.
+      get(`settings`).then((savedSettings = {}) => {
+        actions.setSavedSettings(savedSettings);
+      });
 
       // Reattempt thumb downloads that could not be completed while offline.
       get(`games`).then((library = []) => {
@@ -517,25 +467,25 @@ export default class Context extends React.Component {
         }
       });
     });
-  }
+  });
 
-  render() {
-    return (
-      <Provider
-        value={{
-          state: this.state,
-          actions: this.actions
-        }}
-      >
-        {this.props.children}
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider
+      value={{
+        state,
+        actions
+      }}
+    >
+      {children}
+    </Provider>
+  );
+};
 
 Context.propTypes = {
   children: PropTypes.element.isRequired,
   restoreCoreData: PropTypes.func.isRequired
 };
+
+export default Context;
 
 export { Consumer, appContext };
