@@ -2,22 +2,25 @@ import React from "react";
 
 import { get, set, del, keys } from "idb-keyval";
 
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "../../theme";
+// import { MuiThemeProvider } from "@material-ui/core/styles";
+// import CssBaseline from "@material-ui/core/CssBaseline";
+// import theme from "../../theme";
 import { useAppStyles } from "./AppStyles";
 
 import Context, { appContext } from "../Context/Context";
-import FirstUse from "../FirstUse/FirstUse";
-import Gamepad from "../Gamepad/GamepadView";
-import Emulator from "../Emulator/Emulator";
-import Sound from "../Sound";
-import Settings from "../Settings/Settings";
-import Library from "../Library/Library";
-import Notification from "../Notification/Notification";
-import Upgrade from "../Upgrade";
+import initialState from "./initialState";
+// import FirstUse from "../FirstUse/FirstUse";
+// import Gamepad from "../Gamepad/GamepadView";
+// import Emulator from "../Emulator/Emulator";
+// import Sound from "../Sound";
+// import Settings from "../Settings/Settings";
+// import Library from "../Library/Library";
+// import Notification from "../Notification/Notification";
+// import Upgrade from "../Upgrade";
 
 import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
+
+import * as actions from "../Context/testActions";
 
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 
@@ -78,15 +81,26 @@ const useCustomTouchBehavior = () => {
   }, []);
 };
 
+const Test = () => {
+  const context = React.useContext(appContext);
+
+  React.useEffect(() => {
+    setTimeout(() => actions.testAction(`bar`), 1000);
+  }, []);
+
+  return <div>{context.test}</div>;
+};
+
 const App = () => {
   useCustomTouchBehavior();
   useAppStyles();
 
-  const { state, actions } = React.useContext(appContext);
+  // const { state, actions } = React.useContext(appContext);
 
   return (
-    <Context restoreCoreData={restoreCoreData}>
-      <MuiThemeProvider theme={theme}>
+    <Context initialState={initialState} restoreCoreData={restoreCoreData}>
+      <Test />
+      {/* <MuiThemeProvider theme={theme}>
         <CssBaseline />
 
         {state.hydrated && state.settings.firstUse && <FirstUse />}
@@ -104,7 +118,7 @@ const App = () => {
         </Notification>
 
         <Upgrade />
-      </MuiThemeProvider>
+      </MuiThemeProvider> */}
     </Context>
   );
 };

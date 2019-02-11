@@ -27,8 +27,6 @@ import {
   persistValues
 } from "../../cores/GameBoy-Online/index";
 
-import useActions from "./actions";
-
 const appContext = React.createContext();
 const { Provider, Consumer } = appContext;
 
@@ -58,10 +56,40 @@ const thumbIsUri = thumb => thumb !== false && thumb !== `reattempt`;
 
 const SOUND = 0;
 
-const Context = ({ children, restoreCoreData }) => {
-  const [state, actions] = useActions();
+let state;
+let dispatch;
 
-  this.actions = {
+const actions = {};
+
+const reducer = (state, action) => {
+  if (!actions[action.type]) {
+    console.error(`Invalid Action:`, action);
+    return;
+  }
+
+  const newState = { ...state, ...action };
+  delete newState.type;
+
+  return newState;
+};
+
+const action = (type, callback) => {
+  actions[type] = callback;
+
+  const blitspatch = payload => {
+    dispatch({
+      type,
+      ...payload
+    });
+  };
+
+  return (...args) => callback(state, blitspatch, ...args);
+};
+
+const Context = ({ children, initialState, restoreCoreData }) => {
+  [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const oldActions = {
     firstUseComplete: () => {
       this.actions.updateSetting(`firstUse`)(false);
       this.setState({ libraryOpen: true });
@@ -449,36 +477,25 @@ const Context = ({ children, restoreCoreData }) => {
   };
 
   React.useEffect(() => {
-    restoreCoreData().then(() => {
-      // Hydrate settings.
-      get(`settings`).then((savedSettings = {}) => {
-        actions.setSavedSettings(savedSettings);
-      });
-
-      // Reattempt thumb downloads that could not be completed while offline.
-      get(`games`).then((library = []) => {
-        this.actions.retryThumbs(library);
-      });
-
-      // Load last-played game.
-      get(`currentROM`).then(currentROM => {
-        if (currentROM) {
-          this.actions.setCurrentROM(currentROM, `autoLoad`);
-        }
-      });
-    });
+    // restoreCoreData().then(() => {
+    //   // Hydrate settings.
+    //   get(`settings`).then((savedSettings = {}) => {
+    //     actions.setSavedSettings(savedSettings);
+    //   });
+    //   // Reattempt thumb downloads that could not be completed while offline.
+    //   get(`games`).then((library = []) => {
+    //     this.actions.retryThumbs(library);
+    //   });
+    //   // Load last-played game.
+    //   get(`currentROM`).then(currentROM => {
+    //     if (currentROM) {
+    //       this.actions.setCurrentROM(currentROM, `autoLoad`);
+    //     }
+    //   });
+    // });
   });
 
-  return (
-    <Provider
-      value={{
-        state,
-        actions
-      }}
-    >
-      {children}
-    </Provider>
-  );
+  return <Provider value={state}>{children}</Provider>;
 };
 
 Context.propTypes = {
@@ -488,4 +505,4 @@ Context.propTypes = {
 
 export default Context;
 
-export { Consumer, appContext };
+export { Consumer, appContext, action };
