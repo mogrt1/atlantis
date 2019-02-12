@@ -1,3 +1,5 @@
+import JSZip from "jszip";
+
 export const getDataUri = url =>
   new Promise(resolve => {
     fetch(url)
@@ -38,4 +40,28 @@ export const buffersEqual = (buf1, buf2) => {
   }
 
   return true;
+};
+
+export const getBinaryString = arrayBuffer =>
+  new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = function() {
+      resolve(reader.result);
+    };
+    reader.readAsBinaryString(new Blob([arrayBuffer]));
+  });
+
+export const unzip = arrayBuffer => async () => {
+  const zip = new JSZip();
+
+  try {
+    const result = await zip.loadAsync(arrayBuffer);
+    const [filename] = Object.keys(result.files);
+
+    return await zip.file(filename).async(`arraybuffer`);
+  } catch (error) {
+    console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
+  }
+
+  return arrayBuffer;
 };

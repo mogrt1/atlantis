@@ -1,8 +1,8 @@
 import React from "react";
 
-import Notification from "./Notification/Notification";
+import Notification from "../Notification/Notification";
 
-import { appContext } from "./Context/Context";
+import { appContext } from "../Context/Context";
 
 const Sound = () => {
   const { state, actions } = React.useContext(appContext);

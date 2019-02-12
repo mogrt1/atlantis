@@ -12,7 +12,7 @@ import initialState from "./initialState";
 // import FirstUse from "../FirstUse/FirstUse";
 // import Gamepad from "../Gamepad/GamepadView";
 // import Emulator from "../Emulator/Emulator";
-// import Sound from "../Sound";
+// import Sound from "../Sound/Sound";
 // import Settings from "../Settings/Settings";
 // import Library from "../Library/Library";
 // import Notification from "../Notification/Notification";
@@ -88,7 +88,7 @@ const Test = () => {
     setTimeout(() => actions.testAction(`bar`), 1000);
   }, []);
 
-  return <div>{context.test}</div>;
+  return <div>{context.test || `foo`}</div>;
 };
 
 const App = () => {
@@ -104,7 +104,7 @@ const App = () => {
         <CssBaseline />
 
         {state.hydrated && state.settings.firstUse && <FirstUse />}
-        <Emulator setCanvas={actions.setCanvas} />
+        <Emulator />
         <Sound />
         <Gamepad />
         <Settings />

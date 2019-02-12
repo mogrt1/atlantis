@@ -6,15 +6,12 @@ import PropTypes from "prop-types";
 
 import Spark from "spark-md5";
 import { set, get, del, keys } from "idb-keyval";
-import JSZip from "jszip";
 
 import { thumbs, games } from "../../db/gameboy.js";
 
 import { getDataUri, buffersEqual } from "../../utils.js";
 
 import {
-  gameboy,
-  settings,
   start,
   pause,
   run,
@@ -23,7 +20,6 @@ import {
   openState,
   GameBoyJoyPadEvent as gameBoyJoyPadEvent,
   GameBoyEmulatorInitialized as gameBoyEmulatorInitialized,
-  XAudioJSWebAudioContextHandle as audioContext,
   persistValues
 } from "../../cores/GameBoy-Online/index";
 
@@ -53,8 +49,6 @@ const getThumbUri = async title => {
 };
 
 const thumbIsUri = thumb => thumb !== false && thumb !== `reattempt`;
-
-const SOUND = 0;
 
 let state;
 let dispatch;
@@ -90,109 +84,6 @@ const Context = ({ children, initialState, restoreCoreData }) => {
   [state, dispatch] = React.useReducer(reducer, initialState);
 
   const oldActions = {
-    firstUseComplete: () => {
-      this.actions.updateSetting(`firstUse`)(false);
-      this.setState({ libraryOpen: true });
-    },
-
-    setCanvas: canvas => {
-      this.setState({ canvas });
-    },
-
-    getBinaryString: arrayBuffer =>
-      new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = function() {
-          resolve(reader.result);
-        };
-        reader.readAsBinaryString(new Blob([arrayBuffer]));
-      }),
-
-    unzip: arrayBuffer => async () => {
-      const zip = new JSZip();
-
-      try {
-        const result = await zip.loadAsync(arrayBuffer);
-        const [filename] = Object.keys(result.files);
-
-        return await zip.file(filename).async(`arraybuffer`);
-      } catch (error) {
-        console.info(`A file couldn't be unzipped. Probably wasn't zipped.`);
-      }
-
-      return arrayBuffer;
-    },
-
-    setCurrentROM: async arrayBuffer => {
-      const unzippedROM = arrayBuffer;
-
-      const currentROM = await this.actions.unzip(unzippedROM);
-
-      const stringROM = await this.actions.getBinaryString(currentROM);
-
-      this.setState(
-        {
-          currentROM,
-          libraryOpen: false,
-          rewindQueue: []
-        },
-
-        () => {
-          settings[SOUND] = !this.state.settings.mute;
-          start(
-            this.state.canvas.current,
-            new Uint8Array(this.state.currentROM),
-            stringROM
-          );
-
-          this.actions.enableAudio();
-
-          const library = [...this.state.library];
-
-          for (const game of library) {
-            if (buffersEqual(game.rom, unzippedROM)) {
-              if (!(`name` in game)) {
-                game.name = gameboy.name;
-
-                set(`games`, library);
-
-                this.setState({ library });
-              }
-
-              break;
-            }
-          }
-
-          // Load autosave.
-          openState(`auto`, this.state.canvas.current, stringROM);
-
-          set(`currentROM`, this.state.currentROM);
-        }
-      );
-    },
-
-    enableAudio: () => {
-      if (
-        !this.state.mute &&
-        audioContext &&
-        audioContext.state === `suspended`
-      ) {
-        audioContext.resume();
-
-        const CHECK_AUDIO_WAIT = 1000;
-
-        setTimeout(() => {
-          if (audioContext.state === `suspended`) {
-            this.setState({ audioNeedsConfirmation: true });
-          } else {
-            this.setState({ audioNeedsConfirmation: false });
-          }
-        }, CHECK_AUDIO_WAIT);
-      } else {
-        this.setState({ audioNeedsConfirmation: false });
-      }
-    },
-
     toggleDrawer: drawerName => () => {
       this.setState(
         prevState => ({
@@ -210,31 +101,6 @@ const Context = ({ children, initialState, restoreCoreData }) => {
             run();
           }
         }
-      );
-    },
-
-    addToLibrary: (ROM, callback) => {
-      if (!ROM.length) {
-        return;
-      }
-
-      const roms = Array.isArray(ROM) ? ROM : [ROM];
-
-      for (const rom of roms) {
-        const { md5 } = rom;
-
-        for (const { md5: libMd5 } of this.state.library) {
-          if (md5 === libMd5) {
-            return;
-          }
-        }
-      }
-
-      this.setState(
-        prevState => ({
-          library: [...prevState.library, ...roms]
-        }),
-        callback
       );
     },
 
@@ -356,21 +222,6 @@ const Context = ({ children, initialState, restoreCoreData }) => {
       }
     },
 
-    updateSetting: key => value => {
-      this.setState(
-        prevState => ({
-          settings: {
-            ...prevState.settings,
-            [key]: value
-          }
-        }),
-
-        () => {
-          set(`settings`, this.state.settings);
-        }
-      );
-    },
-
     retryThumbs: (library, force) => {
       // If we aren't forcing an update and don't need to do one, then don't.
       if (!force && !library.some(game => game.thumb === `reattempt`)) {
@@ -477,22 +328,22 @@ const Context = ({ children, initialState, restoreCoreData }) => {
   };
 
   React.useEffect(() => {
-    // restoreCoreData().then(() => {
-    //   // Hydrate settings.
-    //   get(`settings`).then((savedSettings = {}) => {
-    //     actions.setSavedSettings(savedSettings);
-    //   });
-    //   // Reattempt thumb downloads that could not be completed while offline.
-    //   get(`games`).then((library = []) => {
-    //     this.actions.retryThumbs(library);
-    //   });
-    //   // Load last-played game.
-    //   get(`currentROM`).then(currentROM => {
-    //     if (currentROM) {
-    //       this.actions.setCurrentROM(currentROM, `autoLoad`);
-    //     }
-    //   });
-    // });
+    restoreCoreData().then(() => {
+      // Hydrate settings.
+      get(`settings`).then((savedSettings = {}) => {
+        actions.setSavedSettings(savedSettings);
+      });
+      // Reattempt thumb downloads that could not be completed while offline.
+      get(`games`).then((library = []) => {
+        this.actions.retryThumbs(library);
+      });
+      // Load last-played game.
+      get(`currentROM`).then(currentROM => {
+        if (currentROM) {
+          this.actions.setCurrentROM(currentROM, `autoLoad`);
+        }
+      });
+    });
   });
 
   return <Provider value={state}>{children}</Provider>;
