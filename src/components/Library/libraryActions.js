@@ -1,8 +1,11 @@
 import { action } from "../Context/Context";
 import * as soundActions from "../Sound/soundActions";
 
+import Spark from "spark-md5";
+
 import { set } from "idb-keyval";
-import { unzip, getBinaryString, buffersEqual } from "../../utils";
+import { unzip, getBinaryString, buffersEqual, getThumbUri } from "../../utils";
+import { games } from "../../db/gameboy.js";
 
 import {
   gameboy,
@@ -76,5 +79,60 @@ export const addToLibrary = action(`ADD_TO_LIBRARY`, (state, dispatch, ROM) => {
 
   dispatch({
     library: [...state.library, ...roms]
+  });
+});
+
+export const uploadGame = action(`UPLOAD_GAME`, e => {
+  const getROM = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      const buffer = new Spark.ArrayBuffer();
+
+      reader.onload = () => {
+        this.actions.unzip(reader.result).then(rom => {
+          buffer.append(rom);
+
+          if (buffer._length && rom.byteLength) {
+            const md5 = buffer.end().toUpperCase();
+
+            for (const { md5: libMd5 } of this.state.library) {
+              if (md5 === libMd5) {
+                return;
+              }
+            }
+
+            const romData = {
+              title: games[md5] || file.name.replace(/\.zip/gu, ``),
+              md5,
+              rom: reader.result
+            };
+
+            getThumbUri(romData.title).then(uri => {
+              romData.thumb = uri;
+
+              resolve(romData);
+            });
+          }
+        });
+      };
+
+      reader.onerror = err => {
+        reject(err);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
+  const roms = [];
+
+  for (const file of e.target.files) {
+    roms.push(getROM(file));
+  }
+
+  Promise.all(roms).then(results => {
+    this.actions.addToLibrary(results, () => {
+      set(`games`, this.state.library);
+    });
   });
 });

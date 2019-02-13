@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Button from "./Button/Button";
+import Button from "../Button/Button";
 
 const TurboToggleButton = props => {
   const pressed = React.useRef(false);

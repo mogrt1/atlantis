@@ -1,5 +1,7 @@
 import JSZip from "jszip";
 
+import { thumbs } from "../../db/gameboy.js";
+
 export const getDataUri = url =>
   new Promise(resolve => {
     fetch(url)
@@ -65,3 +67,27 @@ export const unzip = arrayBuffer => async () => {
 
   return arrayBuffer;
 };
+
+export const getThumbUri = async title => {
+  const processUri = uri => {
+    if (!uri && !navigator.onLine) {
+      return `reattempt`;
+    } else if (!uri) {
+      return false;
+    }
+
+    return uri;
+  };
+
+  const thumbUri = processUri(
+    await getDataUri(thumbs.dmg.replace(`%s`, encodeURIComponent(title)))
+  );
+
+  if (typeof thumbUri === `string`) {
+    return thumbUri;
+  }
+
+  return getDataUri(thumbs.cgb.replace(`%s`, encodeURIComponent(title)));
+};
+
+export const thumbIsUri = thumb => thumb !== false && thumb !== `reattempt`;

@@ -8,10 +8,10 @@ import { useGamepadStyles } from "./GamepadStyles";
 
 import Dpad from "../Dpad/Dpad";
 import GamepadButton from "../GamepadButton";
-import RewindButton from "../RewindButton";
-import FastForwardButton from "../FastForwardButton";
+import RewindButton from "../SpecialButtons/RewindButton";
+import FastForwardButton from "../SpecialButtons/FastForwardButton";
 import QuickMenu from "../QuickMenu/QuickMenu";
-import TurboToggleButton from "../TurboToggleButton";
+import TurboToggleButton from "../SpecialButtons/TurboToggleButton";
 
 import { appContext } from "../Context/Context";
 import PrimaryButtons from "../PrimaryButtons/PrimaryButtons";
