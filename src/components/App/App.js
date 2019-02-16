@@ -1,60 +1,23 @@
 import React from "react";
 
-import { get, set, del, keys } from "idb-keyval";
-
-// import { MuiThemeProvider } from "@material-ui/core/styles";
-// import CssBaseline from "@material-ui/core/CssBaseline";
-// import theme from "../../theme";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import theme from "../../theme";
 import { useAppStyles } from "./AppStyles";
 
 import Context, { appContext } from "../Context/Context";
 import initialState from "./initialState";
-// import FirstUse from "../FirstUse/FirstUse";
-// import Gamepad from "../Gamepad/GamepadView";
-// import Emulator from "../Emulator/Emulator";
-// import Sound from "../Sound/Sound";
-// import Settings from "../Settings/Settings";
-// import Library from "../Library/Library";
-// import Notification from "../Notification/Notification";
-// import Upgrade from "../Upgrade";
+import Hydrate from "../Hydrate/Hydrate";
+import FirstUse from "../FirstUse/FirstUse";
+import Gamepad from "../Gamepad/GamepadView";
+import Emulator from "../Emulator/Emulator";
+import Sound from "../Sound/Sound";
+import Settings from "../Settings/Settings";
+import Library from "../Library/Library";
+import Notification from "../Notification/Notification";
+import Upgrade from "../Upgrade";
 
-import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
-
-const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
-
-const restoreCoreData = async function() {
-  const dataKeys = await keys();
-
-  const valuesTx = [];
-
-  for (const key of dataKeys) {
-    valuesTx.push(get(key));
-  }
-
-  const values = await Promise.all(valuesTx);
-
-  for (const [index, key] of dataKeys.entries()) {
-    if (notCoreKeys.has(key)) {
-      continue;
-    }
-
-    persistValues[key] = values[index];
-  }
-
-  return true;
-};
-
-saveValue.subscribe((key, value) => {
-  if (value === null) {
-    del(key);
-  } else {
-    set(key, value);
-  }
-});
-
-const handleNotificationClose = action => e => {
-  action(e);
-};
+import * as actions from "./appActions";
 
 const useCustomTouchBehavior = () => {
   React.useEffect(() => {
@@ -83,29 +46,30 @@ const App = () => {
   useCustomTouchBehavior();
   useAppStyles();
 
-  // const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
 
   return (
-    <Context initialState={initialState} restoreCoreData={restoreCoreData}>
-      {/* <MuiThemeProvider theme={theme}>
+    <Context initialState={initialState}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
 
+        <Hydrate />
         {state.hydrated && state.settings.firstUse && <FirstUse />}
         <Emulator />
         <Sound />
         <Gamepad />
         <Settings />
-        <Library addToLibrary={actions.addToLibrary} />
+        <Library />
         <Notification
           autoHide={1000}
           open={Boolean(state.message)}
-          onClose={handleNotificationClose(actions.hideMessage)}
+          onClose={actions.hideMessage}
         >
           {state.message}
         </Notification>
 
         <Upgrade />
-      </MuiThemeProvider> */}
+      </MuiThemeProvider>
     </Context>
   );
 };

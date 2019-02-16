@@ -39,34 +39,19 @@ const action = (type, callback) => {
   return (...args) => callback(state, blitspatch, ...args);
 };
 
-const Context = ({ children, initialState, restoreCoreData }) => {
+const Context = ({ children, initialState }) => {
   [state, dispatch] = React.useReducer(reducer, initialState);
-
-  React.useEffect(() => {
-    restoreCoreData().then(() => {
-      // Hydrate settings.
-      get(`settings`).then((savedSettings = {}) => {
-        actions.setSavedSettings(savedSettings);
-      });
-      // Reattempt thumb downloads that could not be completed while offline.
-      get(`games`).then((library = []) => {
-        this.actions.retryThumbs(library);
-      });
-      // Load last-played game.
-      get(`currentROM`).then(currentROM => {
-        if (currentROM) {
-          this.actions.setCurrentROM(currentROM, `autoLoad`);
-        }
-      });
-    });
-  });
 
   return <Provider value={state}>{children}</Provider>;
 };
 
 Context.propTypes = {
-  children: PropTypes.element.isRequired,
-  restoreCoreData: PropTypes.func.isRequired
+  initialState: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired
+};
+
+Context.defaultProps = {
+  initialState: {}
 };
 
 export default Context;

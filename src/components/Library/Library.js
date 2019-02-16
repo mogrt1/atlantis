@@ -13,9 +13,10 @@ import GameList from "./GameList";
 import Homebrew from "./Homebrew";
 
 import { appContext } from "../Context/Context";
+import * as actions from "./libraryActions";
 
 const Library = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const classes = useLibraryStyles();
 
   React.useEffect(() => {
@@ -24,7 +25,7 @@ const Library = props => {
         return;
       }
 
-      props.addToLibrary(games);
+      actions.addToLibrary(games);
     });
   }, []);
 
