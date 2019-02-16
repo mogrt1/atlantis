@@ -20,8 +20,6 @@ import initialState from "./initialState";
 
 import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
 
-import * as actions from "../Context/testActions";
-
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);
 
 const restoreCoreData = async function() {
@@ -81,16 +79,6 @@ const useCustomTouchBehavior = () => {
   }, []);
 };
 
-const Test = () => {
-  const context = React.useContext(appContext);
-
-  React.useEffect(() => {
-    setTimeout(() => actions.testAction(`bar`), 1000);
-  }, []);
-
-  return <div>{context.test || `foo`}</div>;
-};
-
 const App = () => {
   useCustomTouchBehavior();
   useAppStyles();
@@ -99,7 +87,6 @@ const App = () => {
 
   return (
     <Context initialState={initialState} restoreCoreData={restoreCoreData}>
-      <Test />
       {/* <MuiThemeProvider theme={theme}>
         <CssBaseline />
 
