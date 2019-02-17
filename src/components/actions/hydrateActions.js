@@ -1,6 +1,6 @@
 import { action } from "../Context/Context";
-import * as settingsActions from "../Settings/settingsActions";
-import * as libraryActions from "../Library/libraryActions";
+import * as settingsActions from "./settingsActions";
+import * as libraryActions from "./libraryActions";
 
 import { get } from "idb-keyval";
 

@@ -1,6 +1,6 @@
 import { action } from "../Context/Context";
 
-import { updateSetting } from "../Settings/settingsActions";
+import { updateSetting } from "./settingsActions";
 
 export const firstUseComplete = action(
   `FIRST_USE_COMPLETE`,

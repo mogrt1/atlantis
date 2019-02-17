@@ -15,9 +15,9 @@ import Sound from "../Sound/Sound";
 import Settings from "../Settings/Settings";
 import Library from "../Library/Library";
 import Notification from "../Notification/Notification";
-import Upgrade from "../Upgrade";
+import Upgrade from "../Upgrade/Upgrade";
 
-import * as actions from "./appActions";
+import * as actions from "../actions/appActions";
 
 const useCustomTouchBehavior = () => {
   React.useEffect(() => {

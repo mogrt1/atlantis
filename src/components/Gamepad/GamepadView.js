@@ -7,7 +7,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useGamepadStyles } from "./GamepadStyles";
 
 import Dpad from "../Dpad/Dpad";
-import GamepadButton from "../GamepadButton";
+import GamepadButton from "../GamepadButton/GamepadButton";
 import RewindButton from "../SpecialButtons/RewindButton";
 import FastForwardButton from "../SpecialButtons/FastForwardButton";
 import QuickMenu from "../QuickMenu/QuickMenu";

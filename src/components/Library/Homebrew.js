@@ -8,7 +8,7 @@ import { appContext } from "../Context/Context";
 
 import GameList from "./GameList";
 import Game from "./Game";
-import Loader from "../Loader";
+import Loader from "../Loader/Loader";
 
 import spaceInvasionUri from "./homebrew/space-invasion/space-invasion.gb.zip";
 import spaceInvasionThumb from "./homebrew/space-invasion/space-invasion.png";

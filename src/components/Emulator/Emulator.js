@@ -2,7 +2,7 @@ import React from "react";
 
 import EmulatorView from "./EmulatorView";
 
-import * as actions from "./emulatorActions";
+import * as actions from "../actions/emulatorActions";
 
 import { settings } from "../../cores/GameBoy-Online/index";
 

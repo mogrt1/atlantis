@@ -13,7 +13,8 @@ import GameList from "./GameList";
 import Homebrew from "./Homebrew";
 
 import { appContext } from "../Context/Context";
-import * as actions from "./libraryActions";
+import * as actions from "../actions/libraryActions";
+import * as appActions from "../actions/appActions";
 
 const Library = props => {
   const state = React.useContext(appContext);
@@ -35,7 +36,7 @@ const Library = props => {
         aria-label="open settings"
         className={classes.open}
         color="inherit"
-        onClick={actions.toggleDrawer(`library`)}
+        onClick={appActions.toggleDrawer(`library`)}
       >
         <LibraryIcon />
       </IconButton>
@@ -43,7 +44,7 @@ const Library = props => {
       <Drawer
         anchor="right"
         open={state.libraryOpen}
-        onClose={actions.toggleDrawer(`library`)}
+        onClose={appActions.toggleDrawer(`library`)}
       >
         <List
           className={classes.drawer}

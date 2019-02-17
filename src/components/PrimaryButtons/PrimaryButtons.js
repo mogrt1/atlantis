@@ -3,201 +3,192 @@ import PropTypes from "prop-types";
 
 import { usePrimaryButtonStyles } from "./PrimaryButtonsStyles";
 
-import PointerCommands from "../PointerCommands";
-import GamepadButton from "../GamepadButton";
+import GamepadButton from "../GamepadButton/GamepadButton";
+import usePointerHandlers from "../hooks/usePointerHandlers";
 
-import { Consumer } from "../Context/Context";
+import { appContext } from "../Context/Context";
 
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from "../../cores/GameBoy-Online/index";
 
-class PrimaryButtons extends React.Component {
-  constructor(props) {
-    super(props);
+const PrimaryButtons = props => {
+  const state = React.useContext(appContext);
 
-    const buttonCodes = {
-      A: 4,
-      B: 5
+  const buttonCodes = {
+    A: 4,
+    B: 5
+  };
+
+  const buttonRef = React.useRef();
+
+  let buttonDim = {};
+
+  const HALF = 2;
+
+  const updateButtonDim = () => {
+    if (!buttonRef.current) {
+      return false;
+    }
+
+    const {
+      top,
+      left,
+      width,
+      height
+    } = buttonRef.current.getBoundingClientRect();
+
+    buttonDim = {
+      top,
+      left,
+      width,
+      height
     };
+  };
 
-    this.buttonRef = React.createRef();
+  const arraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
 
-    let buttonDim = {};
+    for (const [i, el] of arr1.entries()) {
+      if (el !== arr2[i]) {
+        return false;
+      }
+    }
 
-    const HALF = 2;
+    return true;
+  };
 
-    this.updateButtonDim = () => {
-      if (!this.buttonRef.current) {
+  let prevPressed = [];
+
+  const HAPTIC_DURATION = 50;
+  const TURBO_INTERVAL = 33;
+
+  const detectButton = (e, turbo) => {
+    const x = e.clientX || e.targetTouches[0].clientX,
+      y = e.clientY || e.targetTouches[0].clientY;
+
+    const pressed = [];
+
+    const { top, left, width, height } = buttonDim;
+
+    if (x < left || x > left + width || y < top || y > top + height) {
+      return false;
+    }
+
+    const el = document.elementFromPoint(x, y);
+
+    if (el.className.includes(`ba`)) {
+      pressed.push(buttonCodes.B);
+      pressed.push(buttonCodes.A);
+    } else if (x < left + width / HALF) {
+      pressed.push(buttonCodes.B);
+    } else {
+      pressed.push(buttonCodes.A);
+    }
+
+    if (!arraysEqual(pressed, prevPressed)) {
+      for (const [, value] of Object.entries(buttonCodes)) {
+        gameBoyJoyPadEvent(value, pressed.includes(value));
+      }
+
+      if (props.haptics && `vibrate` in window.navigator) {
+        window.navigator.vibrate(
+          turbo
+            ? [HAPTIC_DURATION, TURBO_INTERVAL, HAPTIC_DURATION]
+            : HAPTIC_DURATION
+        );
+      }
+
+      prevPressed = [...pressed];
+    }
+  };
+
+  let turboPressed = true;
+  let turboTimeout = null;
+
+  const turboEvent = () => {
+    turboPressed = !turboPressed;
+
+    for (const button of prevPressed) {
+      gameBoyJoyPadEvent(button, turboPressed);
+    }
+
+    turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
+  };
+
+  let startedPressing = false;
+
+  const events = turbo => ({
+    down: e => {
+      startedPressing = true;
+
+      detectButton(e, turbo);
+
+      if (turbo) {
+        turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
+      }
+    },
+    move: e => {
+      if (!startedPressing) {
         return false;
       }
 
-      const {
-        top,
-        left,
-        width,
-        height
-      } = this.buttonRef.current.getBoundingClientRect();
+      detectButton(e, turbo);
+    },
+    up: () => {
+      clearTimeout(turboTimeout);
+      turboPressed = true;
+      startedPressing = false;
 
-      buttonDim = {
-        top,
-        left,
-        width,
-        height
-      };
-    };
+      gameBoyJoyPadEvent(buttonCodes.B);
+      gameBoyJoyPadEvent(buttonCodes.A);
 
-    const arraysEqual = (arr1, arr2) => {
-      if (arr1.length !== arr2.length) {
-        return false;
+      prevPressed = [];
+
+      if (props.haptics && `vibrate` in window.navigator) {
+        window.navigator.vibrate(HAPTIC_DURATION);
       }
+    }
+  });
 
-      for (const [i, el] of arr1.entries()) {
-        if (el !== arr2[i]) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    let prevPressed = [];
-
-    const HAPTIC_DURATION = 50;
-    const TURBO_INTERVAL = 33;
-
-    this.detectButton = (e, turbo) => {
-      const x = e.clientX || e.targetTouches[0].clientX,
-        y = e.clientY || e.targetTouches[0].clientY;
-
-      const pressed = [];
-
-      const { top, left, width, height } = buttonDim;
-
-      if (x < left || x > left + width || y < top || y > top + height) {
-        return false;
-      }
-
-      const el = document.elementFromPoint(x, y);
-
-      if (el.className.includes(`ba`)) {
-        pressed.push(buttonCodes.B);
-        pressed.push(buttonCodes.A);
-      } else if (x < left + width / HALF) {
-        pressed.push(buttonCodes.B);
-      } else {
-        pressed.push(buttonCodes.A);
-      }
-
-      if (!arraysEqual(pressed, prevPressed)) {
-        for (const [, value] of Object.entries(buttonCodes)) {
-          gameBoyJoyPadEvent(value, pressed.includes(value));
-        }
-
-        if (this.props.haptics && `vibrate` in window.navigator) {
-          window.navigator.vibrate(
-            turbo
-              ? [HAPTIC_DURATION, TURBO_INTERVAL, HAPTIC_DURATION]
-              : HAPTIC_DURATION
-          );
-        }
-
-        prevPressed = [...pressed];
-      }
-    };
-
-    let turboPressed = true;
-    let turboTimeout = null;
-
-    const turboEvent = () => {
-      turboPressed = !turboPressed;
-
-      for (const button of prevPressed) {
-        gameBoyJoyPadEvent(button, turboPressed);
-      }
-
-      turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
-    };
-
-    let startedPressing = false;
-
-    this.events = turbo => ({
-      down: e => {
-        startedPressing = true;
-
-        this.detectButton(e, turbo);
-
-        if (turbo) {
-          turboTimeout = setTimeout(turboEvent, TURBO_INTERVAL);
-        }
-      },
-      move: e => {
-        if (!startedPressing) {
-          return false;
-        }
-
-        this.detectButton(e, turbo);
-      },
-      up: () => {
-        clearTimeout(turboTimeout);
-        turboPressed = true;
-        startedPressing = false;
-
-        gameBoyJoyPadEvent(buttonCodes.B);
-        gameBoyJoyPadEvent(buttonCodes.A);
-
-        prevPressed = [];
-
-        if (this.props.haptics && `vibrate` in window.navigator) {
-          window.navigator.vibrate(HAPTIC_DURATION);
-        }
-      }
-    });
-  }
-
-  componentDidMount() {
-    this.updateButtonDim();
+  React.useEffect(() => {
+    updateButtonDim();
 
     const RESIZE_DEBOUNCE = 500;
     window.addEventListener(`resize`, () =>
-      setTimeout(this.updateButtonDim, RESIZE_DEBOUNCE)
+      setTimeout(updateButtonDim, RESIZE_DEBOUNCE)
     );
-  }
+  }, []);
 
-  render() {
-    const classes = usePrimaryButtonStyles();
+  const classes = usePrimaryButtonStyles();
+  const pointerHandlers = usePointerHandlers(...events(state.turbo));
 
-    return (
-      <Consumer>
-        {({ state }) => (
-          <PointerCommands {...this.events(state.turbo)} apply>
-            <div ref={this.buttonRef} className={classes.buttons}>
-              <GamepadButton
-                className={classes.b}
-                haptics={false}
-                kb={this.props.kbB}
-                turbo={state.turbo}
-                turboKb={this.props.turboKbB}
-                type="B"
-              >
-                {`B`}
-              </GamepadButton>
-              <GamepadButton
-                className={classes.a}
-                haptics={false}
-                kb={this.props.kbA}
-                turbo={state.turbo}
-                turboKb={this.props.turboKbA}
-                type="A"
-              >
-                {`A`}
-              </GamepadButton>
-              <div className={classes.ba} />
-            </div>
-          </PointerCommands>
-        )}
-      </Consumer>
-    );
-  }
-}
+  return (
+    <div ref={buttonRef} className={classes.buttons} {...pointerHandlers}>
+      <GamepadButton
+        className={classes.b}
+        haptics={false}
+        kb={props.kbB}
+        turbo={state.turbo}
+        turboKb={props.turboKbB}
+        type="B"
+      >
+        {`B`}
+      </GamepadButton>
+      <GamepadButton
+        className={classes.a}
+        haptics={false}
+        kb={props.kbA}
+        turbo={state.turbo}
+        turboKb={props.turboKbA}
+        type="A"
+      >
+        {`A`}
+      </GamepadButton>
+      <div className={classes.ba} />
+    </div>
+  );
+};
 
 PrimaryButtons.propTypes = {
   kbB: PropTypes.string.isRequired,

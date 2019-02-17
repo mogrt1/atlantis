@@ -1,5 +1,5 @@
 import { action } from "../Context/Context";
-import * as appActions from "../App/appActions";
+import * as appActions from "./appActions";
 
 import { getBinaryString } from "../../utils";
 

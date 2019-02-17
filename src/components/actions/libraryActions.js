@@ -1,5 +1,5 @@
 import { action } from "../Context/Context";
-import * as soundActions from "../Sound/soundActions";
+import * as soundActions from "./soundActions";
 
 import Spark from "spark-md5";
 

@@ -1,6 +1,6 @@
 import JSZip from "jszip";
 
-import { thumbs } from "../../db/gameboy.js";
+import { thumbs } from "./db/gameboy.js";
 
 export const getDataUri = url =>
   new Promise(resolve => {

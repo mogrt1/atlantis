@@ -4,10 +4,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { get } from "idb-keyval";
-
 const appContext = React.createContext();
-const { Provider, Consumer } = appContext;
+const { Provider } = appContext;
 
 let state;
 let dispatch;
@@ -56,4 +54,4 @@ Context.defaultProps = {
 
 export default Context;
 
-export { Consumer, appContext, action };
+export { appContext, action };

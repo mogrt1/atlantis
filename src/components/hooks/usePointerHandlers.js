@@ -6,9 +6,7 @@ const stop = e => {
 const usePointerHandlers = ({ down = null, move = null, up = null } = {}) => {
   const commandsToEvents = new Map([
     [down, [`onTouchStart`, `onMouseDown`]],
-
     [move, [`onTouchMove`, `onMouseMove`]],
-
     [up, [`onTouchEnd`, `onMouseUp`, `onTouchCancel`]]
   ]);
 

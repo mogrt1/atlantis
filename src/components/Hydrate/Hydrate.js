@@ -2,7 +2,7 @@ import React from "react";
 
 import { get, set, del, keys } from "idb-keyval";
 
-import * as actions from "./hydrateActions";
+import * as actions from "../actions/hydrateActions";
 
 import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
 
