@@ -171,7 +171,7 @@ const useKeyEvents = kb => {
 };
 
 const Dpad = props => {
-  const { state } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const { haptics, kb, className } = props;
 
   const [dpadRef, dpadDim] = useDimensions();
@@ -180,9 +180,7 @@ const Dpad = props => {
 
   const keyEvents = useKeyEvents(kb);
 
-  if (!state.settingsOpen) {
-    useKeyHandlers(keyEvents);
-  }
+  useKeyHandlers(keyEvents, !state.settingsOpen);
 
   return (
     <DpadView

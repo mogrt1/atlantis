@@ -15,31 +15,38 @@ import useKeyHandlers from "../hooks/useKeyHandlers";
 import QuickMenuItem from "./QuickMenuItem";
 import InternalClock from "../InternalClock/InternalClock";
 
-import { gameboy } from "../../cores/GameBoy-Online/index";
-
 import { appContext } from "../Context/Context";
+import * as quickMenuActions from "../actions/quickMenuActions";
+
+import {
+  gameboy,
+  GameBoyEmulatorPlaying as gameBoyEmulatorPlaying
+} from "../../cores/GameBoy-Online/index";
 
 const QuickMenu = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const [anchor, setAnchor] = React.useState(null);
   const [openClock, setOpenClock] = React.useState(false);
 
   const { keyBindings } = state.settings;
 
-  useKeyHandlers({
-    [keyBindings[`settings-kb-save-state`]]: {
-      up: actions.saveState
+  useKeyHandlers(
+    {
+      [keyBindings[`settings-kb-save-state`]]: {
+        up: quickMenuActions.saveState
+      },
+      [keyBindings[`settings-kb-load-state`]]: {
+        up: quickMenuActions.loadState
+      },
+      [keyBindings[`settings-kb-abss`]]: {
+        up: quickMenuActions.abss
+      },
+      [keyBindings[`settings-kb-reset`]]: {
+        up: quickMenuActions.reset
+      }
     },
-    [keyBindings[`settings-kb-load-state`]]: {
-      up: actions.loadState
-    },
-    [keyBindings[`settings-kb-abss`]]: {
-      up: actions.abss
-    },
-    [keyBindings[`settings-kb-reset`]]: {
-      up: actions.reset
-    }
-  });
+    gameBoyEmulatorPlaying
+  );
 
   const events = {
     up: e => {
@@ -92,12 +99,12 @@ const QuickMenu = props => {
         <QuickMenuItem
           icon={<SaveIcon />}
           label="Save State"
-          onClick={menuAction(actions.saveState)}
+          onClick={menuAction(quickMenuActions.saveState)}
         />
         <QuickMenuItem
           icon={<OpenInBrowserIcon />}
           label="Load State"
-          onClick={menuAction(actions.loadState)}
+          onClick={menuAction(quickMenuActions.loadState)}
         />
         {gameboy && gameboy.cTIMER && (
           <QuickMenuItem
@@ -109,12 +116,12 @@ const QuickMenu = props => {
         <QuickMenuItem
           icon={<VideogameAssetIcon />}
           label="A+B+Start+Select"
-          onClick={menuAction(actions.abss)}
+          onClick={menuAction(quickMenuActions.abss)}
         />
         <QuickMenuItem
           icon={<AutorenewIcon />}
           label="Reset"
-          onClick={menuAction(actions.reset)}
+          onClick={menuAction(quickMenuActions.reset)}
         />
       </Menu>
 

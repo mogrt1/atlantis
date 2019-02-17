@@ -4,7 +4,7 @@ import * as libraryActions from "./libraryActions";
 
 import { get } from "idb-keyval";
 
-import initialState from "../App/initialState";
+import initialState from "../../initialState";
 
 const defaultSettings = initialState.settings;
 

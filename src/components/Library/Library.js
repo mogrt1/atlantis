@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { get } from "idb-keyval";
 
@@ -13,7 +12,7 @@ import GameList from "./GameList";
 import Homebrew from "./Homebrew";
 
 import { appContext } from "../Context/Context";
-import * as actions from "../actions/libraryActions";
+import * as libraryActions from "../actions/libraryActions";
 import * as appActions from "../actions/appActions";
 
 const Library = props => {
@@ -26,7 +25,7 @@ const Library = props => {
         return;
       }
 
-      actions.addToLibrary(games);
+      libraryActions.addToLibrary(games);
     });
   }, []);
 
@@ -64,10 +63,6 @@ const Library = props => {
       </Drawer>
     </>
   );
-};
-
-Library.propTypes = {
-  addToLibrary: PropTypes.func.isRequired
 };
 
 export default Library;

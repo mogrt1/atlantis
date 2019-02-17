@@ -11,17 +11,18 @@ import {
 } from "@material-ui/core";
 
 import { appContext } from "../Context/Context";
+import * as settingsActions from "../actions/settingsActions";
 
 const SettingsControlToggle = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const { label, icon, setting } = props;
   const classes = useSettingsToggleStyles();
 
-  const handleToggle = (updateSetting, value, actions) => () => {
+  const handleToggle = (updateSetting, value) => () => {
     updateSetting(!value);
 
     if (props.onChange) {
-      props.onChange(!value, actions);
+      props.onChange(!value);
     }
   };
 
@@ -30,9 +31,8 @@ const SettingsControlToggle = props => {
       button
       className={classes.settingsItem}
       onClick={handleToggle(
-        actions.updateSetting(setting),
-        state.settings[setting],
-        actions
+        settingsActions.updateSetting(setting),
+        state.settings[setting]
       )}
     >
       <ListItemIcon>{icon}</ListItemIcon>

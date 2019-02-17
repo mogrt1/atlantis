@@ -5,8 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../../theme";
 import { useAppStyles } from "./AppStyles";
 
-import Context, { appContext } from "../Context/Context";
-import initialState from "./initialState";
+import { appContext } from "../Context/Context";
 import Hydrate from "../Hydrate/Hydrate";
 import FirstUse from "../FirstUse/FirstUse";
 import Gamepad from "../Gamepad/GamepadView";
@@ -17,7 +16,7 @@ import Library from "../Library/Library";
 import Notification from "../Notification/Notification";
 import Upgrade from "../Upgrade/Upgrade";
 
-import * as actions from "../actions/appActions";
+import * as appActions from "../actions/appActions";
 
 const useCustomTouchBehavior = () => {
   React.useEffect(() => {
@@ -49,28 +48,26 @@ const App = () => {
   const state = React.useContext(appContext);
 
   return (
-    <Context initialState={initialState}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
 
-        <Hydrate />
-        {state.hydrated && state.settings.firstUse && <FirstUse />}
-        <Emulator />
-        <Sound />
-        <Gamepad />
-        <Settings />
-        <Library />
-        <Notification
-          autoHide={1000}
-          open={Boolean(state.message)}
-          onClose={actions.hideMessage}
-        >
-          {state.message}
-        </Notification>
+      <Hydrate />
+      {state.hydrated && state.settings.firstUse && <FirstUse />}
+      <Emulator />
+      <Sound />
+      <Gamepad />
+      <Settings />
+      <Library />
+      <Notification
+        autoHide={1000}
+        open={Boolean(state.message)}
+        onClose={appActions.hideMessage}
+      >
+        {state.message}
+      </Notification>
 
-        <Upgrade />
-      </MuiThemeProvider>
-    </Context>
+      <Upgrade />
+    </MuiThemeProvider>
   );
 };
 

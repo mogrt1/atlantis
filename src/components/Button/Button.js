@@ -8,13 +8,11 @@ import useKeyHandlers from "../hooks/useKeyHandlers";
 import { appContext } from "../Context/Context";
 
 const Button = props => {
-  const { state } = React.useContext(appContext);
+  const state = React.useContext(appContext);
 
   const pointerHandlers = usePointerHandlers(props.pointerCommands);
 
-  if (!state.settingsOpen && props.keyCommands) {
-    useKeyHandlers(props.keyCommands);
-  }
+  useKeyHandlers(props.keyCommands, !state.settingsOpen && props.keyCommands);
 
   return (
     <ButtonView className={props.className} pointerHandlers={pointerHandlers}>

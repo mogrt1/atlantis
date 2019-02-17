@@ -161,7 +161,7 @@ const PrimaryButtons = props => {
   }, []);
 
   const classes = usePrimaryButtonStyles();
-  const pointerHandlers = usePointerHandlers(...events(state.turbo));
+  const pointerHandlers = usePointerHandlers(events(state.turbo));
 
   return (
     <div ref={buttonRef} className={classes.buttons} {...pointerHandlers}>

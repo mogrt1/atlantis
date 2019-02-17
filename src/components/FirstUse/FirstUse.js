@@ -16,13 +16,14 @@ import SettingsShowOverlay from "../Settings/SettingsShowOverlay";
 import Link from "../Link/Link";
 
 import { appContext } from "../Context/Context";
+import * as firstUseActions from "../actions/firstUseActions";
 
 const handleDone = action => e => {
   action(e);
 };
 
 const FirstUse = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const classes = useFirstUseStyles();
 
   return (
@@ -67,7 +68,7 @@ const FirstUse = props => {
         <Button
           className={classes.button}
           variant="contained"
-          onClick={handleDone(actions.firstUseComplete)}
+          onClick={handleDone(firstUseActions.firstUseComplete)}
         >
           {`Thanks`}
         </Button>

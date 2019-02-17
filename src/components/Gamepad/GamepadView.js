@@ -12,12 +12,14 @@ import RewindButton from "../SpecialButtons/RewindButton";
 import FastForwardButton from "../SpecialButtons/FastForwardButton";
 import QuickMenu from "../QuickMenu/QuickMenu";
 import TurboToggleButton from "../SpecialButtons/TurboToggleButton";
-
-import { appContext } from "../Context/Context";
 import PrimaryButtons from "../PrimaryButtons/PrimaryButtons";
 
+import { appContext } from "../Context/Context";
+import * as appActions from "../actions/appActions";
+import * as specialButtonActions from "../actions/specialButtonActions";
+
 const GamepadView = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const classes = useGamepadStyles();
 
   const { ffToggle, ffRate, keyBindings } = state.settings;
@@ -60,7 +62,7 @@ const GamepadView = props => {
           className={classes.rewind}
           kb={keyBindings[`settings-kb-rw`]}
           rewindQueue={state.rewindQueue}
-          showMessage={actions.showMessage}
+          showMessage={appActions.showMessage}
         >
           <RewindIcon className={classes.icon} />
         </RewindButton>
@@ -83,7 +85,7 @@ const GamepadView = props => {
 
       <TurboToggleButton
         className={classes.turbo}
-        toggleTurbo={actions.toggleTurbo}
+        toggleTurbo={specialButtonActions.toggleTurbo}
       >
         <sup>{`τ`}</sup>
       </TurboToggleButton>

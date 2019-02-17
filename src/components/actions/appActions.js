@@ -6,9 +6,8 @@ import {
   GameBoyEmulatorInitialized as gameBoyEmulatorInitialized
 } from "../../cores/GameBoy-Online/index";
 
-export const toggleDrawer = action(
-  `TOGGLE_DRAWER`,
-  drawerName => (state, dispatch) => {
+export const toggleDrawer = drawerName =>
+  action(`TOGGLE_DRAWER`, (state, dispatch) => {
     const shouldOpen = !state[`${drawerName}Open`];
 
     dispatch({
@@ -24,8 +23,7 @@ export const toggleDrawer = action(
     } else {
       run();
     }
-  }
-);
+  });
 
 export const showMessage = action(
   `SHOW_MESSAGE`,

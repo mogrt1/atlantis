@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { appContext } from "../Context/Context";
+import * as libraryActions from "../actions/libraryActions";
 
 import { useGameListStyles, libraryWidth, libraryCols } from "./LibraryStyles";
 
@@ -10,7 +11,7 @@ import GridList from "@material-ui/core/GridList";
 import Game from "./Game";
 
 const GameList = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const classes = useGameListStyles();
 
   return (
@@ -25,7 +26,7 @@ const GameList = props => {
           <Game
             key={data.md5}
             rom={data.rom}
-            setCurrentROM={actions.setCurrentROM}
+            setCurrentROM={libraryActions.setCurrentROM}
             thumb={data.thumb}
             title={data.title}
           />

@@ -16,9 +16,11 @@ import SettingsKeyBindings from "./SettingsKeyBindings";
 import Link from "../Link/Link";
 
 import { appContext } from "../Context/Context";
+import * as appActions from "../actions/appActions";
+import * as settingsActions from "../actions/settingsActions";
 
 const Settings = props => {
-  const { state, actions } = React.useContext(appContext);
+  const state = React.useContext(appContext);
   const classes = useSettingsStyles();
 
   return (
@@ -27,13 +29,13 @@ const Settings = props => {
         aria-label="open settings"
         className={classes.open}
         color="inherit"
-        onClick={actions.toggleDrawer(`settings`)}
+        onClick={appActions.toggleDrawer(`settings`)}
       >
         <SettingsIcon />
       </IconButton>
 
       <Drawer
-        onClose={actions.toggleDrawer(`settings`)}
+        onClose={appActions.toggleDrawer(`settings`)}
         open={state.settingsOpen}
       >
         <List
@@ -50,20 +52,20 @@ const Settings = props => {
           {`vibrate` in window.navigator && <SettingsHaptics />}
           <SettingsFFRate
             rate={state.settings.ffRate}
-            updateSetting={actions.updateSetting(`ffRate`)}
+            updateSetting={settingsActions.updateSetting(`ffRate`)}
           />
           <SettingsFFToggle />
           <SettingsRewind />
           <SettingsManageData
-            deleteGame={actions.deleteGame}
-            deleteSaveState={actions.deleteSaveState}
-            deleteSRAM={actions.deleteSRAM}
+            deleteGame={settingsActions.deleteGame}
+            deleteSaveState={settingsActions.deleteSaveState}
+            deleteSRAM={settingsActions.deleteSRAM}
             library={state.library}
           />
           <SettingsShowOverlay />
           <SettingsKeyBindings
             keyBindings={state.settings.keyBindings}
-            updateSetting={actions.updateSetting(`keyBindings`)}
+            updateSetting={settingsActions.updateSetting(`keyBindings`)}
           />
           <Link
             error

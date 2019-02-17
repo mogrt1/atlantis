@@ -2,7 +2,7 @@ import React from "react";
 
 import { get, set, del, keys } from "idb-keyval";
 
-import * as actions from "../actions/hydrateActions";
+import * as hydrateActions from "../actions/hydrateActions";
 
 import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
 
@@ -41,7 +41,7 @@ saveValue.subscribe((key, value) => {
 const Hydrate = props => {
   React.useEffect(() => {
     hydrateCoreData().then(() => {
-      actions.hydrateSavedSettings();
+      hydrateActions.hydrateSavedSettings();
     });
   }, []);
 

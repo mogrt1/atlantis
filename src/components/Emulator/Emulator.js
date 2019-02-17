@@ -2,7 +2,7 @@ import React from "react";
 
 import EmulatorView from "./EmulatorView";
 
-import * as actions from "../actions/emulatorActions";
+import * as emulatorActions from "../actions/emulatorActions";
 
 import { settings } from "../../cores/GameBoy-Online/index";
 
@@ -13,7 +13,7 @@ const Emulator = props => {
   const canvasRef = React.useRef();
 
   React.useEffect(() => {
-    actions.setCanvas(canvasRef);
+    emulatorActions.setCanvas(canvasRef);
   });
 
   return <EmulatorView canvasRef={canvasRef} />;

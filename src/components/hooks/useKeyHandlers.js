@@ -1,7 +1,11 @@
 import React from "react";
 
-const useKeyHandlers = inputs => {
+const useKeyHandlers = (inputs, condition) => {
   React.useEffect(() => {
+    if (condition !== undefined && !condition) {
+      return () => {};
+    }
+
     const eventDelegate = eventType => e => {
       if (e.repeat || !(e.key in inputs) || !(eventType in inputs[e.key])) {
         return false;

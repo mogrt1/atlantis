@@ -31,7 +31,9 @@ const md5GameRefs = async () => {
 };
 
 const Upgrade = () => {
-  React.useEffect(md5GameRefs, []);
+  React.useEffect(() => {
+    md5GameRefs();
+  }, []);
 
   return null;
 };
