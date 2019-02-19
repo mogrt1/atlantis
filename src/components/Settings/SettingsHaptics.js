@@ -1,5 +1,4 @@
 import React from "react";
-import { shouldUpdate } from "recompose";
 
 import VibrationIcon from "@material-ui/icons/Vibration";
 
@@ -13,4 +12,4 @@ const SettingsHaptics = () => (
   />
 );
 
-export default shouldUpdate(() => false)(SettingsHaptics);
+export default React.memo(SettingsHaptics, () => true);

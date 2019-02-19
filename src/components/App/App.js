@@ -1,6 +1,6 @@
 import React from "react";
 
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../../theme";
 import { useAppStyles } from "./AppStyles";
@@ -71,4 +71,4 @@ const App = () => {
   );
 };
 
-export default React.memo(App, () => true);
+export default App;

@@ -27,8 +27,10 @@ const Settings = props => {
     <>
       <IconButton
         aria-label="open settings"
+        classes={{
+          root: classes.open
+        }}
         className={classes.open}
-        color="inherit"
         onClick={appActions.toggleDrawer(`settings`)}
       >
         <SettingsIcon />
@@ -79,4 +81,4 @@ const Settings = props => {
   );
 };
 
-export default React.memo(Settings, () => true);
+export default Settings;

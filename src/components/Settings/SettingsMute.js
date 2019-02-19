@@ -1,5 +1,4 @@
 import React from "react";
-import { shouldUpdate } from "recompose";
 
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 
@@ -34,4 +33,4 @@ const SettingsMute = () => (
   />
 );
 
-export default shouldUpdate(() => false)(SettingsMute);
+export default React.memo(SettingsMute, () => true);

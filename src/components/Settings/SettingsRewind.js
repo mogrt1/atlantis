@@ -1,5 +1,4 @@
 import React from "react";
-import { shouldUpdate } from "recompose";
 
 import RewindIcon from "@material-ui/icons/FastRewind";
 
@@ -13,4 +12,4 @@ const SettingsRewind = () => (
   />
 );
 
-export default shouldUpdate(() => false)(SettingsRewind);
+export default React.memo(SettingsRewind, () => true);

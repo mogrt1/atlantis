@@ -1,5 +1,4 @@
 import React from "react";
-import { shouldUpdate } from "recompose";
 
 import VideogameAssetIcon from "@material-ui/icons/VideogameAsset";
 
@@ -13,4 +12,4 @@ const SettingsShowOverlay = () => (
   />
 );
 
-export default shouldUpdate(() => false)(SettingsShowOverlay);
+export default React.memo(SettingsShowOverlay, () => true);

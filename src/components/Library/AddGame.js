@@ -7,14 +7,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 
-import { appContext } from "../Context/Context";
+import * as libraryActions from "../actions/libraryActions";
 
 const handleUpload = action => e => {
   action(e);
 };
 
 const AddGame = props => {
-  const { actions } = React.useContext(appContext);
   const classes = useAddGameStyles();
 
   return (
@@ -31,7 +30,7 @@ const AddGame = props => {
           style={{ display: `none` }}
           type="file"
           multiple
-          onChange={handleUpload(actions.uploadGame)}
+          onChange={handleUpload(libraryActions.uploadGame)}
         />
       </ListItemText>
     </ListItem>

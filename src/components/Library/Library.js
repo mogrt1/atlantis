@@ -34,7 +34,6 @@ const Library = props => {
       <IconButton
         aria-label="open settings"
         className={classes.open}
-        color="inherit"
         onClick={appActions.toggleDrawer(`library`)}
       >
         <LibraryIcon />

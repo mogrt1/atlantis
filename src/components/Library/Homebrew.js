@@ -4,7 +4,7 @@ import { useHomebrewStyles } from "./LibraryStyles";
 
 import { List, ListSubheader } from "@material-ui/core";
 
-import { appContext } from "../Context/Context";
+import * as libraryActions from "../actions/libraryActions";
 
 import GameList from "./GameList";
 import Game from "./Game";
@@ -20,7 +20,6 @@ import postbotUri from "./homebrew/postbot/postbot.gb.zip";
 import postbotThumb from "./homebrew/postbot/postbot.png";
 
 const Homebrew = props => {
-  const { actions } = React.useContext(appContext);
   const [homebrew, setHomebrew] = React.useState(``);
   const classes = useHomebrewStyles();
 
@@ -60,7 +59,7 @@ const Homebrew = props => {
           />
         </GameList>
         {homebrew && (
-          <Loader setCurrentROM={actions.setCurrentROM} uri={homebrew} />
+          <Loader setCurrentROM={libraryActions.setCurrentROM} uri={homebrew} />
         )}
       </div>
     </List>

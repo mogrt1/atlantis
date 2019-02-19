@@ -1,11 +1,11 @@
 import { action } from "../Context/Context";
 
-import { updateSetting } from "./settingsActions";
+import * as settingsActions from "./settingsActions";
 
 export const firstUseComplete = action(
   `FIRST_USE_COMPLETE`,
   (state, dispatch) => {
-    updateSetting(`firstUse`)(false);
+    settingsActions.updateSetting(`firstUse`)(false);
     dispatch({ libraryOpen: true });
   }
 );

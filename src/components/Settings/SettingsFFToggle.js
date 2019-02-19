@@ -1,5 +1,4 @@
 import React from "react";
-import { shouldUpdate } from "recompose";
 
 import FastForwardIcon from "@material-ui/icons/FastForward";
 
@@ -13,4 +12,4 @@ const SettingsFFToggle = () => (
   />
 );
 
-export default shouldUpdate(() => false)(SettingsFFToggle);
+export default React.memo(SettingsFFToggle, () => true);

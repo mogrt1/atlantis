@@ -10,6 +10,7 @@ import {
   DialogActions,
   Button
 } from "@material-ui/core";
+import { unstable_Box as Box } from "@material-ui/core/Box";
 import { SettingsRounded as SettingsIcon } from "@material-ui/icons";
 
 import SettingsShowOverlay from "../Settings/SettingsShowOverlay";
@@ -42,7 +43,9 @@ const FirstUse = props => {
             Before continuing, please choose whether you want to use the touch control
             overlay (you can always change this in Settings
           `}
-          {<SettingsIcon className={classes.inlineIcon} />}
+          <Box alignSelf="middle">
+            {`<SettingsIcon className={classes.inlineIcon} />`}
+          </Box>
           {`).`}
         </DialogContentText>
         <SettingsShowOverlay />
@@ -66,8 +69,8 @@ const FirstUse = props => {
       </DialogContent>
       <DialogActions>
         <Button
-          className={classes.button}
           variant="contained"
+          color="secondary"
           onClick={handleDone(firstUseActions.firstUseComplete)}
         >
           {`Thanks`}
