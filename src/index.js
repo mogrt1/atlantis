@@ -1,5 +1,7 @@
 // Basic global setup. The app proper begins in App.
 
+import "./patch";
+
 import React from "react";
 import ReactDOM from "react-dom";
 
