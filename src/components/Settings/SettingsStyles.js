@@ -47,7 +47,7 @@ export const useSettingsToggleStyles = makeStyles({
 
 const collapsibleList = {
   itemText: { paddingLeft: 0 },
-  nested: { paddingLeft: theme.spacing.unit * INDENT },
+  nested: { paddingLeft: theme.spacing(INDENT) },
   expand: {
     color: theme.palette.getContrastText(theme.palette.primary[`800`])
   },
@@ -83,7 +83,7 @@ export const useSettingsManageDataStyles = makeStyles({
     overflow: `hidden`,
     textOverflow: `ellipsis`
   },
-  save: { paddingLeft: theme.spacing.unit * DEEP_INDENT },
+  save: { paddingLeft: theme.spacing(DEEP_INDENT) },
   confirmBody: {
     lineHeight: 1.2,
     color: theme.palette.getContrastText(theme.palette.primary[`800`])
