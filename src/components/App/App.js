@@ -1,6 +1,6 @@
 import React from "react";
 
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../../theme";
 import { useAppStyles } from "./AppStyles";
@@ -48,7 +48,7 @@ const App = () => {
   const state = React.useContext(appContext);
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
 
       <Hydrate />
@@ -67,7 +67,7 @@ const App = () => {
       </Notification>
 
       <Upgrade />
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 
