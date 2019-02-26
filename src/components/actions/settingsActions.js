@@ -21,7 +21,7 @@ export const updateSetting = key =>
 export const deleteGame = action(`DELETE_GAME`, (state, dispatch, rom) => {
   let deletedGame = null;
 
-  let { currentROM } = this.state;
+  let { currentROM } = state;
 
   if (buffersEqual(currentROM, rom)) {
     currentROM = null;
@@ -53,8 +53,8 @@ export const deleteGame = action(`DELETE_GAME`, (state, dispatch, rom) => {
   }
 
   deleteSRAM(deletedGame.name);
-  this.actions.deleteSaveState(deletedGame.name, `main`);
-  this.actions.deleteSaveState(deletedGame.name, `auto`);
+  deleteSaveState(deletedGame.name, `main`);
+  deleteSaveState(deletedGame.name, `auto`);
 });
 
 export const deleteSRAM = action(

@@ -27,7 +27,6 @@ const FirstUse = props => {
   return (
     <Dialog
       aria-labelledby="first-use"
-      className={classes.dialog}
       maxWidth="xs"
       open={state.settings.firstUse}
       scroll="body"

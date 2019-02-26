@@ -1,24 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { set, get, keys } from "idb-keyval";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "@material-ui/core/Button";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import StorageIcon from "@material-ui/icons/Storage";
-import DeleteIcon from "@material-ui/icons/Delete";
-import ExportIcon from "@material-ui/icons/Save";
-import ImportIcon from "@material-ui/icons/Publish";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+  Collapse,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button
+} from "@material-ui/core";
+import {
+  ExpandLess,
+  ExpandMore,
+  Storage as StorageIcon,
+  Delete as DeleteIcon,
+  Save as ExportIcon,
+  Publish as ImportIcon
+} from "@material-ui/icons";
 
 import * as quickMenuActions from "../actions/quickMenuActions";
 import {

@@ -2,28 +2,30 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Loader = props => {
-  fetch(props.uri)
-    .then(response => {
-      if (response.ok) {
-        return response.blob();
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(props.uri);
+
+        if (!response.ok) {
+          throw new Error(`Network response was not ok.`);
+        }
+
+        const blob = await response.blob();
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          props.setCurrentROM(reader.result);
+        };
+        reader.readAsArrayBuffer(blob);
+      } catch (error) {
+        console.error(
+          `There has been a problem with your fetch operation: `,
+          error.message
+        );
       }
-      throw new Error(`Network response was not ok.`);
-    })
-    .then(blob => {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        props.setCurrentROM(reader.result);
-      };
-
-      reader.readAsArrayBuffer(blob);
-    })
-    .catch(error => {
-      console.error(
-        `There has been a problem with your fetch operation: `,
-        error.message
-      );
-    });
+    })();
+  }, []);
 
   return null;
 };

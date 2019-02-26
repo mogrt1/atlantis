@@ -81,7 +81,9 @@ export const addToLibrary = action(`ADD_TO_LIBRARY`, (state, dispatch, ROM) => {
   });
 });
 
-export const uploadGame = action(`UPLOAD_GAME`, e => {
+export const uploadGame = action(`UPLOAD_GAME`, (state, dispatch, e) => {
+  dispatch();
+
   const getROM = file =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -89,13 +91,13 @@ export const uploadGame = action(`UPLOAD_GAME`, e => {
       const buffer = new Spark.ArrayBuffer();
 
       reader.onload = () => {
-        this.actions.unzip(reader.result).then(rom => {
+        unzip(reader.result).then(rom => {
           buffer.append(rom);
 
           if (buffer._length && rom.byteLength) {
             const md5 = buffer.end().toUpperCase();
 
-            for (const { md5: libMd5 } of this.state.library) {
+            for (const { md5: libMd5 } of state.library) {
               if (md5 === libMd5) {
                 return;
               }
@@ -130,8 +132,8 @@ export const uploadGame = action(`UPLOAD_GAME`, e => {
   }
 
   Promise.all(roms).then(results => {
-    this.actions.addToLibrary(results, () => {
-      set(`games`, this.state.library);
+    addToLibrary(results, () => {
+      set(`games`, state.library);
     });
   });
 });

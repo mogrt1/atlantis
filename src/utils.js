@@ -53,7 +53,7 @@ export const getBinaryString = arrayBuffer =>
     reader.readAsBinaryString(new Blob([arrayBuffer]));
   });
 
-export const unzip = arrayBuffer => async () => {
+export const unzip = async arrayBuffer => {
   const zip = new JSZip();
 
   try {
