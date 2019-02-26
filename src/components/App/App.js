@@ -1,10 +1,8 @@
 import React from "react";
-
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "../../theme";
-import { useAppStyles } from "./AppStyles";
 
+import theme from "../../theme";
 import { appContext } from "../Context/Context";
 import Hydrate from "../Hydrate/Hydrate";
 import FirstUse from "../FirstUse/FirstUse";
@@ -15,8 +13,9 @@ import Settings from "../Settings/Settings";
 import Library from "../Library/Library";
 import Notification from "../Notification/Notification";
 import Upgrade from "../Upgrade/Upgrade";
-
 import * as appActions from "../actions/appActions";
+
+import { useAppStyles } from "./AppStyles";
 
 const useCustomTouchBehavior = () => {
   React.useEffect(() => {

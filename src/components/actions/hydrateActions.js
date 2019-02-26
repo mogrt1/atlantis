@@ -1,10 +1,10 @@
-import { action } from "../Context/Context";
-import * as settingsActions from "./settingsActions";
-import * as libraryActions from "./libraryActions";
-
 import { get } from "idb-keyval";
 
+import { action } from "../Context/Context";
 import initialState from "../../initialState";
+
+import * as settingsActions from "./settingsActions";
+import * as libraryActions from "./libraryActions";
 
 const defaultSettings = initialState.settings;
 

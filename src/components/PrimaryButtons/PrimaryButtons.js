@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { usePrimaryButtonStyles } from "./PrimaryButtonsStyles";
-
 import GamepadButton from "../GamepadButton/GamepadButton";
 import usePointerHandlers from "../hooks/usePointerHandlers";
-
 import { appContext } from "../Context/Context";
-
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from "../../cores/GameBoy-Online/index";
+
+import { usePrimaryButtonStyles } from "./PrimaryButtonsStyles";
 
 const PrimaryButtons = props => {
   const state = React.useContext(appContext);

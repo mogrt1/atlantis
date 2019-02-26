@@ -1,5 +1,4 @@
 import React from "react";
-
 import RewindIcon from "@material-ui/icons/FastRewind";
 
 import SettingsControlToggle from "./SettingsControlToggle";

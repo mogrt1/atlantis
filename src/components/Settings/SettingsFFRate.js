@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { useSettingsFFRateStyles } from "./SettingsStyles";
-
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import FastForwardIcon from "@material-ui/icons/FastForward";
+
+import { useSettingsFFRateStyles } from "./SettingsStyles";
 
 const rateLevels = 9;
 const firstRate = 2;

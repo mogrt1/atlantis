@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { useInternalClockStyles } from "./InternalClockStyles";
-
 import {
   Drawer,
   FormControl,
@@ -13,6 +10,8 @@ import {
 } from "@material-ui/core";
 
 import { gameboy } from "../../cores/GameBoy-Online/index";
+
+import { useInternalClockStyles } from "./InternalClockStyles";
 
 const ZERO = 0;
 

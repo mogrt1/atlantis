@@ -1,5 +1,4 @@
 import { action } from "../Context/Context";
-
 import { XAudioJSWebAudioContextHandle as audioContext } from "../../cores/GameBoy-Online/index";
 
 export const enableAudio = action(`ENABLE_AUDIO`, (state, dispatch) => {

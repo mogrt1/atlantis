@@ -1,15 +1,12 @@
 import React from "react";
-
-import { useHomebrewStyles } from "./LibraryStyles";
-
 import { List, ListSubheader } from "@material-ui/core";
 
 import * as libraryActions from "../actions/libraryActions";
-
-import GameList from "./GameList";
-import Game from "./Game";
 import Loader from "../Loader/Loader";
 
+import { useHomebrewStyles } from "./LibraryStyles";
+import GameList from "./GameList";
+import Game from "./Game";
 import spaceInvasionUri from "./homebrew/space-invasion/space-invasion.gb.zip";
 import spaceInvasionThumb from "./homebrew/space-invasion/space-invasion.png";
 import flappyBoyUri from "./homebrew/flappyboy/flappyboy.gb.zip";

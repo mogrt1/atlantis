@@ -1,10 +1,13 @@
 import React from "react";
-
-import { useSettingsStyles } from "./SettingsStyles";
-
 import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/SettingsRounded";
 
+import Link from "../Link/Link";
+import { appContext } from "../Context/Context";
+import * as appActions from "../actions/appActions";
+import * as settingsActions from "../actions/settingsActions";
+
+import { useSettingsStyles } from "./SettingsStyles";
 import SettingsMute from "./SettingsMute";
 import SettingsHaptics from "./SettingsHaptics";
 import SettingsFFRate from "./SettingsFFRate";
@@ -13,11 +16,6 @@ import SettingsRewind from "./SettingsRewind";
 import SettingsManageData from "./SettingsManageData";
 import SettingsShowOverlay from "./SettingsShowOverlay";
 import SettingsKeyBindings from "./SettingsKeyBindings";
-import Link from "../Link/Link";
-
-import { appContext } from "../Context/Context";
-import * as appActions from "../actions/appActions";
-import * as settingsActions from "../actions/settingsActions";
 
 const Settings = props => {
   const state = React.useContext(appContext);

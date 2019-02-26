@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { useSettingsKeyBindingsStyles } from "./SettingsStyles";
-
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,6 +10,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import KeyboardIcon from "@material-ui/icons/Keyboard";
+
+import { useSettingsKeyBindingsStyles } from "./SettingsStyles";
 
 const bindingsDict = {
   b: `B`,

@@ -1,9 +1,7 @@
 import React from "react";
-
 import { get, set, del, keys } from "idb-keyval";
 
 import * as hydrateActions from "../actions/hydrateActions";
-
 import { persistValues, saveValue } from "../../cores/GameBoy-Online/index";
 
 const notCoreKeys = new Set([`games`, `settings`, `currentROM`]);

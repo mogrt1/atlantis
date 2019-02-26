@@ -1,10 +1,9 @@
 import React from "react";
 
-import EmulatorView from "./EmulatorView";
-
 import * as emulatorActions from "../actions/emulatorActions";
-
 import { settings } from "../../cores/GameBoy-Online/index";
+
+import EmulatorView from "./EmulatorView";
 
 const SMOOTHING = 13;
 settings[SMOOTHING] = false;

@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import GridList from "@material-ui/core/GridList";
 
 import { appContext } from "../Context/Context";
 import * as libraryActions from "../actions/libraryActions";
 
 import { useGameListStyles, libraryWidth, libraryCols } from "./LibraryStyles";
-
-import GridList from "@material-ui/core/GridList";
-
 import Game from "./Game";
 
 const GameList = props => {

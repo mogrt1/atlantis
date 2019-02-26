@@ -1,7 +1,6 @@
 import React from "react";
 
 import Notification from "../Notification/Notification";
-
 import { appContext } from "../Context/Context";
 import * as soundActions from "../actions/soundActions";
 

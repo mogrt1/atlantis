@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { useGameStyles } from "./LibraryStyles";
-
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ButtonBase from "@material-ui/core/ButtonBase";
+
+import { useGameStyles } from "./LibraryStyles";
 
 const Game = props => {
   const { thumb, title } = props;

@@ -1,10 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { set, get, keys } from "idb-keyval";
-
-import { useSettingsManageDataStyles } from "./SettingsStyles";
-
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -25,12 +21,13 @@ import ExportIcon from "@material-ui/icons/Save";
 import ImportIcon from "@material-ui/icons/Publish";
 
 import * as quickMenuActions from "../actions/quickMenuActions";
-
 import {
   gameboy,
   persistValues,
   pause
 } from "../../cores/GameBoy-Online/index";
+
+import { useSettingsManageDataStyles } from "./SettingsStyles";
 
 const SettingsManageData = props => {
   const [state, setState] = React.useState({

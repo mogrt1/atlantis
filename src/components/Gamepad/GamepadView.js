@@ -1,10 +1,7 @@
 import React from "react";
-
 import RewindIcon from "@material-ui/icons/FastRewind";
 import FastForwardIcon from "@material-ui/icons/FastForward";
 import MenuIcon from "@material-ui/icons/Menu";
-
-import { useGamepadStyles } from "./GamepadStyles";
 
 import Dpad from "../Dpad/Dpad";
 import GamepadButton from "../GamepadButton/GamepadButton";
@@ -13,10 +10,11 @@ import FastForwardButton from "../SpecialButtons/FastForwardButton";
 import QuickMenu from "../QuickMenu/QuickMenu";
 import TurboToggleButton from "../SpecialButtons/TurboToggleButton";
 import PrimaryButtons from "../PrimaryButtons/PrimaryButtons";
-
 import { appContext } from "../Context/Context";
 import * as appActions from "../actions/appActions";
 import * as specialButtonActions from "../actions/specialButtonActions";
+
+import { useGamepadStyles } from "./GamepadStyles";
 
 const GamepadView = props => {
   const state = React.useContext(appContext);

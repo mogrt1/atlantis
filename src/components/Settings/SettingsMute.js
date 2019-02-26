@@ -1,12 +1,10 @@
 import React from "react";
-
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 
-import SettingsControlToggle from "./SettingsControlToggle";
-
 import * as soundActions from "../actions/soundActions";
-
 import { gameboy, settings } from "../../cores/GameBoy-Online/index";
+
+import SettingsControlToggle from "./SettingsControlToggle";
 
 const SOUND = 0;
 

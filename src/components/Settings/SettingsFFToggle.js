@@ -1,5 +1,4 @@
 import React from "react";
-
 import FastForwardIcon from "@material-ui/icons/FastForward";
 
 import SettingsControlToggle from "./SettingsControlToggle";

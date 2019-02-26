@@ -1,7 +1,4 @@
 import React from "react";
-
-import { useFirstUseStyles } from "./FirstUseStyles";
-
 import {
   Dialog,
   DialogTitle,
@@ -14,9 +11,10 @@ import { SettingsRounded as SettingsIcon } from "@material-ui/icons";
 
 import SettingsShowOverlay from "../Settings/SettingsShowOverlay";
 import Link from "../Link/Link";
-
 import { appContext } from "../Context/Context";
 import * as firstUseActions from "../actions/firstUseActions";
+
+import { useFirstUseStyles } from "./FirstUseStyles";
 
 const handleDone = action => e => {
   action(e);

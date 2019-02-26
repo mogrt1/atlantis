@@ -1,13 +1,12 @@
 import React from "react";
-
-import { useAddGameStyles } from "./LibraryStyles";
-
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 
 import * as libraryActions from "../actions/libraryActions";
+
+import { useAddGameStyles } from "./LibraryStyles";
 
 const handleUpload = action => e => {
   action(e);

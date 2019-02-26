@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import DpadView from "./DpadView";
 import usePointerHandlers from "../hooks/usePointerHandlers";
 import useKeyHandlers from "../hooks/useKeyHandlers";
-
 import { appContext } from "../Context/Context";
-
 import { GameBoyJoyPadEvent as gameBoyJoyPadEvent } from "../../cores/GameBoy-Online/index";
+
+import DpadView from "./DpadView";
 
 // Constants.
 

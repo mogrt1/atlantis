@@ -1,14 +1,13 @@
 import { action } from "../Context/Context";
-import * as appActions from "./appActions";
-
 import { getBinaryString } from "../../utils";
-
 import {
   start,
   saveState as emulatorSaveState,
   openState,
   GameBoyJoyPadEvent as gameBoyJoyPadEvent
 } from "../../cores/GameBoy-Online/index";
+
+import * as appActions from "./appActions";
 
 export const saveState = action(`SAVE_STATE`, (state, dispatch) => {
   emulatorSaveState(`main`);

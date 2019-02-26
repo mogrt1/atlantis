@@ -1,9 +1,7 @@
-import { action } from "../Context/Context";
-
 import { set, del, keys } from "idb-keyval";
 
+import { action } from "../Context/Context";
 import { buffersEqual, getThumbUri, thumbIsUri } from "../../utils.js";
-
 import { stop, persistValues } from "../../cores/GameBoy-Online/index";
 
 export const updateSetting = key =>

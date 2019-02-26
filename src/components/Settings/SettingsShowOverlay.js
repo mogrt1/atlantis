@@ -1,5 +1,4 @@
 import React from "react";
-
 import VideogameAssetIcon from "@material-ui/icons/VideogameAsset";
 
 import SettingsControlToggle from "./SettingsControlToggle";

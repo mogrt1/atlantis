@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { Menu } from "@material-ui/core";
 import {
   OpenInBrowser as OpenInBrowserIcon,
@@ -12,16 +11,15 @@ import {
 
 import Button from "../Button/Button";
 import useKeyHandlers from "../hooks/useKeyHandlers";
-import QuickMenuItem from "./QuickMenuItem";
 import InternalClock from "../InternalClock/InternalClock";
-
 import { appContext } from "../Context/Context";
 import * as quickMenuActions from "../actions/quickMenuActions";
-
 import {
   gameboy,
   GameBoyEmulatorPlaying as gameBoyEmulatorPlaying
 } from "../../cores/GameBoy-Online/index";
+
+import QuickMenuItem from "./QuickMenuItem";
 
 const QuickMenu = props => {
   const state = React.useContext(appContext);

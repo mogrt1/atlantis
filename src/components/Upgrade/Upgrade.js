@@ -1,5 +1,4 @@
 import React from "react";
-
 import { get, set } from "idb-keyval";
 
 // An older system kept all ROMs in a single IDB entry.

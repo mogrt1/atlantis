@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { MenuItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 const QuickMenuItem = props => (

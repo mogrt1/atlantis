@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { useSettingsToggleStyles } from "./SettingsStyles";
-
 import {
   ListItem,
   ListItemText,
@@ -12,6 +9,8 @@ import {
 
 import { appContext } from "../Context/Context";
 import * as settingsActions from "../actions/settingsActions";
+
+import { useSettingsToggleStyles } from "./SettingsStyles";
 
 const SettingsControlToggle = props => {
   const state = React.useContext(appContext);

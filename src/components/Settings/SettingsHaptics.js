@@ -1,5 +1,4 @@
 import React from "react";
-
 import VibrationIcon from "@material-ui/icons/Vibration";
 
 import SettingsControlToggle from "./SettingsControlToggle";

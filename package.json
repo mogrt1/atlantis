@@ -23,12 +23,31 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
     "plugins": [
-      "prettier"
+      "prettier",
+      "import"
     ],
     "rules": {
       "prettier/prettier": "warn",
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index"
+          ],
+          "newlines-between": "always"
+        }
+      ],
       "quotes": [
         "error",
         "backtick"
@@ -47,6 +66,11 @@
     }
   },
   "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md,html}": [
       "prettier --write",
       "git add"
@@ -70,6 +94,7 @@
     "spark-md5": "^3.0.0"
   },
   "devDependencies": {
+    "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "gh-pages": "^2.0.1",

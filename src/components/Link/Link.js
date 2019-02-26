@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { useLinkStyles } from "./LinkStyles";
-
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Link as LinkIcon } from "@material-ui/icons";
+
+import { useLinkStyles } from "./LinkStyles";
 
 const Link = props => {
   const classes = useLinkStyles();

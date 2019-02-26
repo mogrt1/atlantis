@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import ButtonView from "./ButtonView";
 import usePointerHandlers from "../hooks/usePointerHandlers";
 import useKeyHandlers from "../hooks/useKeyHandlers";
-
 import { appContext } from "../Context/Context";
+
+import ButtonView from "./ButtonView";
 
 const Button = props => {
   const state = React.useContext(appContext);

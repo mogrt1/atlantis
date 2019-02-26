@@ -1,19 +1,16 @@
 import React from "react";
-
 import { get } from "idb-keyval";
-
-import { useLibraryStyles } from "./LibraryStyles";
-
 import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
 import { VideoLibrary as LibraryIcon } from "@material-ui/icons";
-
-import AddGame from "./AddGame";
-import GameList from "./GameList";
-import Homebrew from "./Homebrew";
 
 import { appContext } from "../Context/Context";
 import * as libraryActions from "../actions/libraryActions";
 import * as appActions from "../actions/appActions";
+
+import AddGame from "./AddGame";
+import GameList from "./GameList";
+import Homebrew from "./Homebrew";
+import { useLibraryStyles } from "./LibraryStyles";
 
 const Library = props => {
   const state = React.useContext(appContext);
