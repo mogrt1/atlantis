@@ -7,16 +7,21 @@ import { appContext } from "../Context/Context";
 
 import ButtonView from "./ButtonView";
 
-const Button = props => {
+const Button = ({
+  children = ``,
+  keyCommands = {},
+  className = ``,
+  pointerCommands
+}) => {
   const state = React.useContext(appContext);
 
-  const pointerHandlers = usePointerHandlers(props.pointerCommands);
+  const pointerHandlers = usePointerHandlers(pointerCommands);
 
-  useKeyHandlers(props.keyCommands, !state.settingsOpen && props.keyCommands);
+  useKeyHandlers(keyCommands, !state.settingsOpen && keyCommands);
 
   return (
-    <ButtonView className={props.className} pointerHandlers={pointerHandlers}>
-      {props.children}
+    <ButtonView className={className} pointerHandlers={pointerHandlers}>
+      {children}
     </ButtonView>
   );
 };
@@ -26,12 +31,6 @@ Button.propTypes = {
   pointerCommands: PropTypes.objectOf(PropTypes.func).isRequired,
   keyCommands: PropTypes.objectOf(PropTypes.object),
   className: PropTypes.string
-};
-
-Button.defaultProps = {
-  children: ``,
-  keyCommands: {},
-  className: ``
 };
 
 export default Button;

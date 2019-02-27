@@ -38,7 +38,7 @@ const fields = [
   }
 ];
 
-const InternalClock = props => {
+const InternalClock = ({ open = false, handleDone }) => {
   const [time, setTime] = React.useState({});
 
   const changeClock = unit => e => {
@@ -59,15 +59,10 @@ const InternalClock = props => {
     return null;
   }
 
-  const { handleDone } = props;
   const classes = useInternalClockStyles();
 
   return (
-    <Drawer
-      anchor="bottom"
-      classes={{ paper: classes.paper }}
-      open={props.open}
-    >
+    <Drawer anchor="bottom" classes={{ paper: classes.paper }} open={open}>
       {fields.map(field => (
         <FormControl key={field.name}>
           <InputLabel htmlFor={`quick-menu-clock-${field.name}`}>
@@ -104,7 +99,5 @@ InternalClock.propTypes = {
   open: PropTypes.bool,
   handleDone: PropTypes.func.isRequired
 };
-
-InternalClock.defaultProps = { open: false };
 
 export default InternalClock;

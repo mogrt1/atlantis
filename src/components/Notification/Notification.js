@@ -5,16 +5,18 @@ import Button from "@material-ui/core/Button";
 
 import { useNotificationStyles } from "./NotificationStyles";
 
-const Notification = props => {
-  const {
-    open,
-    autoHide,
-    children,
-    primaryAction: handleClick,
-    secondaryAction: handleButton,
-    secondaryLabel,
-    onClose: handleClose
-  } = props;
+const Notification = ({
+  children,
+  open = false,
+  autoHide = null,
+  primaryAction = null,
+  secondaryAction = null,
+  secondaryLabel = ``,
+  onClose = null
+}) => {
+  const handleClick = primaryAction,
+    handleButton = secondaryAction,
+    handleClose = onClose;
 
   const classes = useNotificationStyles();
 
@@ -57,15 +59,6 @@ Notification.propTypes = {
   secondaryAction: PropTypes.func,
   secondaryLabel: PropTypes.string,
   onClose: PropTypes.func
-};
-
-Notification.defaultProps = {
-  open: false,
-  autoHide: null,
-  primaryAction: null,
-  secondaryAction: null,
-  secondaryLabel: ``,
-  onClose: null
 };
 
 export default Notification;

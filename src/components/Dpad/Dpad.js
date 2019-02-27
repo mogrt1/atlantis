@@ -169,9 +169,8 @@ const useKeyEvents = kb => {
   return keyEvents;
 };
 
-const Dpad = props => {
+const Dpad = ({ className = ``, kb, haptics }) => {
   const state = React.useContext(appContext);
-  const { haptics, kb, className } = props;
 
   const [dpadRef, dpadDim] = useDimensions();
   const dpadEvents = useDpadEvents(dpadDim, haptics);
@@ -195,7 +194,5 @@ Dpad.propTypes = {
   kb: PropTypes.objectOf(PropTypes.string).isRequired,
   haptics: PropTypes.bool.isRequired
 };
-
-Dpad.defaultProps = { className: `` };
 
 export default Dpad;

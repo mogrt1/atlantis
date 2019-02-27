@@ -12,8 +12,8 @@ import { useSettingsFFRateStyles } from "./SettingsStyles";
 const rateLevels = 9;
 const firstRate = 2;
 
-const SettingsFFRate = props => {
-  const [rate, setRate] = React.useState(props.rate || firstRate);
+const SettingsFFRate = ({ updateSetting, rate = null }) => {
+  const [currRate, setRate] = React.useState(rate || firstRate);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useSettingsFFRateStyles();
 
@@ -21,7 +21,7 @@ const SettingsFFRate = props => {
     setRate(e.target.value);
     handleCloseMenu();
 
-    props.updateSetting(e.target.value);
+    updateSetting(e.target.value);
   };
 
   const handleOpenMenu = e => {
@@ -48,7 +48,7 @@ const SettingsFFRate = props => {
           {`Fast-Forward Rate`}
         </ListItemText>
 
-        <span className={classes.value}>{`${rate}x`}</span>
+        <span className={classes.value}>{`${currRate}x`}</span>
       </ListItem>
 
       <Menu
@@ -85,7 +85,5 @@ SettingsFFRate.propTypes = {
   updateSetting: PropTypes.func.isRequired,
   rate: PropTypes.number
 };
-
-SettingsFFRate.defaultProps = { rate: null };
 
 export default SettingsFFRate;

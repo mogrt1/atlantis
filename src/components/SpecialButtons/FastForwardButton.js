@@ -48,18 +48,24 @@ const useToggleEvents = ({ toggle, rate }) => {
   return toggle ? toggleEvents : noToggleEvents;
 };
 
-const FastForwardButton = props => {
-  const events = useToggleEvents(props);
+const FastForwardButton = ({
+  toggle,
+  rate,
+  kb,
+  className = ``,
+  children = null
+}) => {
+  const events = useToggleEvents({ toggle, rate });
 
   return (
     <Button
-      className={props.className}
+      className={className}
       keyCommands={{
-        [props.kb]: events
+        [kb]: events
       }}
       pointerCommands={events}
     >
-      {props.children}
+      {children}
     </Button>
   );
 };
@@ -70,11 +76,6 @@ FastForwardButton.propTypes = {
   kb: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node
-};
-
-FastForwardButton.defaultProps = {
-  className: ``,
-  children: null
 };
 
 export default FastForwardButton;

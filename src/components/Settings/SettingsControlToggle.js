@@ -12,16 +12,15 @@ import * as settingsActions from "../actions/settingsActions";
 
 import { useSettingsToggleStyles } from "./SettingsStyles";
 
-const SettingsControlToggle = props => {
+const SettingsControlToggle = ({ setting, label, icon, onChange = null }) => {
   const state = React.useContext(appContext);
-  const { label, icon, setting } = props;
   const classes = useSettingsToggleStyles();
 
   const handleToggle = (updateSetting, value) => () => {
     updateSetting(!value);
 
-    if (props.onChange) {
-      props.onChange(!value);
+    if (onChange) {
+      onChange(!value);
     }
   };
 
@@ -54,6 +53,4 @@ SettingsControlToggle.propTypes = {
   onChange: PropTypes.func
 };
 
-SettingsControlToggle.defaultProps = { onChange: null };
-
-export default React.memo(SettingsControlToggle, () => true);
+export default SettingsControlToggle;

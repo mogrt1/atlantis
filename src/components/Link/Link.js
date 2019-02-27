@@ -5,15 +5,15 @@ import { Link as LinkIcon } from "@material-ui/icons";
 
 import { useLinkStyles } from "./LinkStyles";
 
-const Link = props => {
+const Link = ({ error = false, href, children }) => {
   const classes = useLinkStyles();
 
   return (
     <ListItem
       button
-      className={`${classes.link} ${props.error ? classes.error : ``}`}
+      className={`${classes.link} ${error ? classes.error : ``}`}
       component="a"
-      href={props.href}
+      href={href}
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -21,7 +21,7 @@ const Link = props => {
         <LinkIcon />
       </ListItemIcon>
       <ListItemText classes={{ root: classes.textRoot }}>
-        {props.children}
+        {children}
       </ListItemText>
     </ListItem>
   );
@@ -33,6 +33,4 @@ Link.propTypes = {
   error: PropTypes.bool
 };
 
-Link.defaultProps = { error: false };
-
-export default React.memo(Link, () => true);
+export default Link;

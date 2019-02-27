@@ -15,4 +15,4 @@ QuickMenuItem.propTypes = {
   label: PropTypes.string.isRequired
 };
 
-export default React.memo(QuickMenuItem, () => true);
+export default QuickMenuItem;

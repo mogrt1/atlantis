@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { set, get, keys } from "idb-keyval";
 import {
   List,
@@ -24,7 +23,9 @@ import {
   Publish as ImportIcon
 } from "@material-ui/icons";
 
+import { appContext } from "../Context/Context";
 import * as quickMenuActions from "../actions/quickMenuActions";
+import * as settingsActions from "../actions/settingsActions";
 import {
   gameboy,
   persistValues,
@@ -34,6 +35,8 @@ import {
 import { useSettingsManageDataStyles } from "./SettingsStyles";
 
 const SettingsManageData = props => {
+  const { library } = React.useContext(appContext);
+
   const [state, setState] = React.useState({
     open: false,
     games: [],
@@ -67,21 +70,21 @@ const SettingsManageData = props => {
   const deleteGame = rom => () => {
     cleanUpRemoveUI(rom, `game`);
 
-    props.deleteGame(rom);
+    settingsActions.deleteGame(rom);
     handleDismissDelete();
   };
 
   const deleteSRAM = name => () => {
     cleanUpRemoveUI(name, `sram`);
 
-    props.deleteSRAM(name);
+    settingsActions.deleteSRAM(name);
     handleDismissDelete();
   };
 
   const deleteSaveState = (name, slot) => () => {
     cleanUpRemoveUI(name, slot);
 
-    props.deleteSaveState(name, slot);
+    settingsActions.deleteSaveState(name, slot);
     handleDismissDelete();
   };
 
@@ -153,7 +156,7 @@ const SettingsManageData = props => {
   };
 
   React.useEffect(() => {
-    const games = [...props.library];
+    const games = [...library];
 
     for (const game of games) {
       game.saves = {};
@@ -190,7 +193,7 @@ const SettingsManageData = props => {
     });
   }, []);
 
-  const isOpen = state.open && Boolean(props.library.length);
+  const isOpen = state.open && Boolean(library.length);
 
   const Expand = isOpen ? ExpandLess : ExpandMore;
 
@@ -352,14 +355,5 @@ const SettingsManageData = props => {
     </>
   );
 };
-
-SettingsManageData.propTypes = {
-  library: PropTypes.arrayOf(PropTypes.object),
-  deleteGame: PropTypes.func.isRequired,
-  deleteSRAM: PropTypes.func.isRequired,
-  deleteSaveState: PropTypes.func.isRequired
-};
-
-SettingsManageData.defaultProps = { library: [] };
 
 export default SettingsManageData;

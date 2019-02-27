@@ -75,17 +75,23 @@ const useRewindEvents = ({ rewindQueue, showMessage }) => {
   return events;
 };
 
-const RewindButton = props => {
-  useRecording(props);
-  const events = useRewindEvents(props);
+const RewindButton = ({
+  kb,
+  className = ``,
+  children = null,
+  rewindQueue,
+  showMessage
+}) => {
+  useRecording({ rewindQueue });
+  const events = useRewindEvents({ rewindQueue, showMessage });
 
   return (
     <Button
-      className={props.className}
-      keyCommands={{ [props.kb]: events }}
+      className={className}
+      keyCommands={{ [kb]: events }}
       pointerCommands={events}
     >
-      {props.children}
+      {children}
     </Button>
   );
 };
@@ -96,11 +102,6 @@ RewindButton.propTypes = {
   children: PropTypes.node,
   rewindQueue: PropTypes.arrayOf(PropTypes.array).isRequired,
   showMessage: PropTypes.func.isRequired
-};
-
-RewindButton.defaultProps = {
-  className: ``,
-  children: null
 };
 
 export default RewindButton;

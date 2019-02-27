@@ -32,9 +32,9 @@ const bindingsDict = {
   reset: `Reset`
 };
 
-const SettingsKeyBindings = props => {
+const SettingsKeyBindings = ({ keyBindings = {}, updateSetting }) => {
   const [open, setOpen] = React.useState(false);
-  const [bindings, setBindings] = React.useState({ ...props.keyBindings });
+  const [bindings, setBindings] = React.useState({ ...keyBindings });
   const classes = useSettingsKeyBindingsStyles();
 
   const handleBindingsToggle = () => {
@@ -51,7 +51,7 @@ const SettingsKeyBindings = props => {
     updatedBindings[e.target.id] = value;
 
     setBindings(updatedBindings);
-    props.updateSetting(updatedBindings);
+    updateSetting(updatedBindings);
   };
 
   const Expand = open ? ExpandLess : ExpandMore;
@@ -106,7 +106,5 @@ SettingsKeyBindings.propTypes = {
   keyBindings: PropTypes.objectOf(PropTypes.string),
   updateSetting: PropTypes.func.isRequired
 };
-
-SettingsKeyBindings.defaultProps = { keyBindings: {} };
 
 export default SettingsKeyBindings;

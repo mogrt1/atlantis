@@ -8,7 +8,7 @@ import * as libraryActions from "../actions/libraryActions";
 import { useGameListStyles, libraryWidth, libraryCols } from "./LibraryStyles";
 import Game from "./Game";
 
-const GameList = props => {
+const GameList = ({ children = null }) => {
   const state = React.useContext(appContext);
   const classes = useGameListStyles();
 
@@ -19,7 +19,7 @@ const GameList = props => {
       cols={libraryCols}
       spacing={0}
     >
-      {props.children ||
+      {children ||
         state.library.map(data => (
           <Game
             key={data.md5}
@@ -37,6 +37,4 @@ GameList.propTypes = {
   children: PropTypes.node
 };
 
-GameList.defaultProps = { children: null };
-
-export default React.memo(GameList, () => true);
+export default GameList;

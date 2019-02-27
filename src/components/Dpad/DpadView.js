@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 
 import { useDpadStyles } from "./DpadStyles";
 
-const DpadView = props => {
+const DpadView = ({ pointerHandlers = {}, className = ``, dpadRef }) => {
   const classes = useDpadStyles();
 
   return (
     <div
-      ref={props.dpadRef}
-      className={`${classes.dpad} ${props.className || ``}`}
-      {...props.pointerHandlers}
+      ref={dpadRef}
+      className={`${classes.dpad} ${className || ``}`}
+      {...pointerHandlers}
     >
       <div className={classes.vertical} />
       <div className={classes.horizontal} />
@@ -24,9 +24,4 @@ DpadView.propTypes = {
   className: PropTypes.string
 };
 
-DpadView.defaultProps = {
-  pointerHandlers: {},
-  className: ``
-};
-
-export default React.memo(DpadView, () => true);
+export default DpadView;

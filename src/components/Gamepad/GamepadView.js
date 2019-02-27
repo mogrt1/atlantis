@@ -12,7 +12,6 @@ import TurboToggleButton from "../SpecialButtons/TurboToggleButton";
 import PrimaryButtons from "../PrimaryButtons/PrimaryButtons";
 import { appContext } from "../Context/Context";
 import * as appActions from "../actions/appActions";
-import * as specialButtonActions from "../actions/specialButtonActions";
 
 import { useGamepadStyles } from "./GamepadStyles";
 
@@ -81,10 +80,7 @@ const GamepadView = props => {
         </QuickMenu>
       )}
 
-      <TurboToggleButton
-        className={classes.turbo}
-        toggleTurbo={specialButtonActions.toggleTurbo}
-      >
+      <TurboToggleButton className={classes.turbo}>
         <sup>{`τ`}</sup>
       </TurboToggleButton>
     </div>

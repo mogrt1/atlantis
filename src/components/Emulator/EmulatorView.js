@@ -22,4 +22,4 @@ EmulatorView.propTypes = {
   canvasRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired
 };
 
-export default React.memo(EmulatorView, () => true);
+export default EmulatorView;

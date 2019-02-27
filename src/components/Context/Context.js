@@ -37,7 +37,7 @@ const action = (type, callback) => {
   return (...args) => callback(state, blitspatch, ...args);
 };
 
-const Context = ({ children, initialState }) => {
+const Context = ({ children, initialState = {} }) => {
   [state, dispatch] = React.useReducer(reducer, initialState);
 
   return <Provider value={state}>{children}</Provider>;
@@ -46,10 +46,6 @@ const Context = ({ children, initialState }) => {
 Context.propTypes = {
   initialState: PropTypes.object.isRequired,
   children: PropTypes.element.isRequired
-};
-
-Context.defaultProps = {
-  initialState: {}
 };
 
 export default Context;

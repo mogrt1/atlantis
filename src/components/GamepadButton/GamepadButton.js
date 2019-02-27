@@ -68,10 +68,21 @@ const useButtonEvents = ({ haptics, type, events }) => {
   return [normalEvents, turboEvents];
 };
 
-const GamepadButton = props => {
-  const { kb, turboKb, className, children, turbo } = props;
-
-  const [normalEvents, turboEvents] = useButtonEvents(props);
+const GamepadButton = ({
+  turbo = null,
+  turboKb = ``,
+  events = {},
+  className = ``,
+  children = null,
+  kb,
+  type,
+  haptics
+}) => {
+  const [normalEvents, turboEvents] = useButtonEvents({
+    haptics,
+    type,
+    events
+  });
 
   const keyEvents = {
     [kb]: normalEvents,
@@ -99,14 +110,6 @@ GamepadButton.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   haptics: PropTypes.bool.isRequired
-};
-
-GamepadButton.defaultProps = {
-  turbo: null,
-  turboKb: ``,
-  events: {},
-  className: ``,
-  children: null
 };
 
 export default GamepadButton;

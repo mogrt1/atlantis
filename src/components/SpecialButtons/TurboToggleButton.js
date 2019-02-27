@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Button from "../Button/Button";
+import * as specialButtonActions from "../actions/specialButtonActions";
 
-const TurboToggleButton = props => {
+const TurboToggleButton = ({ className = ``, children = null }) => {
   const pressed = React.useRef(false);
 
   const events = {
@@ -14,7 +15,7 @@ const TurboToggleButton = props => {
 
       pressed.current = true;
 
-      props.toggleTurbo();
+      specialButtonActions.toggleTurbo();
     },
     up: () => {
       pressed.current = false;
@@ -22,21 +23,15 @@ const TurboToggleButton = props => {
   };
 
   return (
-    <Button className={props.className} pointerCommands={events}>
-      {props.children}
+    <Button className={className} pointerCommands={events}>
+      {children}
     </Button>
   );
 };
 
 TurboToggleButton.propTypes = {
-  toggleTurbo: PropTypes.func.isRequired,
   className: PropTypes.string,
   children: PropTypes.node
-};
-
-TurboToggleButton.defaultProps = {
-  className: ``,
-  children: null
 };
 
 export default TurboToggleButton;

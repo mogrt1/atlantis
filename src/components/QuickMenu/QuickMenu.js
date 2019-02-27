@@ -21,7 +21,7 @@ import {
 
 import QuickMenuItem from "./QuickMenuItem";
 
-const QuickMenu = props => {
+const QuickMenu = ({ children = null, className = `` }) => {
   const state = React.useContext(appContext);
   const [anchor, setAnchor] = React.useState(null);
   const [openClock, setOpenClock] = React.useState(false);
@@ -74,10 +74,10 @@ const QuickMenu = props => {
       <Button
         aria-haspopup="true"
         aria-owns={anchor ? `quick-menu` : null}
-        className={props.className}
+        className={className}
         pointerCommands={events}
       >
-        {props.children}
+        {children}
       </Button>
 
       <Menu
@@ -133,11 +133,6 @@ const QuickMenu = props => {
 QuickMenu.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string
-};
-
-QuickMenu.defaultProps = {
-  children: null,
-  className: ``
 };
 
 export default QuickMenu;

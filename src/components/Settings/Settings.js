@@ -56,12 +56,7 @@ const Settings = props => {
           />
           <SettingsFFToggle />
           <SettingsRewind />
-          <SettingsManageData
-            deleteGame={settingsActions.deleteGame}
-            deleteSaveState={settingsActions.deleteSaveState}
-            deleteSRAM={settingsActions.deleteSRAM}
-            library={state.library}
-          />
+          <SettingsManageData />
           <SettingsShowOverlay />
           <SettingsKeyBindings
             keyBindings={state.settings.keyBindings}

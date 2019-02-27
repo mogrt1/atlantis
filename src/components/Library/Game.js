@@ -6,8 +6,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 
 import { useGameStyles } from "./LibraryStyles";
 
-const Game = props => {
-  const { thumb, title } = props;
+const Game = ({ rom = ``, thumb, title, setCurrentROM }) => {
   const [imageError, setImageError] = React.useState(false);
   const classes = useGameStyles();
 
@@ -16,7 +15,7 @@ const Game = props => {
   };
 
   const handleROMSelection = () => {
-    props.setCurrentROM(props.rom);
+    setCurrentROM(rom);
   };
 
   const formattedTitle = () => {
@@ -69,7 +68,5 @@ Game.propTypes = {
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   rom: PropTypes.string
 };
-
-Game.defaultProps = { rom: `` };
 
 export default Game;
