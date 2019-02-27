@@ -8,8 +8,8 @@ import * as libraryActions from "../actions/libraryActions";
 
 import { useAddGameStyles } from "./LibraryStyles";
 
-const handleUpload = action => e => {
-  action(e);
+const handleUpload = e => {
+  libraryActions.uploadGame(e);
 };
 
 const AddGame = props => {
@@ -29,7 +29,7 @@ const AddGame = props => {
           style={{ display: `none` }}
           type="file"
           multiple
-          onChange={handleUpload(libraryActions.uploadGame)}
+          onChange={handleUpload}
         />
       </ListItemText>
     </ListItem>

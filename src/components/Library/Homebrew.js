@@ -1,7 +1,6 @@
 import React from "react";
 import { List, ListSubheader } from "@material-ui/core";
 
-import * as libraryActions from "../actions/libraryActions";
 import Loader from "../Loader/Loader";
 
 import { useHomebrewStyles } from "./LibraryStyles";
@@ -55,9 +54,7 @@ const Homebrew = props => {
             title="Post Bot"
           />
         </GameList>
-        {homebrew && (
-          <Loader setCurrentROM={libraryActions.setCurrentROM} uri={homebrew} />
-        )}
+        {homebrew && <Loader uri={homebrew} />}
       </div>
     </List>
   );

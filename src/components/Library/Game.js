@@ -6,7 +6,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 
 import { useGameStyles } from "./LibraryStyles";
 
-const Game = ({ rom = ``, thumb, title, setCurrentROM }) => {
+const Game = ({ rom, thumb, title, setCurrentROM }) => {
   const [imageError, setImageError] = React.useState(false);
   const classes = useGameStyles();
 
@@ -66,7 +66,7 @@ Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  rom: PropTypes.string
+  rom: PropTypes.instanceOf(ArrayBuffer)
 };
 
 export default Game;
