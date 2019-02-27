@@ -1,5 +1,5 @@
 import Spark from "spark-md5";
-import { set } from "idb-keyval";
+import { set, get } from "idb-keyval";
 
 import { action } from "../Context/Context";
 import { unzip, getBinaryString, buffersEqual, getThumbUri } from "../../utils";
@@ -39,7 +39,9 @@ export const setCurrentROM = action(
     const library = [...state.library];
 
     for (const game of library) {
-      if (buffersEqual(game.rom, unzippedROM)) {
+      const rom = await get(game.md5);
+
+      if (buffersEqual(rom, unzippedROM)) {
         if (!(`name` in game)) {
           game.name = gameboy.name;
 
@@ -59,27 +61,33 @@ export const setCurrentROM = action(
   }
 );
 
-export const addToLibrary = action(`ADD_TO_LIBRARY`, (state, dispatch, ROM) => {
-  if (!ROM.length) {
-    return;
-  }
+export const addToLibrary = action(
+  `ADD_TO_LIBRARY`,
+  (state, dispatch, ROM, callback) => {
+    if (!ROM.length) {
+      return;
+    }
 
-  const roms = Array.isArray(ROM) ? ROM : [ROM];
+    const roms = Array.isArray(ROM) ? ROM : [ROM];
 
-  for (const rom of roms) {
-    const { md5 } = rom;
+    for (const rom of roms) {
+      const { md5 } = rom;
 
-    for (const { md5: libMd5 } of state.library) {
-      if (md5 === libMd5) {
-        return;
+      for (const { md5: libMd5 } of state.library) {
+        if (md5 === libMd5) {
+          return;
+        }
       }
     }
-  }
 
-  dispatch({
-    library: [...state.library, ...roms]
-  });
-});
+    const newLibrary = [...state.library, ...roms];
+    dispatch({
+      library: newLibrary
+    });
+
+    callback && callback(newLibrary);
+  }
+);
 
 export const uploadGame = action(`UPLOAD_GAME`, (state, dispatch, e) => {
   dispatch();
@@ -103,16 +111,17 @@ export const uploadGame = action(`UPLOAD_GAME`, (state, dispatch, e) => {
               }
             }
 
-            const romData = {
+            const metadata = {
               title: games[md5] || file.name.replace(/\.zip/gu, ``),
-              md5,
-              rom: reader.result
+              md5
             };
 
-            getThumbUri(romData.title).then(uri => {
-              romData.thumb = uri;
+            const rom = reader.result;
 
-              resolve(romData);
+            getThumbUri(metadata.title).then(uri => {
+              metadata.thumb = uri;
+
+              resolve([metadata, rom]);
             });
           }
         });
@@ -132,8 +141,12 @@ export const uploadGame = action(`UPLOAD_GAME`, (state, dispatch, e) => {
   }
 
   Promise.all(roms).then(results => {
-    addToLibrary(results, () => {
-      set(`games`, state.library);
+    addToLibrary(results.map(([metadata]) => metadata), library => {
+      set(`games`, library);
     });
+
+    for (const [metadata, rom] of results) {
+      set(metadata.md5, rom);
+    }
   });
 });

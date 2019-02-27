@@ -23,7 +23,7 @@ const GameList = ({ children = null }) => {
         state.library.map(data => (
           <Game
             key={data.md5}
-            rom={data.rom}
+            rom={data.md5}
             setCurrentROM={libraryActions.setCurrentROM}
             thumb={data.thumb}
             title={data.title}

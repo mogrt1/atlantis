@@ -31,7 +31,7 @@ export const hydrateSavedSettings = action(
     // Load last-played game.
     get(`currentROM`).then(currentROM => {
       if (currentROM) {
-        libraryActions.setCurrentROM(currentROM, `autoLoad`);
+        libraryActions.setCurrentROM(currentROM);
       }
     });
   }

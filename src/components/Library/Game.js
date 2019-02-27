@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { get } from "idb-keyval";
 
 import { useGameStyles } from "./LibraryStyles";
 
@@ -14,8 +15,13 @@ const Game = ({ rom, thumb, title, setCurrentROM }) => {
     setImageError(true);
   };
 
-  const handleROMSelection = () => {
-    setCurrentROM(rom);
+  const handleROMSelection = async () => {
+    let selectedROM = rom;
+    if (typeof selectedROM === `string`) {
+      selectedROM = await get(selectedROM);
+    }
+
+    setCurrentROM(selectedROM);
   };
 
   const formattedTitle = () => {
@@ -66,7 +72,10 @@ Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  rom: PropTypes.instanceOf(ArrayBuffer)
+  rom: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.instanceOf(ArrayBuffer)
+  ])
 };
 
 export default Game;
