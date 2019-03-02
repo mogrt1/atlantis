@@ -29,6 +29,7 @@ const defaultSettings = {
 export default {
   hydrated: false,
   canvas: null,
+  appStoreOpen: false,
   settingsOpen: false,
   libraryOpen: false,
   library: [],

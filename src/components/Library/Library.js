@@ -3,6 +3,7 @@ import { get } from "idb-keyval";
 import { IconButton, Drawer, List, ListSubheader } from "@material-ui/core";
 import { VideoLibrary as LibraryIcon } from "@material-ui/icons";
 
+import AppStore from "../AppStore/AppStore";
 import { appContext } from "../Context/Context";
 import * as libraryActions from "../actions/libraryActions";
 import * as appActions from "../actions/appActions";
@@ -56,6 +57,7 @@ const Library = props => {
         </List>
 
         <Homebrew />
+        <AppStore />
       </Drawer>
     </>
   );
