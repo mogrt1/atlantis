@@ -6,6 +6,10 @@ import * as libraryActions from "../actions/libraryActions";
 const Loader = ({ uri }) => {
   React.useEffect(() => {
     (async () => {
+      if (!uri) {
+        return false;
+      }
+
       try {
         const response = await fetch(uri);
 
@@ -27,13 +31,13 @@ const Loader = ({ uri }) => {
         );
       }
     })();
-  }, []);
+  }, [uri]);
 
   return null;
 };
 
 Loader.propTypes = {
-  uri: PropTypes.string.isRequired
+  uri: PropTypes.string
 };
 
 export default React.memo(
