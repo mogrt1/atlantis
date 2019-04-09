@@ -16,7 +16,7 @@ import postbotUri from "./homebrew/postbot/postbot.gb.zip";
 import postbotThumb from "./homebrew/postbot/postbot.png";
 
 const Homebrew = props => {
-  const [homebrew, setHomebrew] = React.useState(``);
+  const [homebrew, setHomebrew] = React.useState();
   const classes = useHomebrewStyles();
 
   const load = uri => () => {
@@ -54,7 +54,8 @@ const Homebrew = props => {
             title="Post Bot"
           />
         </GameList>
-        {homebrew && <Loader uri={homebrew} />}
+
+        <Loader uri={homebrew} />
       </div>
     </List>
   );

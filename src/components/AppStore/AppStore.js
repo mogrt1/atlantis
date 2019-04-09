@@ -5,9 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
   Drawer,
-  ListSubheader,
-  Avatar,
-  ListItemAvatar
+  ListSubheader
 } from "@material-ui/core";
 import { Store as StoreIcon } from "@material-ui/icons";
 
@@ -15,11 +13,17 @@ import storeData from "../../mockData/homebrews.json";
 import { appContext } from "../Context/Context";
 import * as appActions from "../actions/appActions";
 import { useLibraryStyles } from "../Library/LibraryStyles";
+import GameList from "../Library/GameList.js";
+import Game from "../Library/Game.js";
+import Loader from "../Loader/Loader.js";
 
 const AppStore = () => {
   const state = React.useContext(appContext);
+  const [selectedGame, setSelectedGame] = React.useState();
 
   const classes = useLibraryStyles();
+
+  const load = uri => () => setSelectedGame(uri);
 
   return (
     <>
@@ -40,28 +44,33 @@ const AppStore = () => {
           role="button"
           subheader={
             <ListSubheader className={classes.heading}>
-              <StoreIcon />
+              <StoreIcon className={classes.headingIcon} />
               {`Applantis`}
             </ListSubheader>
           }
           tabIndex={0}
         >
-          {storeData.docs.map(game => (
-            <ListItem key={game.title}>
-              <ListItemAvatar>
-                <Avatar
-                  alt={game.title}
-                  // src={`https://gbhh.avivace.com/database/entries/${
-                  //   game.permalink
-                  // }/${game.screenshots[0]}`}
-                />
-              </ListItemAvatar>
+          <div>
+            <GameList>
+              {storeData.docs.map(
+                ({ permalink, rom, screenshots, title, developer }) => (
+                  <Game
+                    key={permalink}
+                    setCurrentROM={load(
+                      `https://gbhh.avivace.com/database/entries/${permalink}/${rom}`
+                    )}
+                    thumb={`https://gbhh.avivace.com/database/entries/${permalink}/${
+                      screenshots[0]
+                    }`}
+                    title={title}
+                    developer={developer}
+                  />
+                )
+              )}
+            </GameList>
 
-              <ListItemText secondary={game.developer}>
-                {game.title}
-              </ListItemText>
-            </ListItem>
-          ))}
+            <Loader uri={selectedGame} />
+          </div>
         </List>
       </Drawer>
     </>

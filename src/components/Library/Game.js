@@ -7,7 +7,7 @@ import { get } from "idb-keyval";
 
 import { useGameStyles } from "./LibraryStyles";
 
-const Game = ({ rom, thumb, title, setCurrentROM }) => {
+const Game = ({ rom, thumb, title, developer, setCurrentROM }) => {
   const [imageError, setImageError] = React.useState(false);
   const classes = useGameStyles();
 
@@ -63,6 +63,7 @@ const Game = ({ rom, thumb, title, setCurrentROM }) => {
           title: classes.gameTitleText
         }}
         title={formattedTitle()}
+        subtitle={developer}
       />
     </GridListTile>
   );
@@ -71,6 +72,7 @@ const Game = ({ rom, thumb, title, setCurrentROM }) => {
 Game.propTypes = {
   setCurrentROM: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  developer: PropTypes.string,
   thumb: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   rom: PropTypes.oneOfType([
     PropTypes.string,

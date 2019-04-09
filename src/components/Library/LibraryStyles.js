@@ -23,7 +23,14 @@ export const useLibraryStyles = makeStyles({
   },
   heading: {
     paddingTop: `env(safe-area-inset-top)`,
-    background: theme.palette.background.paper
+    background: theme.palette.background.paper,
+    display: `flex`,
+    flexDirection: `row`,
+    alignItems: `center`
+  },
+  headingIcon: {
+    margin: `0 0.5em 0 0`,
+    verticalAlign: `middle`
   }
 });
 
