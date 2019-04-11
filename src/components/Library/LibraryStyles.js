@@ -26,7 +26,9 @@ export const useLibraryStyles = makeStyles({
     background: theme.palette.background.paper,
     display: `flex`,
     flexDirection: `row`,
-    alignItems: `center`
+    alignItems: `center`,
+    height: `48px`,
+    lineHeight: `1.2`
   },
   headingIcon: {
     margin: `0 0.5em 0 0`,

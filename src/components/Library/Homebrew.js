@@ -1,5 +1,6 @@
 import React from "react";
 import { List, ListSubheader } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 import Loader from "../Loader/Loader";
 
@@ -24,40 +25,42 @@ const Homebrew = props => {
   };
 
   return (
-    <List
-      subheader={
-        <ListSubheader className={classes.heading}>
-          {`Free Homebrew Games`}
-        </ListSubheader>
-      }
-    >
-      <div>
-        <GameList>
-          <Game
-            setCurrentROM={load(spaceInvasionUri)}
-            thumb={spaceInvasionThumb}
-            title="Space Invasion"
-          />
-          <Game
-            setCurrentROM={load(flappyBoyUri)}
-            thumb={flappyBoyThumb}
-            title="FlappyBoy"
-          />
-          <Game
-            setCurrentROM={load(infinityUri)}
-            thumb={infinityThumb}
-            title="Infinity Demo"
-          />
-          <Game
-            setCurrentROM={load(postbotUri)}
-            thumb={postbotThumb}
-            title="Post Bot"
-          />
-        </GameList>
+    <Box clone p="0">
+      <List
+        subheader={
+          <ListSubheader className={classes.heading}>
+            {`Free Homebrew Games`}
+          </ListSubheader>
+        }
+      >
+        <div>
+          <GameList>
+            <Game
+              setCurrentROM={load(spaceInvasionUri)}
+              thumb={spaceInvasionThumb}
+              title="Space Invasion"
+            />
+            <Game
+              setCurrentROM={load(flappyBoyUri)}
+              thumb={flappyBoyThumb}
+              title="FlappyBoy"
+            />
+            <Game
+              setCurrentROM={load(infinityUri)}
+              thumb={infinityThumb}
+              title="Infinity Demo"
+            />
+            <Game
+              setCurrentROM={load(postbotUri)}
+              thumb={postbotThumb}
+              title="Post Bot"
+            />
+          </GameList>
 
-        <Loader uri={homebrew} />
-      </div>
-    </List>
+          <Loader uri={homebrew} />
+        </div>
+      </List>
+    </Box>
   );
 };
 
