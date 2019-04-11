@@ -44,9 +44,9 @@ const RESIZE_DEBOUNCE = 500;
 
 const useDimensions = () => {
   const ref = React.useRef();
-  const dim = {};
+  const [dim, setDim] = React.useState({});
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const handleNewOrigin = () =>
       setTimeout(() => {
         const {
@@ -56,15 +56,16 @@ const useDimensions = () => {
           height
         } = ref.current.getBoundingClientRect();
 
-        dim.origin = {
-          x: left + width / HALF,
-          y: top + height / HALF
-        };
-
-        dim.offset = {
-          x: (width * BREADTH_VERTICAL) / HALF,
-          y: (height * BREADTH_HORIZONTAL) / HALF
-        };
+        setDim({
+          origin: {
+            x: left + width / HALF,
+            y: top + height / HALF
+          },
+          offset: {
+            x: (width * BREADTH_VERTICAL) / HALF,
+            y: (height * BREADTH_HORIZONTAL) / HALF
+          }
+        });
       }, RESIZE_DEBOUNCE);
 
     handleNewOrigin();
