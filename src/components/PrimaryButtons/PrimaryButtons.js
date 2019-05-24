@@ -18,11 +18,11 @@ const PrimaryButtons = props => {
 
   const buttonRef = React.useRef();
 
-  let buttonDim = {};
+  let buttonDim = React.useRef({});
 
   const HALF = 2;
 
-  const updateButtonDim = () => {
+  const updateButtonDim = React.useCallback(() => {
     if (!buttonRef.current) {
       return false;
     }
@@ -34,13 +34,13 @@ const PrimaryButtons = props => {
       height
     } = buttonRef.current.getBoundingClientRect();
 
-    buttonDim = {
+    buttonDim.current = {
       top,
       left,
       width,
       height
     };
-  };
+  }, []);
 
   const arraysEqual = (arr1, arr2) => {
     if (arr1.length !== arr2.length) {
@@ -67,7 +67,7 @@ const PrimaryButtons = props => {
 
     const pressed = [];
 
-    const { top, left, width, height } = buttonDim;
+    const { top, left, width, height } = buttonDim.current;
 
     if (x < left || x > left + width || y < top || y > top + height) {
       return false;
@@ -156,7 +156,7 @@ const PrimaryButtons = props => {
     window.addEventListener(`resize`, () =>
       setTimeout(updateButtonDim, RESIZE_DEBOUNCE)
     );
-  }, []);
+  }, [updateButtonDim]);
 
   const classes = usePrimaryButtonStyles();
   const pointerHandlers = usePointerHandlers(events(state.turbo));

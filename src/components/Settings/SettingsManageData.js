@@ -191,7 +191,7 @@ const SettingsManageData = props => {
 
       setState({ ...state, games });
     });
-  }, []);
+  }, [library, state]);
 
   const isOpen = state.open && Boolean(library.length);
 

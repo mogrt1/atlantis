@@ -55,11 +55,11 @@ const InternalClock = ({ open = false, handleDone }) => {
     setTime(time);
   };
 
+  const classes = useInternalClockStyles();
+
   if (!gameboy) {
     return null;
   }
-
-  const classes = useInternalClockStyles();
 
   return (
     <Drawer anchor="bottom" classes={{ paper: classes.paper }} open={open}>

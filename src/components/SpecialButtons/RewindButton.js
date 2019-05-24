@@ -15,11 +15,11 @@ const BACKUP_INTERVAL = 128;
 const REWIND_INTERVAL = 16;
 
 const useRecording = ({ rewindQueue }) => {
-  let recordTimeout = null;
+  let recordTimeout = React.useRef(null);
 
-  const record = () => {
+  const record = React.useCallback(() => {
     if (!gameBoyEmulatorPlaying()) {
-      recordTimeout = setTimeout(record, BACKUP_INTERVAL);
+      recordTimeout.current = setTimeout(record, BACKUP_INTERVAL);
       return;
     }
 
@@ -29,16 +29,16 @@ const useRecording = ({ rewindQueue }) => {
       rewindQueue.shift();
     }
 
-    recordTimeout = setTimeout(record, BACKUP_INTERVAL);
-  };
+    recordTimeout.current = setTimeout(record, BACKUP_INTERVAL);
+  }, [rewindQueue]);
 
   React.useEffect(() => {
-    recordTimeout = setTimeout(record, BACKUP_INTERVAL);
+    recordTimeout.current = setTimeout(record, BACKUP_INTERVAL);
 
     return () => {
-      clearTimeout(recordTimeout);
+      clearTimeout(recordTimeout.current);
     };
-  }, []);
+  }, [record]);
 };
 
 const useRewindEvents = ({ rewindQueue, showMessage }) => {
