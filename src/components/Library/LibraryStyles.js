@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import theme from "../../theme";
 
@@ -71,9 +71,7 @@ export const useGameStyles = makeStyles({
   gameImage: { ...tileDim },
   gameImageError: {
     ...tileDim,
-    background: `url(${gameboyCart}) 50% 50% no-repeat ${
-      theme.palette.primary.light
-    }`,
+    background: `url(${gameboyCart}) 50% 50% no-repeat ${theme.palette.primary.light}`,
     backgroundSize: `50%`
   },
   gameTitleRoot: { pointerEvents: `none` },
