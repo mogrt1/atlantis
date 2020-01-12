@@ -85,8 +85,8 @@ const useDpadEvents = (dpadDim, haptics) => {
   let isDpadPressed = false;
 
   const detectDirection = e => {
-    const x = e.clientX || e.targetTouches[0].clientX,
-      y = e.clientY || e.targetTouches[0].clientY;
+    const x = e.clientX ?? e.targetTouches[0].clientX;
+    const y = e.clientY ?? e.targetTouches[0].clientY;
 
     const pressed = [];
 
