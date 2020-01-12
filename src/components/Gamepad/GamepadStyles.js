@@ -132,7 +132,7 @@ export const useGamepadStyles = makeStyles({
       fallbacks: { left: `5vmin` },
 
       [largeDisplay]: {
-        left: `calc(-100% - max(5vmin, env(safe-area-inset-right)))`,
+        left: `calc(-100% + max(5vmin, env(safe-area-inset-right)))`,
 
         fallbacks: { left: `calc(-100% + 5vmin)` }
       }
