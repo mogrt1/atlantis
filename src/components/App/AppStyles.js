@@ -5,6 +5,7 @@ export const useAppStyles = makeStyles({
     html: {
       touchCallout: `none`,
       tapHighlightColor: `transparent`,
+      webkitUserSelect: `none`,
       userSelect: `none`
     },
 
