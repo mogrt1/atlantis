@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c7e35f89184afa344917ce576fa2452d",
+    "revision": "30e41784cab88c755e0d660cdaa4ef96",
     "url": "/atlantis/index.html"
   },
   {
-    "revision": "d6d5389dd991b9fe9724",
-    "url": "/atlantis/static/js/2.3f98192a.chunk.js"
+    "revision": "06f0673ef9b6567d70db",
+    "url": "/atlantis/static/js/2.c76e2d1e.chunk.js"
   },
   {
     "revision": "5f5ca9dccbfa3236d2de99c480d68e94",
-    "url": "/atlantis/static/js/2.3f98192a.chunk.js.LICENSE.txt"
+    "url": "/atlantis/static/js/2.c76e2d1e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e454b1d8fa98160ac9de",
-    "url": "/atlantis/static/js/main.cd809fdd.chunk.js"
+    "revision": "4490a149c824c5b1c7dc",
+    "url": "/atlantis/static/js/main.c10a6b6a.chunk.js"
   },
   {
     "revision": "16cf8bd06ab2bd78355d",
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/atlantis/static/media/flappyboy.gb.0c981b1e.zip"
   },
   {
-    "revision": "2ca94b9cb3f02e7bb5836c19a8b5f3c2",
-    "url": "/atlantis/static/media/gameboy.2ca94b9c.svg"
+    "revision": "336c4267480cf1084d2746ec6634e0d8",
+    "url": "/atlantis/static/media/gameboy.336c4267.svg"
   },
   {
     "revision": "830a393c7fa03a4960697bb694c90cf6",

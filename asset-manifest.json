@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.js": "/atlantis/static/js/main.cd809fdd.chunk.js",
-    "main.js.map": "/atlantis/static/js/main.cd809fdd.chunk.js.map",
+    "main.js": "/atlantis/static/js/main.c10a6b6a.chunk.js",
+    "main.js.map": "/atlantis/static/js/main.c10a6b6a.chunk.js.map",
     "runtime-main.js": "/atlantis/static/js/runtime-main.14917799.js",
     "runtime-main.js.map": "/atlantis/static/js/runtime-main.14917799.js.map",
-    "static/js/2.3f98192a.chunk.js": "/atlantis/static/js/2.3f98192a.chunk.js",
-    "static/js/2.3f98192a.chunk.js.map": "/atlantis/static/js/2.3f98192a.chunk.js.map",
+    "static/js/2.c76e2d1e.chunk.js": "/atlantis/static/js/2.c76e2d1e.chunk.js",
+    "static/js/2.c76e2d1e.chunk.js.map": "/atlantis/static/js/2.c76e2d1e.chunk.js.map",
     "index.html": "/atlantis/index.html",
-    "precache-manifest.b08121c6f0a1b6213431c0d8bfb8a243.js": "/atlantis/precache-manifest.b08121c6f0a1b6213431c0d8bfb8a243.js",
+    "precache-manifest.28413ebd2003a141ecb8e98d7fa36cd8.js": "/atlantis/precache-manifest.28413ebd2003a141ecb8e98d7fa36cd8.js",
     "service-worker.js": "/atlantis/service-worker.js",
-    "static/js/2.3f98192a.chunk.js.LICENSE.txt": "/atlantis/static/js/2.3f98192a.chunk.js.LICENSE.txt",
+    "static/js/2.c76e2d1e.chunk.js.LICENSE.txt": "/atlantis/static/js/2.c76e2d1e.chunk.js.LICENSE.txt",
     "static/media/flappyboy.gb.zip": "/atlantis/static/media/flappyboy.gb.0c981b1e.zip",
-    "static/media/gameboy.svg": "/atlantis/static/media/gameboy.2ca94b9c.svg",
+    "static/media/gameboy.svg": "/atlantis/static/media/gameboy.336c4267.svg",
     "static/media/infinity.gb.zip": "/atlantis/static/media/infinity.gb.830a393c.zip",
     "static/media/postbot.gb.zip": "/atlantis/static/media/postbot.gb.605b7db7.zip",
     "static/media/space-invasion.gb.zip": "/atlantis/static/media/space-invasion.gb.4b4c6520.zip"
   },
   "entrypoints": [
     "static/js/runtime-main.14917799.js",
-    "static/js/2.3f98192a.chunk.js",
-    "static/js/main.cd809fdd.chunk.js"
+    "static/js/2.c76e2d1e.chunk.js",
+    "static/js/main.c10a6b6a.chunk.js"
   ]
 }
