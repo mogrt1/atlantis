@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/atlantis/static/js/main.c10a6b6a.chunk.js",
-    "main.js.map": "/atlantis/static/js/main.c10a6b6a.chunk.js.map",
+    "main.js": "/atlantis/static/js/main.f71bb0e6.chunk.js",
+    "main.js.map": "/atlantis/static/js/main.f71bb0e6.chunk.js.map",
     "runtime-main.js": "/atlantis/static/js/runtime-main.14917799.js",
     "runtime-main.js.map": "/atlantis/static/js/runtime-main.14917799.js.map",
     "static/js/2.c76e2d1e.chunk.js": "/atlantis/static/js/2.c76e2d1e.chunk.js",
     "static/js/2.c76e2d1e.chunk.js.map": "/atlantis/static/js/2.c76e2d1e.chunk.js.map",
     "index.html": "/atlantis/index.html",
-    "precache-manifest.28413ebd2003a141ecb8e98d7fa36cd8.js": "/atlantis/precache-manifest.28413ebd2003a141ecb8e98d7fa36cd8.js",
+    "precache-manifest.d3d432d33c90136185725655eceaba96.js": "/atlantis/precache-manifest.d3d432d33c90136185725655eceaba96.js",
     "service-worker.js": "/atlantis/service-worker.js",
     "static/js/2.c76e2d1e.chunk.js.LICENSE.txt": "/atlantis/static/js/2.c76e2d1e.chunk.js.LICENSE.txt",
     "static/media/flappyboy.gb.zip": "/atlantis/static/media/flappyboy.gb.0c981b1e.zip",
@@ -19,6 +19,6 @@
   "entrypoints": [
     "static/js/runtime-main.14917799.js",
     "static/js/2.c76e2d1e.chunk.js",
-    "static/js/main.c10a6b6a.chunk.js"
+    "static/js/main.f71bb0e6.chunk.js"
   ]
 }

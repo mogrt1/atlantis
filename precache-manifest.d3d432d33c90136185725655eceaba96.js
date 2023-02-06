@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "30e41784cab88c755e0d660cdaa4ef96",
+    "revision": "7deaeeb2da59402659221e3b86e13f4c",
     "url": "/atlantis/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/atlantis/static/js/2.c76e2d1e.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4490a149c824c5b1c7dc",
-    "url": "/atlantis/static/js/main.c10a6b6a.chunk.js"
+    "revision": "73db107da4fa5aa0b522",
+    "url": "/atlantis/static/js/main.f71bb0e6.chunk.js"
   },
   {
     "revision": "16cf8bd06ab2bd78355d",
